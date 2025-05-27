@@ -55,6 +55,11 @@
             background: #198754;
             color: #fff;
         }
+        .intro-cards-stack {
+            position: relative;
+            width: 100%;
+            min-height: 270px;
+        }
         .intro-card {
             position: absolute;
             left: 0; right: 0; top: 0;
@@ -82,7 +87,8 @@
         .intro-card ul { margin-bottom: 0.5rem; }
         .intro-card h3 { font-size: 1.25rem; }
         @media (max-width: 600px) {
-            .intro-card { padding: 1.2rem 0.5rem; }
+            .intro-cards-stack { min-height: 0; }
+            .intro-card { position: static; min-height: 0; }
         }
         /* --- Конец новых стилей --- */
         
@@ -153,7 +159,7 @@
                 <button class="btn intro-tab-btn me-2" data-card="2">Нетворкинг</button>
                 <button class="btn intro-tab-btn" data-card="3">Выбор направления</button>
             </div>
-            <div id="introCardsContainer" class="position-relative" style="min-height: 270px;">
+            <div id="introCardsContainer" class="intro-cards-stack">
                 <div class="intro-card card-0 intro-card-active">
                     <div class="d-flex align-items-center mb-2">
                         <img src="../assets/icons/community.svg" alt="" class="section-icon me-2">
