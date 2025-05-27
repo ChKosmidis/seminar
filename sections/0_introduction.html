@@ -679,102 +679,90 @@
             const introCardsContainer = document.getElementById('introCardsContainer');
             const introCards = gsap.utils.toArray('.intro-card');
             let currentCard = 0; 
+            let isAnimating = false; // Prevent spam clicks during transition
 
             const isMobileView = () => window.matchMedia("(max-width: 600px)").matches;
 
-            function getElementHeight(element) {
-                if (!element) return 0;
-                const originalInlineStyles = {
-                    visibility: element.style.visibility,
-                    display: element.style.display,
-                    opacity: element.style.opacity,
-                    transform: element.style.transform,
-                    position: element.style.position,
-                    left: element.style.left,
-                    top: element.style.top,
-                    width: element.style.width,
-                    height: element.style.height
+            function updateContainerHeightForDesktop() {
+                if (isMobileView() || !introCardsContainer || introCards.length === 0 || !introCards[currentCard]) {
+                    if(isMobileView() && introCardsContainer) gsap.set(introCardsContainer, { height: 'auto' });
+                    return;
+                }
+                
+                const activeCard = introCards[currentCard];
+                // Ensure the card is 'block' and visible (even if opacity 0) to measure correctly for absolute positioning
+                const originalStyles = {
+                    display: activeCard.style.display,
+                    opacity: activeCard.style.opacity,
+                    transform: activeCard.style.transform,
+                    visibility: activeCard.style.visibility
                 };
-                
-                gsap.set(element, {
-                    visibility: 'hidden', display: 'block', opacity: 1, transform: 'none',
-                    position: 'absolute', left: '0px', top: '0px', width: '100%', height: 'auto'
+
+                gsap.set(activeCard, { 
+                    display: 'block', 
+                    opacity: 1, // Needs to be > 0 for offsetHeight
+                    transform: 'none', // No transforms that affect height
+                    visibility: 'hidden' // Measure without showing
                 });
-                
-                const height = element.offsetHeight;
-                
-                gsap.set(element, originalInlineStyles); // Restore all captured inline styles
-                return height;
-            }
-            
-            function updateContainerHeight() {
-                if (!introCardsContainer || introCards.length === 0) return;
-                if (isMobileView()) {
-                    gsap.set(introCardsContainer, { height: 'auto' });
-                } else {
-                    const activeCard = introCards[currentCard]; 
-                    if (activeCard) {
-                        const height = getElementHeight(activeCard);
-                        if (Math.abs(gsap.getProperty(introCardsContainer, "height") - height) > 1) {
-                           gsap.to(introCardsContainer, { height: height, duration: 0.4, ease: 'power2.inOut' });
-                        } else {
-                           gsap.set(introCardsContainer, { height: height });
-                        }
-                    }
+                const height = activeCard.offsetHeight;
+                gsap.set(activeCard, originalStyles); // Restore
+
+                if (height > 0 && Math.abs(gsap.getProperty(introCardsContainer, "height") - height) > 1) {
+                   gsap.to(introCardsContainer, { height: height, duration: 0.3, ease: 'power2.inOut' });
+                } else if (height > 0) {
+                   gsap.set(introCardsContainer, { height: height });
                 }
             }
 
+            // INITIALIZATION
             if (introCards.length > 0) {
                 let initialActiveCardIndex = introCards.findIndex(card => card.classList.contains('intro-card-active'));
-                if (initialActiveCardIndex === -1) {
-                    initialActiveCardIndex = 0;
-                    if(introCards[0]) introCards[0].classList.add('intro-card-active');
-                }
+                if (initialActiveCardIndex === -1) initialActiveCardIndex = 0;
                 currentCard = initialActiveCardIndex;
 
                 introCards.forEach((card, i) => {
                     const isActive = (i === currentCard);
+                    card.classList.toggle('intro-card-active', isActive);
                     if (isActive) {
-                        card.classList.add('intro-card-active'); // Ensure active class
-                        gsap.set(card, {
-                            opacity: 1, scale: 1, y: 0, 
-                            pointerEvents: 'auto', 
-                            display: 'block' // Active card is always display: block
-                        });
+                        gsap.set(card, { opacity: 1, scale: 1, y: 0, pointerEvents: 'auto', display: 'block' });
                     } else {
-                        card.classList.remove('intro-card-active'); // Ensure no active class
-                        gsap.set(card, {
-                            opacity: 0, scale: 0.98, y: 20, 
-                            pointerEvents: 'none',
-                            // On mobile (static position), hide from layout.
-                            // On desktop (absolute position), display:block is fine as it's out of flow.
-                            display: isMobileView() ? 'none' : 'block' 
+                        gsap.set(card, { 
+                            opacity: 0, scale: 0.98, y: 20, pointerEvents: 'none', 
+                            display: isMobileView() ? 'none' : 'block' // Desktop: block (absolute), Mobile: none (static)
                         });
                     }
                 });
-                updateContainerHeight(); // Set initial height
+                gsap.delayedCall(0.05, updateContainerHeightForDesktop); // Initial height for desktop
             }
-            
+
+            // RESIZE HANDLING
             window.addEventListener('resize', gsap.debounce(() => {
-                // On resize, re-evaluate display property for all non-active cards
-                // and then update container height.
+                const mobile = isMobileView();
                 introCards.forEach((card, i) => {
-                    if (i !== currentCard) {
-                         gsap.set(card, { display: isMobileView() ? 'none' : 'block' });
+                    if (i === currentCard) {
+                        gsap.set(card, { display: 'block' }); // Active card always block
                     } else {
-                         gsap.set(card, { display: 'block' }); // Active card always block
+                        gsap.set(card, { display: mobile ? 'none' : 'block' });
                     }
                 });
-                updateContainerHeight();
+                if (mobile) {
+                    gsap.set(introCardsContainer, { height: 'auto' });
+                } else {
+                    updateContainerHeightForDesktop();
+                }
             }, 150));
 
+            // CLICK HANDLER
             if (introTabs && introCards.length > 0) {
                 introTabs.addEventListener('click', (e) => {
+                    if (isAnimating) return;
                     const btn = e.target.closest('.intro-tab-btn');
                     if (!btn) return;
 
                     const newCardIndex = parseInt(btn.getAttribute('data-card'));
                     if (isNaN(newCardIndex) || newCardIndex === currentCard) return;
+                    
+                    isAnimating = true;
 
                     introTabs.querySelectorAll('.intro-tab-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
@@ -783,42 +771,65 @@
                     const nextCard = introCards[newCardIndex];
 
                     if (!prevCard || !nextCard) {
-                        console.error("Error: prevCard or nextCard is undefined.");
+                        console.error("Card switch error: prev or next card not found.");
+                        isAnimating = false; 
                         return;
                     }
 
-                    // Update container height (if not mobile)
-                    if (!isMobileView()) {
-                        const nextCardHeight = getElementHeight(nextCard); 
-                        gsap.to(introCardsContainer, { height: nextCardHeight, duration: 0.4, ease: 'power2.inOut' });
-                    } else {
-                        gsap.set(introCardsContainer, { height: 'auto' });
-                    }
-
-                    // Animate previous card out
-                    gsap.to(prevCard, {
-                        opacity: 0, scale: 0.98, y: 20, duration: 0.35, pointerEvents: 'none',
+                    const mobile = isMobileView();
+                    const tl = gsap.timeline({
                         onComplete: () => {
-                            prevCard.classList.remove('intro-card-active');
-                            if (isMobileView()) {
-                                gsap.set(prevCard, { display: 'none' }); 
+                            currentCard = newCardIndex;
+                            isAnimating = false;
+                            // Final check for container height
+                            if (mobile) {
+                                gsap.set(introCardsContainer, { height: 'auto' });
+                            } else {
+                                updateContainerHeightForDesktop();
                             }
-                            // On desktop, prevCard is position:absolute and opacity:0, no display change needed.
-                            
-                            // Prepare next card for animation
-                            if (isMobileView()) {
-                                // Ensure it's display:block before animation starts so it's in the layout
-                                gsap.set(nextCard, { display: 'block' }); 
-                            }
-                            nextCard.classList.add('intro-card-active');
-
-                            gsap.fromTo(nextCard, 
-                                { opacity: 0, scale: 0.98, y: 20 /* pointerEvents will be set by 'to' state */ },
-                                { opacity: 1, scale: 1, y: 0, duration: 0.5, pointerEvents: 'auto', ease: 'power2.out' }
-                            );
                         }
                     });
-                    currentCard = newCardIndex;
+
+                    // 1. Animate container height (on desktop only)
+                    if (!mobile) {
+                        const originalNextStyles = { display: nextCard.style.display, opacity: nextCard.style.opacity, transform: nextCard.style.transform, visibility: nextCard.style.visibility };
+                        gsap.set(nextCard, { display: 'block', opacity: 1, transform: 'none', visibility: 'hidden' });
+                        const nextCardHeight = nextCard.offsetHeight;
+                        gsap.set(nextCard, originalNextStyles);
+                        if (nextCardHeight > 0) {
+                            tl.to(introCardsContainer, { height: nextCardHeight, duration: 0.3, ease: 'power2.inOut' }, 0);
+                        }
+                    }
+                    
+                    // 2. Animate previous card out
+                    tl.add(() => { // Remove active class at the start of its animation
+                        prevCard.classList.remove('intro-card-active');
+                    }, 0);
+                    tl.to(prevCard, {
+                        opacity: 0, scale: 0.98, y: 20, duration: 0.35, pointerEvents: 'none'
+                    }, 0); // Starts at timeline position 0
+
+                    // 3. After prevCard is animated out, set its display if on mobile
+                    tl.add(() => {
+                        if (mobile) {
+                            gsap.set(prevCard, { display: 'none' }); 
+                        }
+                    }); // This will be added to the end of the current timeline (after prevCard fade)
+
+                    // 4. Prepare and animate next card in
+                    tl.add(() => { // Add a step to prepare the next card
+                        if (mobile) {
+                            gsap.set(nextCard, { display: 'block' }); // Make it take space on mobile
+                        } else {
+                            gsap.set(nextCard, { display: 'block' }); // Ensure it's block on desktop too
+                        }
+                        nextCard.classList.add('intro-card-active');
+                    });
+                    
+                    tl.fromTo(nextCard, 
+                        { opacity: 0, scale: 0.98, y: 20 }, // Initial state for animation
+                        { opacity: 1, scale: 1, y: 0, duration: 0.5, pointerEvents: 'auto', ease: 'power2.out' }
+                    ); // Continues from the end of the timeline
                 });
             }
             // --- Конец интерактивных карточек ---
