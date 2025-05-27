@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полезные ресурсы - Семинар НКО</title>
+
+    <!-- Bootstrap CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+
+    <!-- Ваши кастомные стили -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        /* Стили для этой страницы (можно вынести в style.css с префиксом для страницы) */
+        body {
+            padding-top: 56px; /* Для fixed-top navbar */
+        }
+        .page-title-resources {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        .resource-category { 
+            opacity: 0; 
+            transform: translateY(30px); 
+        }
+        .resource-category .category-title {
+            /* Можно добавить отдельную анимацию, если нужно */
+        }
+        .list-group-item-resource {
+            opacity: 0;
+            transform: translateX(-20px);
+            padding-left: 2.5rem; /* Место для иконки */
+            position: relative;
+        }
+        .list-group-item-resource .icon-check {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%) scale(0); /* Начальное состояние для анимации */
+            width: 20px; /* Размер иконки */
+            height: 20px;
+            opacity: 0;
+            /* fill: var(--bs-success); /* Если SVG поддерживает currentColor или имеет нужный fill */
+        }
+         /* Если SVG иконка вставлена как <img> и не красится через fill/color, 
+            а вы хотите ее в цвет успеха Bootstrap, можно использовать CSS filter.
+            Но лучше, если SVG сама по себе зеленая или поддерживает currentColor. */
+        .list-group-item-resource .icon-check.loaded-svg { /* Для img тега */
+             filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%); /* Примерно зеленый цвет */
+        }
+
+
+        .list-group-item-resource a {
+            text-decoration: none;
+        }
+        .list-group-item-resource a:hover {
+            text-decoration: underline;
+        }
+        .resource-description {
+            font-size: 0.9rem;
+            color: #6c757d; /* text-muted */
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="../index.html">Семинар НКО</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Главная</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="sectionsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Разделы
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="sectionsDropdown">
+                                <li><a class="dropdown-item" href="0_introduction.html">0. Введение</a></li>
+                                <li><a class="dropdown-item" href="1_community_building.html">1. Сообщество</a></li>
+                                <li><a class="dropdown-item" href="2_internal_communications.html">2. Внутр. коммуникации</a></li>
+                                <li><a class="dropdown-item" href="3_infrastructure.html">3. Инфраструктура</a></li>
+                                <li><a class="dropdown-item" href="4_legal_and_security.html">4. Безопасность</a></li>
+                                <li><a class="dropdown-item" href="5_effectiveness_and_development.html">5. Эффективность</a></li>
+                                <li><a class="dropdown-item" href="6_crisis_management.html">6. Антикризис</a></li>
+                                <li><a class="dropdown-item" href="7_cases_and_practice.html">7. Практика</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="useful_resources.html">Полезные ресурсы</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container py-5">
+            <h1 class="text-center mb-5 page-title-resources">Полезные ресурсы для НКО</h1>
+
+            <section class="resource-category mb-5">
+                <h3 class="category-title mb-3 border-bottom pb-2">Юридическая поддержка и правовая информация</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://ngo.rosminjust.ru/" target="_blank" rel="noopener noreferrer">Портал Минюста РФ для НКО</a>
+                        <p class="resource-description mb-0">Официальная информация, реестры, отчетность.</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://grants.oprf.ru/projects/" target="_blank" rel="noopener noreferrer">Фонд президентских грантов</a>
+                        <p class="resource-description mb-0">Информация о конкурсах, методические материалы для заявителей.</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                         <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="http://www.consultant.ru/document/cons_doc_LAW_8824/" target="_blank" rel="noopener noreferrer">ФЗ "О некоммерческих организациях"</a>
+                        <p class="resource-description mb-0">Основной закон, регулирующий деятельность НКО в РФ (КонсультантПлюс).</p>
+                    </li>
+                     <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https_://lawcs.ru/" target="_blank" rel="noopener noreferrer">Центр защиты прав СМИ*</a>
+                        <p class="resource-description mb-0">Юридическая помощь журналистам и медиа, полезные материалы по медиаправу (обратите внимание на статус организации, если это важно для вашей аудитории).</p>
+                    </li>
+                </ul>
+                 <p class="mt-3 fst-italic"><small><strong>Важно:</strong> Законодательство часто меняется. Всегда проверяйте актуальность информации и консультируйтесь с профильными юристами по конкретным вопросам вашей организации. Ресурсы, помеченные (*), могут иметь особый статус в РФ.</small></p>
+            </section>
+
+            <section class="resource-category mb-5">
+                <h3 class="category-title mb-3 border-bottom pb-2">Цифровая безопасность и инструменты</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://ssd.eff.org/ru/" target="_blank" rel="noopener noreferrer">Самозащита от слежки (EFF)</a>
+                        <p class="resource-description mb-0">Обширное руководство по инструментам и практикам цифровой безопасности.</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://te-st.ru/" target="_blank" rel="noopener noreferrer">Теплица социальных технологий</a>
+                        <p class="resource-description mb-0">Инструменты, курсы, статьи по IT для НКО, включая безопасность.</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://roskomsvoboda.org/सुरक्षा/" target="_blank" rel="noopener noreferrer">Роскомсвобода* – Безопасность</a>
+                        <p class="resource-description mb-0">Рекомендации и инструменты для защиты цифровых прав (обратите внимание на статус).</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://proton.me/" target="_blank" rel="noopener noreferrer">Proton Suite (Mail, VPN, Drive, Calendar)</a>
+                        <p class="resource-description mb-0">Сервисы с фокусом на приватность и шифрование (есть бесплатные тарифы).</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://signal.org/" target="_blank" rel="noopener noreferrer">Signal Messenger</a>
+                        <p class="resource-description mb-0">Защищенный мессенджер со сквозным шифрованием.</p>
+                    </li>
+                </ul>
+            </section>
+            
+            <section class="resource-category mb-5">
+                <h3 class="category-title mb-3 border-bottom pb-2">Фандрайзинг и работа с донорами</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://dobro.mail.ru/charity/" target="_blank" rel="noopener noreferrer">Добро Mail.ru</a>
+                        <p class="resource-description mb-0">Платформа для сбора пожертвований для верифицированных НКО.</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://www.givingtuesday.ru/" target="_blank" rel="noopener noreferrer">#ЩедрыйВторник</a>
+                        <p class="resource-description mb-0">Глобальная инициатива по развитию благотворительности, полезные материалы.</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://philanthropy.ru/" target="_blank" rel="noopener noreferrer">Филантроп.ру</a>
+                        <p class="resource-description mb-0">Издание о благотворительности, фандрайзинге, социальных проектах.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="resource-category mb-5">
+                <h3 class="category-title mb-3 border-bottom pb-2">Управление, сообщество и коммуникации</h3>
+                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://www.asi.org.ru/" target="_blank" rel="noopener noreferrer">Агентство социальной информации (АСИ)</a>
+                        <p class="resource-description mb-0">Новости некоммерческого сектора, аналитика, полезные статьи.</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://nko.economy.gov.ru/" target="_blank" rel="noopener noreferrer">Портал "НКО и государство" Минэкономразвития</a>
+                        <p class="resource-description mb-0">Информация о мерах поддержки СО НКО, методические материалы.</p>
+                    </li>
+                    <li class="list-group-item list-group-item-resource">
+                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
+                        <a href="https://Trello.com" target="_blank" rel="noopener noreferrer">Trello / Asana / Notion</a>
+                        <p class="resource-description mb-0">Инструменты для управления проектами и задачами (есть бесплатные тарифы).</p>
+                    </li>
+                 </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer class="py-4 bg-dark text-white-50">
+        <div class="container text-center">
+             <small>Материалы семинара © 2024.</small>
+            <br>
+            <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+
+    <!-- GSAP Core & ScrollTrigger Plugin (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    
+    <!-- Chart.js (CDN) - не используется на этой странице, но оставлю для единообразия, если вдруг понадобится -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    
+    <script src="../assets/fonts/Qanelas-Regular.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Анимация заголовка страницы
+        const pageTitle = document.querySelector('.page-title-resources');
+        if(pageTitle) {
+            gsap.to(pageTitle, {opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.2});
+        }
+
+        // Анимация для категорий ресурсов
+        const resourceCategories = gsap.utils.toArray('.resource-category');
+        resourceCategories.forEach((category, index) => {
+            gsap.to(category, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                delay: index * 0.2, // Задержка для появления категорий по очереди
+                scrollTrigger: {
+                    trigger: category,
+                    start: "top 90%", // Начать анимацию, когда категория почти видна
+                    // markers: true, // для отладки
+                }
+            });
+
+            // Анимация для пунктов списка внутри категории
+            const listItems = category.querySelectorAll('.list-group-item-resource');
+            listItems.forEach((item, itemIndex) => {
+                const icon = item.querySelector('.icon-check');
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 95%",
+                        // markers: true, // для отладки
+                    }
+                });
+
+                tl.to(icon, {opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)'}, itemIndex * 0.1) // Анимация иконки
+                  .to(item, {opacity: 1, x: 0, duration: 0.5, ease: 'power2.out'}, "<0.2"); // Анимация текста пункта (чуть позже иконки)
+            });
+        });
+
+        // --- PDF экспорт раздела "Полезные ресурсы" ---
+        let exportBtn = document.getElementById('exportSectionResultsBtn');
+        if (!exportBtn) {
+            const footer = document.querySelector('footer .container.text-center');
+            if (footer) {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-success mt-4';
+                btn.id = 'exportSectionResultsBtn';
+                btn.textContent = 'Выгрузить результаты раздела';
+                footer.appendChild(btn);
+                exportBtn = btn;
+            }
+        }
+        if (exportBtn) {
+            exportBtn.addEventListener('click', function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({unit: 'pt', format: 'a4'});
+                if (window.QanelasRegularFontData && window.QanelasRegularFontData.base64) {
+                    doc.addFileToVFS('Qanelas-Regular.ttf', window.QanelasRegularFontData.base64);
+                    doc.addFont('Qanelas-Regular.ttf', 'Qanelas', 'normal');
+                }
+                doc.setFont('Qanelas', 'normal');
+                const pageWidth = doc.internal.pageSize.getWidth();
+                let y = 40;
+                // Заголовок
+                doc.setFontSize(22);
+                doc.setTextColor('#198754');
+                doc.text('Полезные ресурсы для НКО', pageWidth/2, y, {align:'center'});
+                y += 30;
+                // Категории и ресурсы
+                document.querySelectorAll('.resource-category').forEach(category => {
+                    const catTitle = category.querySelector('.category-title')?.innerText || '';
+                    if (catTitle) {
+                        doc.setFontSize(15);
+                        doc.setTextColor('#198754');
+                        doc.text(catTitle, 40, y);
+                        y += 18;
+                    }
+                    doc.setFontSize(11);
+                    doc.setTextColor('#444');
+                    category.querySelectorAll('.list-group-item-resource').forEach(item => {
+                        const link = item.querySelector('a')?.innerText || '';
+                        const url = item.querySelector('a')?.href || '';
+                        const desc = item.querySelector('.resource-description')?.innerText || '';
+                        if (link) {
+                            doc.setFont(undefined, 'bold');
+                            doc.text(`• ${link}`, 50, y);
+                            doc.setFont(undefined, 'normal');
+                            if (url) {
+                                doc.setTextColor('#0d6efd');
+                                doc.textWithLink(url, 55 + doc.getTextWidth(link), y, {url});
+                                doc.setTextColor('#444');
+                            }
+                            y += 14;
+                        }
+                        if (desc) {
+                            const split = doc.splitTextToSize(desc, pageWidth-80);
+                            doc.text(split, 60, y);
+                            y += split.length * 13 + 2;
+                        }
+                    });
+                    y += 10;
+                });
+                doc.save('useful_resources_results.pdf');
+            });
+        }
+    });
+    </script>
+</body>
+</html>

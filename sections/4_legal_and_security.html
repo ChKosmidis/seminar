@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. Правовые основы и Безопасность - Семинар НКО</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        body { padding-top: 70px; overflow-x: hidden; }
+        .page-header-section {
+            background: linear-gradient(135deg, #dc3545 0%, #8b0000 100%); /* Красно-бордовый градиент */
+            color: white;
+            padding: 4rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: .3rem;
+            text-align: center;
+        }
+        .page-header-section img.header-icon { 
+            width: 80px; height: 80px; margin-bottom: 1rem; filter: brightness(0) invert(1);
+        }
+
+        .content-section { 
+            margin-bottom: 3rem; 
+            opacity: 0; 
+            transform: translateY(40px);
+        }
+        .content-section h3, .content-section h4 { 
+            margin-bottom: 1.5rem; display: flex; align-items: center; 
+            font-weight: 600; color: #343a40;
+        }
+        .content-section h3 img.section-icon, .content-section h4 img.section-icon { 
+            width: 32px; height: 32px; margin-right: 0.8rem; opacity: 0.8;
+        }
+        
+        .disclaimer-box {
+            border: 2px dashed var(--bs-danger);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background-color: var(--bs-danger-bg-subtle);
+            border-radius: .5rem;
+            text-align: center;
+        }
+        .disclaimer-box h4 { color: var(--bs-danger-text-emphasis); }
+        .disclaimer-box p { font-size: 1.1rem; color: var(--bs-danger-text-emphasis); }
+
+        .comparison-table-container { overflow-x: auto; }
+        .comparison-table th, .comparison-table td { vertical-align: middle; }
+
+        .comparison-table-animated th,
+        .comparison-table-animated td {
+            transition: background 0.4s, color 0.4s, box-shadow 0.4s;
+        }
+        .comparison-table-animated th.active,
+        .comparison-table-animated td.active {
+            background: linear-gradient(135deg, #ffe5e5 0%, #fff0f0 100%);
+            color: #b30000;
+            box-shadow: 0 0 12px 0 #f8d7da;
+            font-weight: 600;
+        }
+        .comparison-table-animated th.interactive-opf {
+            cursor: pointer;
+            position: relative;
+        }
+        .comparison-table-animated th.interactive-opf::after {
+            content: '\1F50D';
+            font-size: 1.1em;
+            margin-left: 0.3em;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .comparison-table-animated th.interactive-opf:hover::after {
+            opacity: 1;
+        }
+        .comparison-table-animated th.interactive-opf:hover {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* Кастомный оверлей для модалки ОПФ */
+        .custom-modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 1040;
+            transition: opacity 0.3s;
+            opacity: 0;
+            pointer-events: none; /* ВСЕГДА none, чтобы не блокировать клики */
+        }
+        .custom-modal-backdrop.active {
+            opacity: 1;
+            /* pointer-events: none;  не меняем! */
+        }
+        /* Поверх оверлея, но ниже самой модалки */
+        #opfDetailModal { z-index: 1050; }
+
+        .risk-card {
+            background-color: #fff; border: 1px solid #f8d7da; border-radius: .5rem; margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .risk-card-header {
+            padding: 1rem 1.25rem; background-color: #f8d7da; color: #58151c; cursor: pointer;
+            border-bottom: 1px solid #f1aeb5;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .risk-card-header h5 { margin-bottom: 0; font-size: 1.1rem;}
+        .risk-card-body {
+            padding: 1.25rem; display: none; /* Скрыто по умолчанию */
+        }
+        .risk-card-header .arrow-icon { transition: transform 0.3s ease; }
+        .risk-card.active .risk-card-header .arrow-icon { transform: rotate(180deg); }
+
+        .checklist-security { list-style-type: none; padding-left: 0; }
+        .checklist-security li {
+            margin-bottom: 0.75rem; padding: 0.75rem 1rem; border: 1px solid #eee; border-radius: .3rem;
+            background-color: #fff; cursor: pointer; position: relative;
+            transition: box-shadow 0.2s ease;
+        }
+        .checklist-security li:hover { box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .checklist-security li::before {
+            content: "◻"; /* Unchecked box */
+            font-size: 1.5em;
+            margin-right: 10px;
+            color: #adb5bd;
+            transition: content 0.2s ease, color 0.2s ease;
+        }
+        .checklist-security li.checked::before {
+            content: "✅"; /* Checked box */
+            color: var(--bs-success);
+        }
+         .checklist-security li.checked { background-color: #e9f5e9; border-color: #c3e6cb;}
+
+
+        .interactive-section { background-color: #f8f9fa; padding: 2rem; border-radius: .5rem; margin-top: 2rem; }
+        .threat-card {
+            background-color: #fff; padding: 1.5rem; border-radius: .5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 1rem;
+        }
+        .threat-card h5 { color: var(--bs-danger); }
+         #aiThreatResponseFeedbackContainer { display: none; margin-top: 1.5rem; }
+         #aiThreatResponseFeedbackResult { white-space: pre-wrap; }
+
+         /* Темы для секции аудита */
+         .security-audit-theme {
+            transition: background-color 0.4s, color 0.4s;
+        }
+        /* --- Экспресс-Аудит Цифровой Безопасности: динамическая тема с плавным градиентом --- */
+        .security-audit-theme {
+            transition: background 0.7s cubic-bezier(.4,2,.3,1), box-shadow 0.5s;
+            box-shadow: 0 4px 32px 0 rgba(220,53,69,0.07);
+            /* Градиент будет задаваться через style из JS */
+        }
+        .security-audit-theme .content-section h4 {
+            transition: color 0.5s;
+        }
+        .security-audit-theme .progress-bar {
+            transition: background 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- ... (Шапка и полноэкранное меню, как в предыдущих файлах, активный пункт "4. Безопасность") ... -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="Лого НКО"> 
+                    Семинар НКО
+                </a>
+                <button class="navbar-custom-toggler ms-auto" aria-label="Открыть меню" id="customMenuToggler" aria-expanded="false">
+                    <svg viewBox="0 0 100 80" width="30" height="30" id="actualBurgerIcon" fill="currentColor">
+                        <rect class="line line1" x="0" y="10" width="100" height="10" rx="5"></rect>
+                        <rect class="line line2" x="0" y="35" width="100" height="10" rx="5"></rect>
+                        <rect class="line line3" x="0" y="60" width="100" height="10" rx="5"></rect>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+     <div class="fullscreen-menu" id="fullscreenMenu">
+        <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
+        <ul class="navbar-nav-fullscreen">
+            <li class="nav-item fs-menu-item">
+                <a class="nav-link" href="../index.html">Главная</a>
+            </li>
+            <li class="nav-item fs-menu-item custom-dropdown">
+                <a class="nav-link dropdown-toggle-custom active" aria-current="page" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">
+                    Разделы
+                </a>
+                <ul class="dropdown-menu-custom">
+                    <li><a class="dropdown-item" href="0_introduction.html">0. Введение</a></li>
+                    <li><a class="dropdown-item" href="1_community_building.html">1. Сообщество</a></li>
+                    <li><a class="dropdown-item" href="2_internal_communications.html">2. Коммуникации</a></li>
+                    <li><a class="dropdown-item" href="3_infrastructure.html">3. Инфраструктура</a></li>
+                    <li><a class="dropdown-item active" href="4_legal_and_security.html">4. Безопасность</a></li>
+                    <li><a class="dropdown-item" href="5_effectiveness_and_development.html">5. Эффективность</a></li>
+                    <li><a class="dropdown-item" href="6_crisis_management.html">6. Антикризис</a></li>
+                    <li><a class="dropdown-item" href="7_cases_and_practice.html">7. Практика</a></li>
+                </ul>
+            </li>
+            <li class="nav-item fs-menu-item">
+                <a class="nav-link" href="useful_resources.html">Полезные ресурсы</a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <div class="page-header-section">
+            <img src="../assets/icons/safety.svg" alt="Право и Безопасность" class="header-icon">
+            <h1 class="display-5 fw-bold">Раздел 4: Правовые основы и Безопасность НКО</h1>
+            <p class="lead">Навигация в сложном правовом поле и обеспечение комплексной безопасности вашей организации.</p>
+        </div>
+
+        <div class="container py-4">
+            <div class="disclaimer-box shadow-sm">
+                <h4 class="fw-bold"><img src="../assets/icons/warning.svg" width="30" height="30" class="me-2">ВНИМАНИЕ!</h4>
+                <p class="mb-0">Информация в данном разделе предоставляется в ознакомительных целях и не является юридической консультацией. Для принятия решений по правовым вопросам и вопросам безопасности <strong>всегда обращайтесь к квалифицированным юристам и специалистам по безопасности.</strong></p>
+            </div>
+
+            <!-- 4.1. Сравнение Форм НКО -->
+            <section class="content-section" id="s4-1">
+                <h3>
+                    <img src="../assets/icons/rights.svg" alt="Формы НКО" class="section-icon">
+                    4.1. Сравнение Форм НКО для Правозащитной Деятельности в РФ
+                </h3>
+                <p>Выбор организационно-правовой формы (ОПФ) – важное решение. Ниже представлена упрощенная таблица для сравнения. Нажмите на название ОПФ для кратких деталей.</p>
+                <div class="comparison-table-container table-responsive">
+                    <table class="table table-bordered table-hover comparison-table-animated">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Критерий</th>
+                                <th class="text-center interactive-opf" data-opf="Общественная Организация (ОО)" data-bs-toggle="tooltip" title="Нажмите, чтобы узнать больше об Общественной Организации">Общественная Организация (ОО)</th>
+                                <th class="text-center interactive-opf" data-opf="Автономная Некоммерческая Организация (АНО)" data-bs-toggle="tooltip" title="Нажмите, чтобы узнать больше об АНО">Автономная Некоммерческая Организация (АНО)</th>
+                                <th class="text-center interactive-opf" data-opf="Фонд" data-bs-toggle="tooltip" title="Нажмите, чтобы узнать больше о Фонде">Фонд</th>
+                                <th class="text-center interactive-opf" data-opf="Самоорганизация (без регистрации)" data-bs-toggle="tooltip" title="Нажмите, чтобы узнать больше о самоорганизации">Самоорганизация (без регистрации)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Цель создания</strong></td><td>Защита общих интересов, достижение уставных целей объединившихся граждан.</td><td>Предоставление услуг в различных сферах (образование, культура, право и т.д.).</td><td>Формирование имущества на основе добровольных взносов и использование его на общественно полезные цели.</td><td>Совместные действия для достижения общественно значимых целей без формальной регистрации.</td></tr>
+                            <tr><td><strong>Членство</strong></td><td>Обязательно (физ. и/или юр. лица).</td><td>Отсутствует (учредители не становятся членами).</td><td>Отсутствует.</td><td>Нет формального членства, участие свободное.</td></tr>
+                            <tr><td><strong>Управление</strong></td><td>Высший орган – съезд/конференция/общее собрание. Постоянно действующий – правление/совет.</td><td>Высший коллегиальный орган управления. Может быть создан надзорный/попечительский совет.</td><td>Высший коллегиальный орган. Обязателен попечительский совет.</td><td>Горизонтальное или неформальное управление, решения принимаются коллективно.</td></tr>
+                            <tr><td><strong>Особенности для правозащиты</strong></td><td>Подходит для объединения активистов, прямого действия. Более демократична.</td><td>Подходит для оказания экспертных, консультационных, образовательных услуг. Гибче в управлении.</td><td>Подходит для аккумулирования средств и их распределения на проекты. Строгий контроль.</td><td>Максимальная гибкость, минимум бюрократии, но ограниченные возможности для официальной деятельности.</td></tr>
+                             <tr><td><strong>Регистрация</strong></td><td>Сложнее, требует не менее 3 учредителей-физлиц.</td><td>Проще, может быть учреждена 1 лицом.</td><td>Сложнее, повышенные требования к уставу и контролю.</td><td>Не требуется.</td></tr>
+                            <tr><td><strong>Плюсы</strong></td><td>Демократичность, вовлечение членов.</td><td>Гибкость управления, возможность оказания платных услуг (если соответствует уставным целям).</td><td>Возможность аккумулировать значительные ресурсы.</td><td>Быстрый старт, отсутствие расходов на регистрацию и отчетность.</td></tr>
+                            <tr><td><strong>Минусы</strong></td><td>Более сложная структура управления, зависимость от членов.</td><td>Меньшая "народность", потенциальные вопросы к целям при оказании услуг.</td><td>Сложность в управлении и отчетности, жесткий контроль.</td><td>Нет юридического статуса, невозможность официально получать гранты и заключать договоры.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <div id="opfDetailModal" class="modal fade" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="opfName"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="opfDetails"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4.2. Ключевые Законодательные Риски -->
+            <section class="content-section" id="s4-2">
+                <h3>
+                    <img src="../assets/icons/warning.svg" alt="Риски" class="section-icon">
+                    4.2. Законодательные Риски и Стратегии их Минимизации <small class="text-muted fs-6 ms-2">(Кликните для деталей)</small>
+                </h3>
+                <div id="riskListContainer">
+                    <!-- Карточки рисков будут добавлены JS -->
+                </div>
+                <div class="alert alert-secondary mt-3">
+                    <strong>Общие стратегии минимизации рисков:</strong>
+                    <ul>
+                        <li>Тщательная юридическая экспертиза уставных документов и текущей деятельности.</li>
+                        <li>Корректное ведение документооборота, бухгалтерии и отчетности.</li>
+                        <li>Продуманные и осторожные публичные коммуникации, избегание двусмысленных формулировок.</li>
+                        <li>Разработка и внедрение внутренних политик (например, по работе с информацией, по взаимодействию со СМИ).</li>
+                        <li>Регулярный мониторинг изменений в законодательстве.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Остальные секции и интерактивные элементы будут добавлены по аналогии -->
+            <!-- 4.3. Чек-лист "Экспресс-Аудит Цифровой Безопасности" и Интерактив -->
+            <section class="content-section interactive-section" id="s4-3">
+                <h4>
+                    <img src="../assets/icons/safety.svg" alt="Цифровая безопасность" class="section-icon">
+                    4.3. Практикум: Экспресс-Аудит Цифровой Безопасности
+                </h4>
+                <p>Оцените уровень вашей цифровой защиты. Отметьте пункты, которые у вас уже внедрены. Это личная работа, делиться результатами не обязательно.</p>
+                <ul class="checklist-security" id="digitalSecurityChecklist">
+                    <li data-id="dev_pass"><strong>Защита устройств:</strong> Сильные, уникальные пароли/пин-коды на всех устройствах (компьютеры, телефоны).</li>
+                    <li data-id="dev_2fa"><strong>Защита устройств:</strong> Двухфакторная аутентификация (2FA) для входа в ОС, если возможно.</li>
+                    <li data-id="dev_encrypt"><strong>Защита устройств:</strong> Шифрование диска (BitLocker, FileVault, VeraCrypt).</li>
+                    <li data-id="dev_updates"><strong>Защита устройств:</strong> Регулярные обновления ОС и программного обеспечения.</li>
+                    <li data-id="comm_messengers"><strong>Безопасные коммуникации:</strong> Использование защищенных мессенджеров (Signal, Threema, Element) для чувствительной информации.</li>
+                    <li data-id="comm_email"><strong>Безопасные коммуникации:</strong> Использование PGP/GPG для шифрования важной email-переписки.</li>
+                    <li data-id="comm_vpn"><strong>Безопасные коммуникации:</strong> Регулярное использование надежного VPN-сервиса.</li>
+                    <li data-id="data_min"><strong>Работа с данными:</strong> Принцип минимизации сбора персональных данных.</li>
+                    <li data-id="data_anon"><strong>Работа с данными:</strong> Анонимизация или псевдонимизация данных, где это применимо.</li>
+                    <li data-id="data_store"><strong>Работа с данными:</strong> Безопасное хранение чувствительных данных (шифрование, ограниченный доступ).</li>
+                    <li data-id="sec_antiphish"><strong>Анти-фишинг:</strong> Знание признаков фишинговых атак и осторожность при переходе по ссылкам/открытии вложений.</li>
+                    <li data-id="sec_antivirus"><strong>Анти-вредоносы:</strong> Установлен и регулярно обновляется антивирус (особенно на Windows).</li>
+                </ul>
+                <div class="mt-3 text-center">
+                    <p>Отмечено <strong id="checkedCount">0</strong> из <span id="totalCount">12</span> пунктов.</p>
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="securityProgress"></div>
+                    </div>
+                </div>
+                <p class="mt-3 text-muted small"><strong>Q&A сессия (10-15 минут):</strong> Обсудите общие вопросы по пунктам чек-листа с фасилитатором. Не делитесь личной информацией, если это небезопасно.</p>
+            </section>
+
+
+             <!-- 4.7. Интерактив "Разработка базового плана реагирования" -->
+            <section class="content-section interactive-section" id="s4-7">
+                 <h4>
+                    <img src="../assets/icons/crisis.svg" alt="План реагирования" class="section-icon">
+                    4.4. Интерактив: План Реагирования на Угрозы
+                </h4>
+                <p>Выберите одну из типичных угроз для гипотетической правозащитной НКО и предложите 3-5 ключевых немедленных действий для базового плана реагирования.</p>
+                
+                <div class="mb-3">
+                    <label for="threatSelect" class="form-label fw-bold">Выберите Угрозу:</label>
+                    <select class="form-select" id="threatSelect">
+                        <option selected disabled value="">--- Выберите одну из угроз ---</option>
+                        <option value="raid">Внеплановая проверка/обыск в офисе</option>
+                        <option value="detention">Задержание сотрудника/волонтера</option>
+                        <option value="hack">DDoS-атака на сайт и взлом соцсетей</option>
+                        <option value="discredit">Публичная дискредитационная кампания</option>
+                    </select>
+                </div>
+
+                <div id="threatResponseForm" style="display:none;">
+                    <h5 class="mt-4">Ваш план реагирования на: <span id="selectedThreatName" class="text-danger"></span></h5>
+                    <div class="mb-2">
+                        <label for="responsiblePerson" class="form-label">Кто главный ответственный (роль)?</label>
+                        <input type="text" class="form-control form-control-sm" id="responsiblePerson" placeholder="Например, Руководитель НКО, Юрист">
+                    </div>
+                    <div class="mb-2">
+                        <label for="immediateActions" class="form-label">Первые 3-5 немедленных действий (через запятую или списком):</label>
+                        <textarea class="form-control form-control-sm" id="immediateActions" rows="3"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label for="internalNotify" class="form-label">Кого оповестить внутри команды?</label>
+                        <input type="text" class="form-control form-control-sm" id="internalNotify" placeholder="Например, Всех сотрудников, ключевых волонтеров">
+                    </div>
+                     <div class="mb-2">
+                        <label for="externalNotify" class="form-label">Кого оповестить извне (с учетом рисков)?</label>
+                        <input type="text" class="form-control form-control-sm" id="externalNotify" placeholder="Адвокат, партнерские НКО, журналисты (если безопасно)">
+                    </div>
+                    <button type="button" class="btn btn-danger mt-3" id="getThreatAiAdviceBtn">Отправить и получить комментарий ИИ</button>
+                </div>
+                 <div id="aiThreatResponseFeedbackContainer" class="mt-4">
+                    <h5 class="text-primary">Комментарий от ИИ-помощника по плану:</h5>
+                    <div id="aiThreatResponseFeedbackResult" class="p-3 border rounded bg-light-subtle text-muted">
+                        <em>Выберите угрозу и предложите план...</em>
+                    </div>
+                </div>
+            </section>
+            <!-- Другие подсекции (4.4, 4.5, 4.6) могут быть добавлены как простые текстовые блоки или также с интерактивными элементами по аналогии -->
+
+        </div>
+    </main>
+
+    <footer class="py-4 bg-dark text-white-50 mt-5">
+         <div class="container text-center">
+             <small>Материалы семинара © 2024.</small> <br>
+             <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+         </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/EasePack.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.registerPlugin(ScrollTrigger, EasePack);
+
+        // --- Код для полноэкранного меню (аналогично другим страницам) ---
+        // ... (полный код из предыдущих ответов) ...
+        const customMenuToggler = document.getElementById('customMenuToggler');
+        const fullscreenMenu = document.getElementById('fullscreenMenu');
+        const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
+        if (customMenuToggler && fullscreenMenu) {
+            const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
+            const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
+            const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
+            const actualBurgerIcon = customMenuToggler.querySelector('svg');
+            const burgerLine1 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line1') : null;
+            const burgerLine2 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line2') : null;
+            const burgerLine3 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line3') : null;
+            let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
+            if (burgerLine1 && burgerLine2 && burgerLine3) {
+                const line1YInitial = parseFloat(burgerLine1.getAttribute('y'));
+                const line2YInitial = parseFloat(burgerLine2.getAttribute('y'));
+                const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
+                if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) {
+                    burgerTimeline.to(burgerLine1,{duration:0.25,attr:{y:line2YInitial},ease:"power2.inOut"},"cross").to(burgerLine3,{duration:0.25,attr:{y:line2YInitial},ease:"power2.inOut"},"cross").to(burgerLine2,{duration:0.2,scaleX:0,transformOrigin:"50% 50%",ease:"power2.in"},"cross").to(burgerLine1,{duration:0.25,rotation:45,transformOrigin:"50% 50%",ease:"power2.out"},"crossEnd").to(burgerLine3,{duration:0.25,rotation:-45,transformOrigin:"50% 50%",ease:"power2.out"},"crossEnd");
+                } else { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
+            } else if (actualBurgerIcon) { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
+            let fsMenuIsOpen = false;
+            gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
+            if (fsMenuItems.length > 0) gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
+            if (fsSubMenuItemsContainer) gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+            const openFullscreenMenu = () => { if (fsMenuIsOpen) return; fsMenuIsOpen = true; fullscreenMenu.style.display = 'flex'; burgerTimeline.play(); customMenuToggler.classList.add('open'); customMenuToggler.setAttribute('aria-expanded', 'true'); const tlOpen = gsap.timeline(); tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' }); if (fsMenuItems.length > 0) tlOpen.to(fsMenuItems, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, "-=0.2"); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) { if (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto') { tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out' }, "-=0.1"); }}};
+            const closeFullscreenMenu = () => { if (!fsMenuIsOpen) return; fsMenuIsOpen = false; burgerTimeline.reverse(); customMenuToggler.classList.remove('open'); customMenuToggler.setAttribute('aria-expanded', 'false'); const tlClose = gsap.timeline({onComplete: () => { fullscreenMenu.style.display = 'none'; if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0}); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');}}}); if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in' });} if (fsMenuItems.length > 0) tlClose.to(fsMenuItems, { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, fsSubMenuItemsContainer ? "-=0.1" : 0); tlClose.to(fullscreenMenu, { autoAlpha: 0, duration: 0.25, ease: 'power1.in' }, fsMenuItems.length > 0 ? "-=0.1" : 0); };
+            customMenuToggler.addEventListener('click', () => { fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); });
+            if (closeFullscreenMenuBtn) closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); });
+            const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+            if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {
+                gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 }); gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                let subMenuFsIsOpen = false;
+                sectionsDropdownCustomFs.addEventListener('click', (e) => {
+                    e.preventDefault(); subMenuFsIsOpen = !subMenuFsIsOpen; sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
+                    if (subMenuFsIsOpen) { gsap.timeline().to(fsSubMenuItemsContainer, { height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', duration: 0.3, ease: 'power1.out' }).to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out' }, "-=0.2");
+                    } else { gsap.timeline().to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in' }).to(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, duration: 0.3, ease: 'power1.in' }, "-=0.1");}
+                });
+                const fsSubMenuLinks = fsSubMenuItemsContainer ? gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
+                fsSubMenuLinks.forEach(link => { link.addEventListener('mouseenter', () => gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 })); link.addEventListener('mouseleave', () => gsap.to(link, { color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), x: 0, duration: 0.2 }));});
+            }
+            const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
+            if (activeFsDropdownItem) { activeFsDropdownItem.style.color = '#0d6efd'; activeFsDropdownItem.style.fontWeight = '500';}
+        }
+
+        // --- ОБЩИЕ АНИМАЦИИ СТРАНИЦЫ ---
+        gsap.from(".page-header-section h1", {duration: 0.8, y: -50, opacity: 0, ease: "power2.out", delay: 0.2});
+        gsap.from(".page-header-section p.lead", {duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4});
+        gsap.from(".page-header-section .header-icon", {duration: 1, scale: 0.5, opacity: 0, ease: "back.out(1.7)", delay: 0.1});
+
+        const contentSections = gsap.utils.toArray('.content-section');
+        contentSections.forEach(section => {
+            gsap.to(section, { 
+                opacity: 1, y: 0, duration: 0.7, ease: "power1.out",
+                scrollTrigger: { trigger: section, start: "top 85%", once: true }
+            });
+        });
+
+        // Инициализация tooltips для названий ОПФ
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        // --- Сравнение Форм НКО - карточка по клику на ОПФ ---
+        const comparisonTable = document.querySelector('.comparison-table-animated');
+        const opfData = {
+            "Общественная Организация (ОО)": `<strong>Основные черты ОО:</strong><ul><li>Объединение граждан на основе общности интересов.</li><li>Обязательное членство.</li><li>Высший орган – общее собрание/съезд/конференция.</li><li>Часто используется для правозащиты, так как позволяет консолидировать усилия активистов.</li><li>Процесс регистрации может быть сложнее из-за требований к числу учредителей.</li></ul>` ,
+            "Автономная Некоммерческая Организация (АНО)": `<strong>Основные черты АНО:</strong><ul><li>Создается для предоставления услуг в различных сферах (образование, здравоохранение, право, культура и т.д.).</li><li>Членство отсутствует.</li><li>Управление осуществляется учредителями или назначенным ими органом.</li><li>Более гибкая в управлении, подходит для экспертных центров, оказания консультационных услуг.</li><li>Регистрация проще, может быть учреждена одним лицом.</li></ul>` ,
+            "Фонд": `<strong>Основные черты Фонда:</strong><ul><li>Цель – формирование имущества и использование его на общественно полезные цели.</li><li>Членство отсутствует.</li><li>Обязательно наличие попечительского совета, осуществляющего надзор.</li><li>Строгий контроль за деятельностью и расходованием средств.</li><li>Подходит для аккумулирования и распределения ресурсов на проекты, грантовые программы.</li></ul>` ,
+            "Самоорганизация (без регистрации)": `<strong>Основные черты самоорганизации:</strong><ul><li>Группа людей действует совместно без создания юридического лица.</li><li>Нет расходов и бюрократии, быстрый старт.</li><li>Максимальная гибкость в принятии решений.</li><li>Нет формального членства и отчетности.</li><li>Ограниченные возможности для официальной деятельности, невозможность получать гранты и заключать договоры от имени группы.</li><li>Риски для участников при публичной активности.</li></ul>`
+        };
+        let opfCard = null;
+        let opfCardBg = null;
+        let opfCardResizeHandler = null;
+        if (comparisonTable) {
+            const ths = comparisonTable.querySelectorAll('th.interactive-opf');
+            ths.forEach((th, idx) => {
+                th.addEventListener('click', () => {
+                    // Удалить предыдущую карточку если есть
+                    if (opfCard) {
+                        gsap.to(opfCard, {y: 40, autoAlpha: 0, scale: 0.95, duration: 0.3, ease: 'power2.in', onComplete: () => {
+                            opfCard.remove();
+                            opfCard = null;
+                        }});
+                        if (opfCardBg) {
+                            gsap.to(opfCardBg, {autoAlpha: 0, duration: 0.25, onComplete: () => {opfCardBg.remove(); opfCardBg = null;}});
+                        }
+                        if (opfCardResizeHandler) {
+                            window.removeEventListener('resize', opfCardResizeHandler);
+                            opfCardResizeHandler = null;
+                        }
+                    }
+                    // Создать затемнение
+                    opfCardBg = document.createElement('div');
+                    opfCardBg.className = 'custom-modal-backdrop active';
+                    opfCardBg.style.zIndex = 1040;
+                    opfCardBg.style.pointerEvents = 'auto';
+                    document.body.appendChild(opfCardBg);
+                    // Клик по фону закрывает карточку
+                    opfCardBg.addEventListener('click', () => {
+                        if (opfCard) gsap.to(opfCard, {y: 40, autoAlpha: 0, scale: 0.95, duration: 0.3, ease: 'power2.in', onComplete: () => {opfCard.remove(); opfCard = null;}});
+                        gsap.to(opfCardBg, {autoAlpha: 0, duration: 0.25, onComplete: () => {opfCardBg.remove(); opfCardBg = null;}});
+                        if (opfCardResizeHandler) {
+                            window.removeEventListener('resize', opfCardResizeHandler);
+                            opfCardResizeHandler = null;
+                        }
+                    });
+                    // Карточка
+                    opfCard = document.createElement('div');
+                    opfCard.className = 'opf-info-card';
+                    opfCard.style.zIndex = 1051;
+                    opfCard.innerHTML = `
+                        <button class="btn-close opf-card-close" style="position:absolute;top:18px;right:18px;z-index:2" aria-label="Закрыть"></button>
+                        <h4 class="mb-3 text-danger">${th.textContent}</h4>
+                        <div>${opfData[th.getAttribute('data-opf')] || '<p>Информация недоступна.</p>'}</div>
+                    `;
+                    document.body.appendChild(opfCard);
+                    // Стилизация и анимация
+                    Object.assign(opfCard.style, {
+                        position: 'fixed',
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        minWidth: '320px',
+                        maxWidth: '95vw',
+                        width: '420px',
+                        background: '#fff',
+                        borderRadius: '1rem',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+                        padding: '2.2rem 2rem 1.5rem 2rem',
+                        zIndex: 1051,
+                        opacity: 0,
+                        scale: 0.95,
+                        pointerEvents: 'auto',
+                        overflowY: 'auto',
+                        maxHeight: '80vh',
+                    });
+                    // Центрирование и адаптация по высоте
+                    function updateOpfCardMaxHeight() {
+                        const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+                        opfCard.style.maxHeight = Math.floor(vh * 0.8) + 'px';
+                    }
+                    updateOpfCardMaxHeight();
+                    opfCardResizeHandler = updateOpfCardMaxHeight;
+                    window.addEventListener('resize', opfCardResizeHandler);
+                    gsap.to(opfCard, {autoAlpha: 1, scale: 1, duration: 0.38, ease: 'power2.out'});
+                    // Кнопка закрытия
+                    opfCard.querySelector('.opf-card-close').addEventListener('click', () => {
+                        gsap.to(opfCard, {autoAlpha: 0, scale: 0.95, duration: 0.3, ease: 'power2.in', onComplete: () => {opfCard.remove(); opfCard = null;}});
+    gsap.to(opfCardBg, {autoAlpha: 0, duration: 0.25, onComplete: () => {opfCardBg.remove(); opfCardBg = null;}});
+    if (opfCardResizeHandler) {
+        window.removeEventListener('resize', opfCardResizeHandler);
+        opfCardResizeHandler = null;
+    }
+});
+                });
+            });
+        }
+
+        // --- Ключевые Законодательные Риски (раскрывашки) ---
+        const riskListContainer = document.getElementById('riskListContainer');
+        const risksData = [
+            { title: "Закон об 'иностранных агентах'", description: "Риск: Включение в реестр НКО-иноагентов при получении иностранного финансирования (даже опосредованного) и занятии 'политической деятельностью' (трактуется очень широко). Последствия: маркировка материалов, дополнительная отчетность, штрафы, проверки, репутационные риски." },
+            { title: "Закон о 'нежелательных организациях'", description: "Риск: Запрет деятельности иностранных или международных НПО на территории РФ, если их деятельность признана угрожающей основам конституционного строя, обороноспособности или безопасности. Последствия для российских партнеров: уголовная ответственность за сотрудничество." },
+            { title: "Закон о просветительской деятельности'", description: "Риск: Необходимость согласования или соблюдения определенных правил при ведении просветительской деятельности вне образовательных программ. Трактовки могут быть широкими, создавая риски для семинаров, лекций, публикаций НКО." },
+            { title: "Законодательство о Персональных Данных (ФЗ-152)", description: "Риск: Нарушение правил сбора, обработки, хранения и защиты персональных данных бенефициаров, волонтеров, сотрудников. Последствия: штрафы, проверки Роскомнадзора." },
+            { title: "Законодательство о противодействии экстремизму", description: "Риск: Публикация материалов или высказывания, которые могут быть расценены как экстремистские. Последствия: от штрафов до ликвидации организации и уголовной ответственности." }
+        ];
+        risksData.forEach(risk => {
+            const card = document.createElement('div');
+            card.className = 'risk-card';
+            card.innerHTML = `
+                <div class="risk-card-header" style="cursor:pointer;">
+                    <h5>${risk.title}</h5>
+                    <span class="arrow-icon">▼</span>
+                </div>
+                <div class="risk-card-body">
+                    <p>${risk.description}</p>
+                </div>
+            `;
+            riskListContainer.appendChild(card);
+            const header = card.querySelector('.risk-card-header');
+            const body = card.querySelector('.risk-card-body');
+            // Скрываем body по умолчанию
+            body.style.display = 'none';
+            body.style.overflow = 'hidden';
+            body.style.height = '0';
+            body.style.paddingTop = '0';
+            body.style.paddingBottom = '0';
+            header.addEventListener('click', () => {
+                const isActive = card.classList.toggle('active');
+                if (isActive) {
+                    body.style.display = 'block';
+                    body.style.overflow = 'hidden';
+                    body.style.height = '0';
+                    body.style.paddingTop = '0';
+                    body.style.paddingBottom = '0';
+                    // Нужно дать браузеру применить стили, иначе scrollHeight будет 0
+                    requestAnimationFrame(() => {
+                        const targetHeight = body.scrollHeight;
+                        gsap.to(body, {
+                            height: targetHeight + 'px',
+                            autoAlpha: 1,
+                            paddingTop: '1.25rem',
+                            paddingBottom: '1.25rem',
+                            duration: 0.38,
+                            ease: 'power1.inOut',
+                            onUpdate: () => { body.style.overflow = 'hidden'; },
+                            onComplete: () => {
+                                body.style.height = '';
+                                body.style.overflow = '';
+                            }
+                        });
+                    });
+                } else {
+                    body.style.overflow = 'hidden';
+                    gsap.to(body, {
+                        height: 0,
+                        autoAlpha: 0,
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                        duration: 0.3,
+                        ease: 'power1.inOut',
+                        onUpdate: () => { body.style.overflow = 'hidden'; },
+                        onComplete: () => {
+                            body.style.display = 'none';
+                            body.style.overflow = '';
+                        }
+                    });
+                }
+            });
+        });
+        
+        // --- Экспресс-Аудит Цифровой Безопасности ---
+        // Оборачиваем секцию в контейнер для смены темы
+        const auditSection = document.getElementById('s4-3');
+        auditSection.classList.add('security-audit-theme');
+
+        const checklistItems = document.querySelectorAll('#digitalSecurityChecklist li');
+        const checkedCountEl = document.getElementById('checkedCount');
+        const totalCountEl = document.getElementById('totalCount');
+        const securityProgressEl = document.getElementById('securityProgress');
+        totalCountEl.textContent = checklistItems.length;
+        let currentChecked = 0;
+
+        // Цвета для плавного перехода (красный → жёлтый → зелёный)
+        const colorStops = [
+            { percent: 0, bg: '#ffe5e5', grad: '#fff0f0', border: '#f8d7da', h4: '#dc3545', bar: '#dc3545' },
+            { percent: 0.5, bg: '#fffbe5', grad: '#fffbe0', border: '#ffe066', h4: '#ffc107', bar: '#ffc107' },
+            { percent: 1, bg: '#e6f9e6', grad: '#f0fff0', border: '#b7e4c7', h4: '#198754', bar: '#198754' }
+        ];
+
+        function lerpColor(a, b, t) {
+            // a, b: hex colors, t: 0..1
+            const ah = a.replace('#', '');
+            const bh = b.replace('#', '');
+            const ar = parseInt(ah.substring(0,2),16), ag = parseInt(ah.substring(2,4),16), ab = parseInt(ah.substring(4,6),16);
+            const br = parseInt(bh.substring(0,2),16), bg = parseInt(bh.substring(2,4),16), bb = parseInt(bh.substring(4,6),16);
+            const rr = Math.round(ar + (br-ar)*t);
+            const rg = Math.round(ag + (bg-ag)*t);
+            const rb = Math.round(ab + (bb-ab)*t);
+            return `#${rr.toString(16).padStart(2,'0')}${rg.toString(16).padStart(2,'0')}${rb.toString(16).padStart(2,'0')}`;
+        }
+
+        function getInterpolatedColors(percent) {
+            let left = colorStops[0], right = colorStops[colorStops.length-1];
+            for (let i=1; i<colorStops.length; ++i) {
+                if (percent <= colorStops[i].percent) {
+                    left = colorStops[i-1];
+                    right = colorStops[i];
+                    break;
+                }
+            }
+            const range = right.percent - left.percent;
+            const t = range === 0 ? 0 : (percent - left.percent) / range;
+            return {
+                bg: lerpColor(left.bg, right.bg, t),
+                grad: lerpColor(left.grad, right.grad, t),
+                border: lerpColor(left.border, right.border, t),
+                h4: lerpColor(left.h4, right.h4, t),
+                bar: lerpColor(left.bar, right.bar, t)
+            };
+        }
+
+        function updateAuditTheme() {
+            const percent = currentChecked / checklistItems.length;
+            const colors = getInterpolatedColors(percent);
+            auditSection.style.background = `linear-gradient(135deg, ${colors.bg} 0%, ${colors.grad} 100%)`;
+            auditSection.style.border = `2px solid ${colors.border}`;
+            const h4 = auditSection.querySelector('h4');
+            if (h4) h4.style.color = colors.h4;
+            securityProgressEl.style.background = `linear-gradient(90deg, ${colors.bar} 60%, ${colors.grad} 100%)`;
+        }
+        updateAuditTheme();
+
+        checklistItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const wasChecked = item.classList.contains('checked');
+                item.classList.toggle('checked');
+                // GSAP анимация для галочки и фона
+                if (!wasChecked) {
+                    gsap.fromTo(item, {backgroundColor: '#fff'}, {backgroundColor: '#e9f5e9', borderColor: '#c3e6cb', duration: 0.3});
+                    gsap.fromTo(item, {scale: 1}, {scale: 1.04, yoyo: true, repeat: 1, duration: 0.12, ease: 'power1.inOut'});
+                } else {
+                    gsap.to(item, {backgroundColor: '#fff', borderColor: '#eee', duration: 0.3});
+                }
+                currentChecked = document.querySelectorAll('#digitalSecurityChecklist li.checked').length;
+                checkedCountEl.textContent = currentChecked;
+                const percentage = Math.round((currentChecked / checklistItems.length) * 100);
+                gsap.to(securityProgressEl, { width: percentage + '%', duration: 0.5, ease: 'power2.out' });
+                securityProgressEl.setAttribute('aria-valuenow', percentage);
+                securityProgressEl.textContent = percentage > 10 ? percentage + '%' : '';
+                // Анимация прогресс-бара
+                gsap.fromTo(securityProgressEl, {scaleY: 1.1}, {scaleY: 1, duration: 0.3, ease: 'power1.out'});
+                // Плавная смена темы блока
+                updateAuditTheme();
+            });
+        });
+
+        // --- Интерактив "Разработка базового плана реагирования" ---
+        const threatSelect = document.getElementById('threatSelect');
+        const threatResponseForm = document.getElementById('threatResponseForm');
+        const selectedThreatNameEl = document.getElementById('selectedThreatName');
+        const getThreatAiAdviceBtn = document.getElementById('getThreatAiAdviceBtn');
+        const aiThreatResponseFeedbackContainer = document.getElementById('aiThreatResponseFeedbackContainer');
+        const aiThreatResponseFeedbackResultEl = document.getElementById('aiThreatResponseFeedbackResult');
+        
+        gsap.set(aiThreatResponseFeedbackContainer, {display: 'none', autoAlpha:0});
+
+        threatSelect.addEventListener('change', function() {
+            if (this.value) {
+                selectedThreatNameEl.textContent = this.options[this.selectedIndex].text;
+                gsap.to(threatResponseForm, {display: 'block', height: 'auto', opacity: 1, duration: 0.3});
+            } else {
+                gsap.to(threatResponseForm, {display: 'none', height: 0, opacity: 0, duration: 0.3});
+            }
+        });
+
+        if (getThreatAiAdviceBtn) {
+            getThreatAiAdviceBtn.addEventListener('click', async () => {
+                const threat = threatSelect.value;
+                const threatText = threatSelect.options[threatSelect.selectedIndex].text;
+                const responsible = document.getElementById('responsiblePerson').value;
+                const actions = document.getElementById('immediateActions').value;
+                const internal = document.getElementById('internalNotify').value;
+                const external = document.getElementById('externalNotify').value;
+
+                if (!threat || !actions) {
+                    alert("Пожалуйста, выберите угрозу и опишите немедленные действия.");
+                    return;
+                }
+                 gsap.timeline().set(aiThreatResponseFeedbackContainer, {display: 'block'}).to(aiThreatResponseFeedbackContainer, {autoAlpha:1, y:0, duration: 0.4, ease: 'power2.out'});
+                aiThreatResponseFeedbackResultEl.innerHTML = '<em>🛡️ ИИ оценивает ваш план реагирования...</em>';
+                gsap.fromTo(aiThreatResponseFeedbackResultEl, {opacity:0.5, y:5}, {opacity:1, y:0, duration:0.3});
+
+                try {
+                    const userPrompt = `
+Пользователь НКО разрабатывает план реагирования на угрозу: "${threatText}".
+Предложенный план:
+- Главный ответственный (роль): ${responsible || "Не указано"}
+- Первые 3-5 немедленных действий: ${actions}
+- Оповещение внутри команды: ${internal || "Не указано"}
+- Оповещение извне: ${external || "Не указано"}
+
+Дай краткий, конструктивный и ободряющий фидбэк по этому плану. Укажи сильные стороны и что можно улучшить/добавить. Ответ на русском. Не используй <think> теги.
+                    `;
+                    const response = await fetch('http://127.0.0.1:3355/v1/chat/completions', { /* ... fetch details ... */ 
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            model: "qwen3-1.7b",
+                            messages: [
+                                { role: "system", content: "Ты — ИИ-эксперт по безопасности НКО и кризисному управлению. Твоя задача — дать конструктивный фидбэк на план реагирования пользователя. Будь краток, тактичен и по существу. Не используй <think> теги. Ответ на русском." },
+                                { role: "user", content: userPrompt }
+                            ],
+                            temperature: 0.5, max_tokens: 500, stream: false
+                        })
+                    });
+                    if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
+                    const data = await response.json();
+                    let aiMessage = data.choices?.[0]?.message?.content?.trim() || "Не удалось получить комментарий от ИИ.";
+                    aiMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/^\s*-\s*(.*)/gm, '<li>$1</li>');
+                    if (aiMessage.includes('<li>')) { aiMessage = aiMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`); aiMessage = aiMessage.replace(/<\/ul>\s*<ul>/g, '');}
+                    aiMessage = aiMessage.replace(/\n/g, '<br>');
+
+                    gsap.to(aiThreatResponseFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                        aiThreatResponseFeedbackResultEl.innerHTML = aiMessage;
+                        gsap.to(aiThreatResponseFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
+                    }});
+                } catch (error) { /* ... error handling ... */
+                    console.error('AI Threat Response Error:', error);
+                    gsap.to(aiThreatResponseFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                        aiThreatResponseFeedbackResultEl.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
+                        gsap.to(aiThreatResponseFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
+                    }});
+                }
+            });
+        }
+        
+        // --- PDF экспорт раздела 4 ---
+const exportBtn = document.getElementById('exportSectionResultsBtn');
+if (!exportBtn) {
+    // Добавить кнопку в футер, если её нет
+    const footer = document.querySelector('footer .container.text-center .mt-4') || document.querySelector('footer .container.text-center');
+    if (footer) {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-success';
+        btn.id = 'exportSectionResultsBtn';
+        btn.textContent = 'Выгрузить результаты раздела';
+        footer.appendChild(btn);
+    }
+}
+const exportBtn4 = document.getElementById('exportSectionResultsBtn');
+if (exportBtn4) {
+    exportBtn4.addEventListener('click', function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({unit: 'pt', format: 'a4'});
+        if (window.QanelasRegularFontData && window.QanelasRegularFontData.base64) {
+            doc.addFileToVFS('Qanelas-Regular.ttf', window.QanelasRegularFontData.base64);
+            doc.addFont('Qanelas-Regular.ttf', 'Qanelas', 'normal');
+        }
+        doc.setFont('Qanelas', 'normal');
+        const pageWidth = doc.internal.pageSize.getWidth();
+        let y = 40;
+        // Заголовок
+        doc.setFontSize(22);
+        doc.setTextColor('#dc3545');
+        doc.text('Раздел 4: Правовые основы и безопасность', pageWidth/2, y, {align:'center'});
+        y += 30;
+        doc.setFontSize(14);
+        doc.setTextColor('#333');
+        // Секции
+        document.querySelectorAll('.content-section').forEach(section => {
+            const title = section.querySelector('h3, .section-title')?.innerText || '';
+            if (title) {
+                doc.setFontSize(15);
+                doc.setTextColor('#dc3545');
+                doc.text(title, 40, y);
+                y += 18;
+            }
+            doc.setFontSize(11);
+            doc.setTextColor('#444');
+            section.querySelectorAll('p, ul, ol').forEach(el => {
+                let text = '';
+                if (el.tagName === 'P') text = el.innerText;
+                if (el.tagName === 'UL' || el.tagName === 'OL') {
+                    text = Array.from(el.children).map(li => '- ' + li.innerText).join('\n');
+                }
+                if (text) {
+                    const split = doc.splitTextToSize(text, pageWidth-80);
+                    doc.text(split, 40, y);
+                    y += split.length * 15 + 5;
+                }
+            });
+            y += 10;
+        });
+        // AI feedback по плану реагирования (если есть)
+        const aiThreatResponseFeedback = document.getElementById('aiThreatResponseFeedbackResult')?.innerText;
+        if (aiThreatResponseFeedback && aiThreatResponseFeedback.trim() && aiThreatResponseFeedback.trim() !== 'ИИ анализирует ваш план...') {
+            doc.setFontSize(14);
+            doc.setTextColor('#dc3545');
+            doc.text('AI-отзыв по вашему плану реагирования:', 40, y);
+            y += 18;
+            doc.setFontSize(11);
+            doc.setTextColor('#444');
+            const split = doc.splitTextToSize(aiThreatResponseFeedback, pageWidth-80);
+            doc.text(split, 40, y);
+            y += split.length * 15 + 10;
+        }
+        doc.save('legal_and_security_results.pdf');
+    });
+}
+
+        ScrollTrigger.refresh();
+    });
+    </script>
+</body>
+</html>

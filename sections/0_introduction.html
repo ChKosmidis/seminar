@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0. Введение в мир НКО - Семинар НКО</title>
+
+    <!-- Bootstrap CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <!-- Ваши кастомные стили -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        /* Стили для этой страницы */
+        body { padding-top: 70px; /* Учитываем высоту новой шапки */ }
+        .page-header-section {
+            background-color: #f8f9fa; /* Светлый фон */
+            padding: 3rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: .3rem;
+        }
+        .content-section { margin-bottom: 2.5rem; opacity:0; transform: translateY(20px); }
+        .content-section h3 { margin-bottom: 1rem; display: flex; align-items: center; }
+        .content-section h3 img.section-icon { width: 32px; height: 32px; margin-right: 0.75rem; opacity: 0.7; }
+        
+        /* Интерактив */
+        #nkoChoiceInteractive { padding: 2rem; background-color: #e9ecef; border-radius: .3rem; margin-top: 2rem;}
+        #nkoChoiceInteractive label { font-weight: 500; }
+        #nkoConceptResult, #aiFeedbackContainer {
+            opacity: 0; /* Для GSAP анимации */
+            transform: translateY(15px); /* Для GSAP анимации */
+        }
+        #aiFeedbackResult { white-space: pre-wrap; /* Сохранять переносы строк от AI */ }
+        
+        /* Квиз */
+        #nkoQuizSection { padding: 2rem; background-color: #f1f3f5; border-radius: .3rem; margin-top: 2rem;}
+        .quiz-question { margin-bottom: 1.5rem; }
+        #quizResultChartContainer { max-width: 400px; margin: 2rem auto 0; }
+        #quizScore { font-size: 1.2rem; font-weight: bold; }
+
+        /* Стили для анимации появления вопросов квиза */
+        .quiz-question { opacity:0; transform: translateX(-20px); }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="Лого НКО"> 
+                    Семинар НКО
+                </a>
+                
+                <button class="navbar-custom-toggler ms-auto" aria-label="Открыть меню" id="customMenuToggler" aria-expanded="false">
+                    <svg viewBox="0 0 100 80" width="30" height="30" id="actualBurgerIcon" fill="currentColor">
+                        <rect class="line line1" x="0" y="10" width="100" height="10" rx="5"></rect>
+                        <rect class="line line2" x="0" y="35" width="100" height="10" rx="5"></rect>
+                        <rect class="line line3" x="0" y="60" width="100" height="10" rx="5"></rect>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Полноэкранное меню (управляется JS) -->
+    <div class="fullscreen-menu" id="fullscreenMenu">
+        <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
+        <ul class="navbar-nav-fullscreen">
+            <li class="nav-item fs-menu-item">
+                <a class="nav-link" href="../index.html">Главная</a>
+            </li>
+            <li class="nav-item fs-menu-item custom-dropdown">
+                <a class="nav-link dropdown-toggle-custom active" aria-current="page" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">
+                    Разделы
+                </a>
+                <ul class="dropdown-menu-custom">
+                    <li><a class="dropdown-item active" href="0_introduction.html">0. Введение</a></li>
+                    <li><a class="dropdown-item" href="1_community_building.html">1. Сообщество</a></li>
+                    <li><a class="dropdown-item" href="2_internal_communications.html">2. Коммуникации</a></li>
+                    <li><a class="dropdown-item" href="3_infrastructure.html">3. Инфраструктура</a></li>
+                    <li><a class="dropdown-item" href="4_legal_and_security.html">4. Безопасность</a></li>
+                    <li><a class="dropdown-item" href="5_effectiveness_and_development.html">5. Эффективность</a></li>
+                    <li><a class="dropdown-item" href="6_crisis_management.html">6. Антикризис</a></li>
+                    <li><a class="dropdown-item" href="7_cases_and_practice.html">7. Практика</a></li>
+                </ul>
+            </li>
+            <li class="nav-item fs-menu-item">
+                <a class="nav-link" href="useful_resources.html">Полезные ресурсы</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <main class="container py-4">
+        <div class="page-header-section text-center">
+            <img src="../assets/icons/introngo.svg" alt="Введение" width="64" height="64" class="mb-3">
+            <h1 class="display-5 fw-bold">Раздел 0: Введение в мир НКО</h1>
+            <p class="lead text-muted">Фокус на правозащитную деятельность: ландшафт, специфика, нетворкинг и первые шаги.</p>
+        </div>
+
+        <!-- 0.1. Ландшафт НКО -->
+        <section class="content-section" id="s0-1">
+            <h3>
+                <img src="../assets/icons/community.svg" alt="" class="section-icon">
+                0.1. Ландшафт НКО: Краткий обзор
+            </h3>
+            <p>Некоммерческие организации (НКО) играют ключевую роль в развитии гражданского общества. Они охватывают множество форм и направлений деятельности: от благотворительности и социальной поддержки до экологии, культуры и защиты прав человека.</p>
+            <ul>
+                <li><strong>Многообразие форм:</strong> Общественные организации, фонды, автономные некоммерческие организации, ассоциации (союзы) и др.</li>
+                <li><strong>Направления деятельности:</strong> Социальное обслуживание, поддержка уязвимых групп, образование и просвещение, здравоохранение, охрана окружающей среды, развитие культуры и искусства, защита прав и свобод человека и гражданина.</li>
+            </ul>
+            <p>Общая миссия некоммерческого сектора заключается в решении общественно значимых проблем и удовлетворении нематериальных потребностей граждан, действуя не ради извлечения прибыли, а во имя общественных благ.</p>
+        </section>
+
+        <!-- 0.2. Правозащитные НКО -->
+        <section class="content-section" id="s0-2">
+            <h3>
+                <img src="../assets/icons/rights.svg" alt="" class="section-icon">
+                0.2. Правозащитные НКО: Миссия и специфика
+            </h3>
+            <p>Правозащитная деятельность направлена на утверждение и защиту прав и свобод человека, гарантированных международными нормами и национальным законодательством. Ключевые направления работы правозащитных НКО включают:</p>
+            <ul>
+                <li><strong>Мониторинг и документирование:</strong> Сбор и анализ информации о нарушениях прав человека.</li>
+                <li><strong>Просвещение:</strong> Повышение правовой грамотности населения, информирование о правах и способах их защиты.</li>
+                <li><strong>Адвокация:</strong> Представление интересов отдельных лиц или групп на различных уровнях, продвижение законодательных изменений.</li>
+                <li><strong>Юридическая помощь:</strong> Предоставление бесплатных консультаций и представительство в суде.</li>
+                <li><strong>Поддержка жертв нарушений:</strong> Психологическая, социальная и иная помощь пострадавшим.</li>
+            </ul>
+            <p>Правозащитные НКО часто сталкиваются с особыми вызовами, рисками и этическими дилеммами, требующими высокой компетентности, осторожности и приверженности принципам.</p>
+        </section>
+
+        <!-- 0.3. Нетворкинг-правозащитные НКО -->
+        <section class="content-section" id="s0-3">
+            <h3>
+                <img src="../assets/icons/communication.svg" alt="" class="section-icon">
+                0.3. Нетворкинг-НКО (Ресурсные центры, коалиции)
+            </h3>
+            <p>Сетевое взаимодействие и объединение усилий критически важны для эффективности правозащитной деятельности. Нетворкинг-НКО, такие как ресурсные центры и коалиции, выполняют следующие задачи:</p>
+            <ul>
+                <li>Обмен информацией, опытом и лучшими практиками.</li>
+                <li>Координация совместных кампаний и акций.</li>
+                <li>Адвокация на системном уровне по общим проблемам.</li>
+                <li>Предоставление ресурсов, экспертизы и обучения для других НКО и активистов.</li>
+                <li>Повышение устойчивости и безопасности всего правозащитного сообщества.</li>
+            </ul>
+            <p>Примеры успешных нетворкинг-инициатив показывают, как солидарность и сотрудничество помогают достигать значимых результатов даже в сложных условиях.</p>
+        </section>
+
+        <!-- 0.4. Выбор направления и формы -->
+        <section class="content-section" id="s0-4">
+            <h3>
+                <img src="../assets/icons/practical.svg" alt="" class="section-icon">
+                0.4. Выбор направления и формы для вашей будущей НКО
+            </h3>
+            <p>Прежде чем создавать НКО, важно тщательно проанализировать проблемное поле и определить свою нишу:</p>
+            <ul>
+                <li><strong>Анализ проблемного поля:</strong> Какая проблема наиболее актуальна? Кто уже работает над ней? Какие аспекты не охвачены?</li>
+                <li><strong>Определение целевой аудитории:</strong> Кому конкретно вы хотите помогать? Каковы их потребности?</li>
+                <li><strong>Формулирование миссии и видения:</strong> Какова долгосрочная цель вашей организации (видение)? Каким образом вы планируете ее достигать (миссия)?</li>
+            </ul>
+            <p>Ответив на эти вопросы, вы сможете более осознанно подойти к выбору организационно-правовой формы и разработке стратегии вашей будущей НКО.</p>
+        </section>
+
+        <!-- Интерактив: Выбор проблемы и типа НКО -->
+        <section class="content-section" id="nkoChoiceInteractive">
+            <h4 class="text-center mb-4">Интерактив: Ваша будущая НКО</h4>
+            <p class="text-center text-muted mb-4">Подумайте и ответьте на вопросы ниже. Это поможет вам сформулировать первоначальную концепцию и получить совет от ИИ.</p>
+            <div class="mb-3">
+                <label for="humanRightsProblem" class="form-label">Какую проблему в области прав человека вы хотели бы решать?</label>
+                <textarea class="form-control" id="humanRightsProblem" rows="3" placeholder="Например: Защита прав заключенных, борьба с дискриминацией по признаку X, помощь беженцам..."></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="nkoTypeChoice" class="form-label">Какой тип НКО (прямого действия или нетворкинг/ресурсный центр) кажется вам наиболее подходящим для этого?</label>
+                <select class="form-select" id="nkoTypeChoice">
+                    <option selected disabled value="">Выберите тип...</option>
+                    <option value="direct_action">Прямого действия (непосредственная помощь, мониторинг)</option>
+                    <option value="networking">Нетворкинг/Ресурсный центр (объединение, поддержка других НКО)</option>
+                    <option value="hybrid">Гибридный (сочетание элементов)</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="nkoJustification" class="form-label">Обоснуйте свой выбор типа НКО:</label>
+                <textarea class="form-control" id="nkoJustification" rows="4" placeholder="Почему вы считаете, что именно этот тип НКО будет эффективен для решения выбранной проблемы? Какие у вас есть для этого ресурсы или идеи?"></textarea>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-success" id="showNkoConceptBtn">Получить концепцию и совет ИИ</button>
+            </div>
+            <div id="nkoConceptResult" class="mt-4 p-3 border rounded bg-white">
+                <h5>Ваша предварительная концепция:</h5>
+                <p><strong>Проблема:</strong> <span id="resultProblem"></span></p>
+                <p><strong>Тип НКО:</strong> <span id="resultNkoType"></span></p>
+                <p><strong>Обоснование:</strong> <span id="resultJustification"></span></p>
+                <button class="btn btn-sm btn-outline-secondary mt-2" id="copyConceptBtn">Копировать концепцию</button>
+            </div>
+            <div id="aiFeedbackContainer" class="mt-4">
+                <h5 class="text-primary">Комментарий от ИИ-помощника:</h5>
+                <div id="aiFeedbackResult" class="p-3 border rounded bg-light-subtle text-muted">
+                    <em>Нажмите кнопку выше, чтобы получить совет...</em>
+                </div>
+            </div>
+        </section>
+
+        <!-- Квиз по основам НКО -->
+        <section class="content-section" id="nkoQuizSection">
+            <h4 class="text-center mb-4">Проверьте себя: Основы НКО</h4>
+            <div id="quizContainer">
+                <!-- Вопросы будут добавлены через JS -->
+            </div>
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-primary" id="submitQuizBtn" style="display: none;">Показать результат</button>
+            </div>
+            <div id="quizResultText" class="mt-3 text-center" style="display:none;">
+                <p id="quizScore"></p>
+            </div>
+            <div id="quizResultChartContainer" style="display:none;">
+                <canvas id="quizResultChart"></canvas>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-4 bg-dark text-white-50 mt-5">
+        <div class="container text-center">
+             <small>Материалы семинара © 2024.</small>
+            <br>
+            <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <!-- GSAP Core & Plugins (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/EasePack.min.js"></script>
+    <!-- Chart.js (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("AI_DEBUG: DOMContentLoaded event fired.");
+            gsap.registerPlugin(ScrollTrigger, EasePack);
+
+            // --- Логика для полноэкранного меню ---
+            const customMenuToggler = document.getElementById('customMenuToggler');
+            const fullscreenMenu = document.getElementById('fullscreenMenu');
+            const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
+            
+            if (customMenuToggler && fullscreenMenu) {
+                const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
+                const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
+                const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
+
+                const actualBurgerIcon = customMenuToggler.querySelector('svg');
+                const burgerLine1 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line1') : null;
+                const burgerLine2 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line2') : null;
+                const burgerLine3 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line3') : null;
+                
+                let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
+
+                if (burgerLine1 && burgerLine2 && burgerLine3) {
+                    const line1YInitial = parseFloat(burgerLine1.getAttribute('y'));
+                    const line2YInitial = parseFloat(burgerLine2.getAttribute('y'));
+                    const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
+                    
+                    if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) {
+                        burgerTimeline
+                            .to(burgerLine1, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
+                            .to(burgerLine3, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
+                            .to(burgerLine2, { duration: 0.2, scaleX: 0, transformOrigin: "50% 50%", ease: "power2.in" }, "cross") 
+                            .to(burgerLine1, { duration: 0.25, rotation: 45,  transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd")
+                            .to(burgerLine3, { duration: 0.25, rotation: -45, transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd");
+                    } else {
+                        console.warn("AI_DEBUG: SVG burger lines y attributes not found. Falling back to simple rotation.");
+                        burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
+                    }
+                } else if (actualBurgerIcon) {
+                     console.warn("AI_DEBUG: Burger icon SVG or lines not fully found. Falling back to simple rotation.");
+                    burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
+                }
+
+                let fsMenuIsOpen = false;
+                gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
+                if (fsMenuItems.length > 0) {
+                    gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
+                }
+                 if (fsSubMenuItemsContainer) {
+                     gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                }
+
+                const openFullscreenMenu = () => { 
+                    if (fsMenuIsOpen) return;
+                    fsMenuIsOpen = true;
+                    
+                    fullscreenMenu.style.display = 'flex';
+                    burgerTimeline.play();
+                    customMenuToggler.classList.add('open');
+                    customMenuToggler.setAttribute('aria-expanded', 'true');
+
+                    const tlOpen = gsap.timeline();
+                    tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' });
+                    
+                    if (fsMenuItems.length > 0) {
+                       tlOpen.to(fsMenuItems, 
+                            { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, 
+                            "-=0.2"
+                        );
+                    }
+                    const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                    if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) {
+                        if (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto') {
+                             tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {
+                                autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out'
+                            }, "-=0.1");
+                        }
+                    }
+                };
+                const closeFullscreenMenu = () => {
+                    if (!fsMenuIsOpen) return;
+                    fsMenuIsOpen = false;
+
+                    burgerTimeline.reverse();
+                    customMenuToggler.classList.remove('open');
+                    customMenuToggler.setAttribute('aria-expanded', 'false');
+                    
+                    const tlClose = gsap.timeline({
+                        onComplete: () => {
+                            fullscreenMenu.style.display = 'none';
+                            if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
+                                gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); 
+                                gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0});
+                                const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                                if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');
+                           }
+                        }
+                    });
+
+                    if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
+                         tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {
+                            autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in'
+                        });
+                    }
+                    if (fsMenuItems.length > 0) {
+                        tlClose.to(fsMenuItems, { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, fsSubMenuItemsContainer ? "-=0.1" : 0);
+                    }
+                    tlClose.to(fullscreenMenu, { 
+                        autoAlpha: 0, 
+                        duration: 0.25, 
+                        ease: 'power1.in'
+                    }, fsMenuItems.length > 0 ? "-=0.1" : 0); 
+                };
+
+                customMenuToggler.addEventListener('click', () => { fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); });
+                
+                if (closeFullscreenMenuBtn) {
+                    closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
+                }
+                
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); });
+                
+                const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                
+                if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {
+                    gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 }); 
+                    gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+
+                    let subMenuFsIsOpen = false;
+                    sectionsDropdownCustomFs.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        subMenuFsIsOpen = !subMenuFsIsOpen;
+                        sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
+                        if (subMenuFsIsOpen) {
+                            gsap.timeline()
+                                .to(fsSubMenuItemsContainer, { 
+                                    height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem',
+                                    duration: 0.3, ease: 'power1.out' 
+                                })
+                                .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {
+                                    autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out'
+                                }, "-=0.2");
+                        } else {
+                            gsap.timeline()
+                                .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {
+                                    autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in'
+                                })
+                                .to(fsSubMenuItemsContainer, { 
+                                    height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0,
+                                    duration: 0.3, ease: 'power1.in' 
+                                }, "-=0.1");
+                        }
+                    });
+                    const fsSubMenuLinks = fsSubMenuItemsContainer ? gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
+                    fsSubMenuLinks.forEach(link => {
+                        link.addEventListener('mouseenter', () => {
+                            gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 });
+                        });
+                        link.addEventListener('mouseleave', () => {
+                            gsap.to(link, { color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), x: 0, duration: 0.2 });
+                        });
+                    });
+                }
+                const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
+                if (activeFsDropdownItem) {
+                    activeFsDropdownItem.style.color = '#0d6efd'; 
+                    activeFsDropdownItem.style.fontWeight = '500';
+                }
+            } else {
+                console.warn("AI_DEBUG: Custom menu toggler or fullscreen menu not found. Fullscreen menu functionality disabled for this page.");
+            }
+
+            // Анимация для секций контента
+            const contentSections = gsap.utils.toArray('.content-section');
+            contentSections.forEach((section, index) => {
+                gsap.to(section, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    delay: index * 0.1, 
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 85%",
+                        once: true
+                    }
+                });
+            });
+            
+            // --- Интерактив "Выбор проблемы и типа НКО" ---
+            const showNkoConceptBtn = document.getElementById('showNkoConceptBtn');
+            const nkoConceptResultDiv = document.getElementById('nkoConceptResult');
+            const copyConceptBtn = document.getElementById('copyConceptBtn');
+            const aiFeedbackContainer = document.getElementById('aiFeedbackContainer');
+            const aiFeedbackResultEl = document.getElementById('aiFeedbackResult');
+
+            if (nkoConceptResultDiv && aiFeedbackContainer) {
+                 gsap.set([nkoConceptResultDiv, aiFeedbackContainer], {autoAlpha: 0, display: 'none'}); // Initially hide
+            } else {
+                console.error("AI_DEBUG: ERROR - nkoConceptResultDiv or aiFeedbackContainer not found!");
+            }
+
+            if (showNkoConceptBtn) {
+                showNkoConceptBtn.addEventListener('click', async () => {
+                    console.log("AI_DEBUG: 'Получить концепцию' button clicked!");
+
+                    const problemInput = document.getElementById('humanRightsProblem');
+                    const nkoTypeSelect = document.getElementById('nkoTypeChoice');
+                    const justificationInput = document.getElementById('nkoJustification');
+
+                    if (!problemInput || !nkoTypeSelect || !justificationInput) {
+                        console.error("AI_DEBUG: ERROR - One or more input fields not found!");
+                        return;
+                    }
+
+                    const problem = problemInput.value;
+                    const nkoType = nkoTypeSelect.options[nkoTypeSelect.selectedIndex].text;
+                    const nkoTypeValue = nkoTypeSelect.value;
+                    const justification = justificationInput.value;
+
+                    const resultProblemEl = document.getElementById('resultProblem');
+                    const resultNkoTypeEl = document.getElementById('resultNkoType');
+                    const resultJustificationEl = document.getElementById('resultJustification');
+
+                    if (!resultProblemEl || !resultNkoTypeEl || !resultJustificationEl) {
+                        console.error("AI_DEBUG: ERROR - One or more result display spans not found!");
+                        return;
+                    }
+
+                    resultProblemEl.textContent = problem || 'Не указана';
+                    resultNkoTypeEl.textContent = nkoTypeValue === '' ? 'Не выбран' : nkoType;
+                    resultJustificationEl.textContent = justification || 'Не указано';
+                    
+                    if (nkoConceptResultDiv && aiFeedbackContainer) {
+                        gsap.timeline()
+                            .set(nkoConceptResultDiv, {display: 'block'}) 
+                            .to(nkoConceptResultDiv, {autoAlpha:1, y:0, duration:0.5, ease: 'power2.out'})
+                            .set(aiFeedbackContainer, {display: 'block'}) 
+                            .to(aiFeedbackContainer, {autoAlpha:1, y:0, duration:0.4, ease: 'power2.out'}, "-=0.2");
+                    }
+
+                    if (aiFeedbackResultEl) {
+                        aiFeedbackResultEl.innerHTML = '<em>🧠 Думаю над вашим проектом... Пожалуйста, подождите...</em>';
+                        gsap.fromTo(aiFeedbackResultEl, {opacity:0.5, y:5}, {opacity:1, y:0, duration:0.3});
+                    } else {
+                         console.error("AI_DEBUG: ERROR - aiFeedbackResultEl not found!");
+                         return;
+                    }
+
+                    try {
+                        console.log("AI_DEBUG: Attempting to fetch AI feedback...");
+                        const userPromptContent = `
+Проанализируй концепцию для НКО и дай содержательный и краткий комментарий.
+Проблема: ${problem || "не указана"}
+Тип НКО: ${nkoTypeValue === '' ? "не выбран" : nkoType}
+Обоснование: ${justification || "не указано"}
+
+Твои мысли:
+                        `;
+
+                        const response = await fetch('http://127.0.0.1:3355/v1/chat/completions', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                model: "qwen3-1.7b", // или "qwen2:1.5b-instruct-q4_0"
+                                messages: [
+                                    { role: "system", content: "Ты — дружелюбный ИИ-помощник для начинающих НКО. Твоя задача — дать содержательный и краткий комментарий на предложенную концепцию НКО. Подчеркни сильные стороны. Ответ должен быть на русском языке." },
+                                    { role: "user", content: userPromptContent }
+                                ],
+                                temperature: 0.7,
+                                max_tokens: 800, // Увеличено, чтобы дать модели больше пространства
+                                stream: false
+                            })
+                        });
+                        
+                        console.log("AI_DEBUG: Fetch response status:", response.status);
+
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            console.error("AI_DEBUG: Network error response text:", errorText);
+                            throw new Error(`Ошибка сети: ${response.status} ${response.statusText}. ${errorText}`);
+                        }
+
+                        const data = await response.json();
+                        console.log("AI_DEBUG: AI response data:", data);
+                        
+                        // ИЗМЕНЕНИЕ: const -> let
+                        let aiMessage = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content
+                                          ? data.choices[0].message.content.trim()
+                                          : "Не удалось получить содержательный ответ от ИИ. Ответ не содержит ожидаемых данных.";
+                        
+                        // Попытка очистить от <think> тегов, если они все еще есть
+                        if (aiMessage.toLowerCase().startsWith("<think>")) {
+                            console.log("AI_DEBUG: AI message starts with <think>. Attempting to clean.");
+                            // Удаляем все до первого осмысленного начала после <think> или до конца блока <think>
+                            const thinkEndIndex = aiMessage.toLowerCase().indexOf("</think>");
+                            if (thinkEndIndex !== -1) {
+                                aiMessage = aiMessage.substring(thinkEndIndex + "</think>".length).trim();
+                            } else {
+                                // Если нет закрывающего </think>, ищем первый перенос строки после <think>
+                                // и пытаемся взять текст после него, или просто обрезаем <think>
+                                const firstNewlineAfterThink = aiMessage.indexOf("\n", "<think>".length);
+                                if (firstNewlineAfterThink !== -1) {
+                                     aiMessage = aiMessage.substring(firstNewlineAfterThink).trim();
+                                } else {
+                                     aiMessage = aiMessage.replace(/^<think>\s*/i, "").trim();
+                                }
+                            }
+                            // Дополнительная проверка на пустую строку после очистки
+                            if (!aiMessage) {
+                                aiMessage = "ИИ задумался, но не смог сформулировать краткий ответ. Попробуйте уточнить запрос.";
+                            }
+                        }
+                        // ---- НОВЫЙ БЛОК: Простое преобразование Markdown в HTML ----
+                    let htmlMessage = aiMessage
+                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **жирный** -> <strong>жирный</strong>
+                            .replace(/\*(.*?)\*/g, '<em>$1</em>')       // *курсив* -> <em>курсив</em> (если одиночные звездочки используются для курсива)
+                                                                       // Если одиночные звездочки это только списки, эту строку можно убрать или изменить
+                            .replace(/^\s*\*\s+(.*)/gm, '<li>$1</li>');    // * элемент списка -> <li>элемент списка</li> (для начала строки)
+                        
+                        // Обернем группы <li> в <ul>, если они есть
+                        // Это немного грубо, но может сработать для простых случаев
+                    if (htmlMessage.includes('<li>')) {
+                            // Собираем все li подряд в один ul
+                            htmlMessage = htmlMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`);
+                            // Убираем лишние ul внутри ul, если вдруг так получилось
+                            htmlMessage = htmlMessage.replace(/<\/ul>\s*<ul>/g, '');
+                        }
+                        
+                        // Заменяем переносы строк на <br> для отображения абзацев
+                    htmlMessage = htmlMessage.replace(/\n/g, '<br>');
+                        // ---- КОНЕЦ НОВОГО БЛОКА ----
+
+                        gsap.to(aiFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                            // ИСПРАВЛЕНИЕ:
+                            aiFeedbackResultEl.innerHTML = htmlMessage; 
+                            gsap.to(aiFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
+                        }});
+
+                    } catch (error) {
+                        console.error('AI_DEBUG: Ошибка при обращении к API:', error);
+                        gsap.to(aiFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                            aiFeedbackResultEl.innerHTML = `😥 Не удалось связаться с ИИ-помощником. Попробуйте позже.<br><small>Детали ошибки: ${error.message}</small>`;
+                            gsap.to(aiFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
+                        }});
+                    }
+                });
+            } else {
+                console.error("AI_DEBUG: ERROR - showNkoConceptBtn not found!");
+            }
+
+            if(copyConceptBtn) {
+                copyConceptBtn.addEventListener('click', () => {
+                    const conceptText = `Проблема: ${document.getElementById('resultProblem').textContent}\nТип НКО: ${document.getElementById('resultNkoType').textContent}\nОбоснование: ${document.getElementById('resultJustification').textContent}`;
+                    navigator.clipboard.writeText(conceptText).then(() => {
+                        gsap.to(copyConceptBtn, {scale: 1.1, duration: 0.1, yoyo: true, repeat: 1, onComplete: () => {
+                            copyConceptBtn.textContent = 'Скопировано!';
+                            gsap.delayedCall(2, () => { copyConceptBtn.textContent = 'Копировать концепцию'; });
+                        }});
+                    }).catch(err => {
+                        console.error('AI_DEBUG: Ошибка копирования: ', err);
+                        alert('Не удалось скопировать текст. Пожалуйста, выделите и скопируйте вручную.');
+                    });
+                });
+            }
+
+            // --- Квиз по основам НКО ---
+            const quizContainer = document.getElementById('quizContainer');
+            const submitQuizBtn = document.getElementById('submitQuizBtn');
+            const quizResultTextDiv = document.getElementById('quizResultText');
+            const quizScoreEl = document.getElementById('quizScore');
+            const quizResultChartContainer = document.getElementById('quizResultChartContainer');
+            let quizResultChartInstance = null;
+
+            const quizQuestions = [
+                {
+                    question: "Какова основная цель деятельности НКО?",
+                    options: ["Извлечение прибыли", "Решение общественно значимых проблем", "Политическая борьба", "Обслуживание интересов учредителей"],
+                    correctAnswer: "Решение общественно значимых проблем"
+                },
+                {
+                    question: "Какая из перечисленных форм НЕ является типичной для НКО в России?",
+                    options: ["Общественная организация", "Фонд", "Акционерное общество", "Автономная некоммерческая организация"],
+                    correctAnswer: "Акционерное общество"
+                },
+                {
+                    question: "Что из перечисленного является ключевым направлением работы правозащитных НКО?",
+                    options: ["Организация коммерческих выставок", "Мониторинг и документирование нарушений прав", "Создание спортивных клубов", "Разработка компьютерных игр"],
+                    correctAnswer: "Мониторинг и документирование нарушений прав"
+                },
+                {
+                    question: "Сетевое взаимодействие (нетворкинг) для НКО способствует:",
+                    options: ["Увеличению конкуренции между организациями", "Обмену опытом и координации усилий", "Изоляции от внешнего мира", "Обязательному слиянию организаций"],
+                    correctAnswer: "Обмену опытом и координации усилий"
+                }
+            ];
+
+            function displayQuiz() {
+                if (!quizContainer) return;
+                let output = [];
+                quizQuestions.forEach((currentQuestion, questionNumber) => {
+                    let answers = [];
+                    currentQuestion.options.forEach(option => {
+                        answers.push(
+                            `<div class="form-check">
+                                <input class="form-check-input" type="radio" name="question${questionNumber}" id="q${questionNumber}option${option.replace(/\s+/g, '')}" value="${option}">
+                                <label class="form-check-label" for="q${questionNumber}option${option.replace(/\s+/g, '')}">
+                                    ${option}
+                                </label>
+                            </div>`
+                        );
+                    });
+                    output.push(
+                        `<div class="quiz-question mb-4 p-3 border rounded bg-white">
+                            <p class="fw-semibold">${questionNumber + 1}. ${currentQuestion.question}</p>
+                            ${answers.join('')}
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join('');
+                if(submitQuizBtn) submitQuizBtn.style.display = 'block';
+
+                const quizQuestionElements = gsap.utils.toArray('.quiz-question');
+                quizQuestionElements.forEach((q_el, index) => {
+                    gsap.to(q_el, {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.5,
+                        delay: index * 0.15, 
+                        scrollTrigger: {
+                            trigger: q_el,
+                            start: "top 90%",
+                            once: true
+                        }
+                    });
+                });
+            }
+
+            if (submitQuizBtn) {
+                submitQuizBtn.addEventListener('click', showResults);
+            }
+
+            function showResults() {
+                let score = 0;
+                quizQuestions.forEach((currentQuestion, questionNumber) => {
+                    const selector = `input[name="question${questionNumber}"]:checked`;
+                    const userAnswer = (quizContainer.querySelector(selector) || {}).value;
+                    if (userAnswer === currentQuestion.correctAnswer) {
+                        score++;
+                    }
+                });
+
+                const percentage = Math.round((score / quizQuestions.length) * 100);
+                if(quizScoreEl) quizScoreEl.textContent = `Ваш результат: ${score} из ${quizQuestions.length} (${percentage}%)`;
+                
+                gsap.set([quizResultTextDiv, quizResultChartContainer], {display: 'block'});
+                gsap.fromTo([quizResultTextDiv, quizResultChartContainer], 
+                    {opacity:0, y:20, scale:0.95}, 
+                    {opacity:1, y:0, scale:1, duration:0.6, ease: 'back.out(1.4)', stagger:0.2}
+                );
+
+                const ctx = document.getElementById('quizResultChart').getContext('2d');
+                if (quizResultChartInstance) {
+                    quizResultChartInstance.destroy(); 
+                }
+                quizResultChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Правильные ответы', 'Неправильные ответы'],
+                        datasets: [{
+                            label: 'Результат квиза',
+                            data: [score, quizQuestions.length - score],
+                            backgroundColor: [
+                                'rgba(25, 135, 84, 0.8)', 
+                                'rgba(220, 53, 69, 0.8)'  
+                            ],
+                            borderColor: [
+                                'rgba(25, 135, 84, 1)',
+                                'rgba(220, 53, 69, 1)'
+                            ],
+                            borderWidth: 1,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        },
+                        plugins: {
+                            legend: { position: 'top' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) { label += ': '; }
+                                        if (context.parsed !== null) { label += context.parsed; }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                if(submitQuizBtn) gsap.to(submitQuizBtn, {opacity:0, duration:0.3, onComplete: () => submitQuizBtn.style.display = 'none'});
+            }
+            
+            if (quizContainer) {
+                 displayQuiz();
+            }
+             console.log("AI_DEBUG: End of DOMContentLoaded script execution.");
+        });
+    </script>
+</body>
+</html>

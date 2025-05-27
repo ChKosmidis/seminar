@@ -1,0 +1,286 @@
+/* css/style.css */
+body {
+    padding-top: 56px; /* Отступ для fixed-top navbar */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden; 
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    background-color: #e9ecef; 
+    padding: 80px 0;
+    text-align: center;
+    min-height: 80vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* --- Начальные состояния для GSAP анимаций (общие) --- */
+.hero-title, .hero-subtitle, .hero-button,
+.section-title,
+.principle-card,
+.target-audience,
+.overview-card { 
+    opacity: 0;
+}
+
+.hero-title, .hero-subtitle, .hero-button,
+.section-title, 
+.principle-title, .principle-text, 
+.target-audience-title, .target-audience-text {
+    transform: translateY(20px);
+}
+
+.principle-card {
+    transform: translateY(30px);
+}
+
+.overview-card {
+    transform: scale(0.85) translateY(25px);
+}
+
+
+/* --- Секция "О семинаре" --- */
+#about-seminar .principle-icon {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    will-change: transform;
+}
+
+/* --- Секция "Обзор разделов" --- */
+#sections-overview .card {
+    transition: box-shadow 0.3s ease-in-out;
+    border: none; 
+    will-change: transform; 
+}
+#sections-overview .card:hover {
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+#sections-overview .card-title {
+    color: #333;
+}
+#sections-overview .btn-outline-primary {
+    border-width: 2px;
+}
+#sections-overview .overview-icon {
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Навигация / Шапка --- */
+.navbar-brand img {
+    height: 30px; 
+    margin-right: 0.5rem;
+}
+
+/* Кастомное выпадающее меню для "Разделы" (для десктопа, если не полноэкранное) */
+.nav-item.custom-dropdown {
+    position: relative;
+}
+
+.custom-dropdown .dropdown-menu-custom {
+    display: none; 
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    background-color: #f8f9fa;
+    min-width: 160px; 
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    z-index: 1021; /* Выше чем .fixed-top (1020 по умолчанию) */
+    border-radius: .25rem;
+    padding: .5rem 0;
+    list-style: none;
+    margin-top: .125rem; 
+    opacity: 0; 
+    transform: translateY(10px); 
+    will-change: opacity, transform;
+    overflow: hidden; /* Исправление для выезда плитки */
+}
+
+.custom-dropdown .dropdown-menu-custom li a.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: .35rem 1rem; 
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.custom-dropdown .dropdown-menu-custom li a.dropdown-item:hover {
+    color: #1e2125;
+    background-color: #e9ecef;
+}
+.custom-dropdown .dropdown-menu-custom li a.dropdown-item:active {
+    color: #fff;
+    background-color: #0d6efd;
+}
+
+.dropdown-toggle-custom::after { /* Стрелочка для кастомного dropdown */
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
+
+/* --- Стили для кастомного меню-бургера и полноэкранного меню --- */
+.navbar-custom-toggler {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    /* display: none; Управляется классами d-lg-block d-none в HTML или JS */
+    z-index: 1050; /* Выше чем navbar, но ниже чем fullscreen-menu если оно открыто */
+    position: relative; /* Для z-index */
+}
+
+.navbar-custom-toggler svg {
+    width: 28px; /* Уменьшил для более аккуратного вида */
+    height: 28px;
+    fill: var(--bs-navbar-color, #000); /* Цвет из Bootstrap или дефолтный */
+    transition: fill 0.2s ease-in-out;
+}
+.navbar-custom-toggler:hover svg {
+    fill: var(--bs-navbar-active-color, #000);
+}
+/* Анимация линий бургера (предполагается инлайн SVG с классами .line) */
+.navbar-custom-toggler svg .line {
+    transition: none;
+    transform-origin: center;
+    fill: currentColor; /* Чтобы цвет наследовался от родительского SVG */
+}
+
+
+/* Стили для полноэкранного меню */
+.fullscreen-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(250, 250, 250, 0.99); /* Почти непрозрачный светлый фон */
+    z-index: 1040; /* Ниже navbar-custom-toggler, если он активен, но выше контента */
+    display: none; /* Управляется JS через autoAlpha или display */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    /* transition убран, GSAP будет управлять */
+}
+/* .fullscreen-menu.open - управляется GSAP */
+
+.fullscreen-menu ul.navbar-nav-fullscreen {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+.fullscreen-menu ul.navbar-nav-fullscreen > li.fs-menu-item { /* Только для прямых потомков */
+    margin: 1.2rem 0; /* Уменьшил отступ */
+}
+.fullscreen-menu ul.navbar-nav-fullscreen > li.fs-menu-item > a.nav-link { /* Только для прямых ссылок */
+    font-size: 1.6rem; /* Уменьшил немного */
+    color: #343a40;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    opacity: 0; 
+    transform: translateY(20px); 
+}
+.fullscreen-menu .custom-dropdown .dropdown-menu-custom { 
+    position: static; 
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    opacity: 1; 
+    transform: none;
+    padding-left: 0; 
+    margin-top: 0.5rem; /* Отступ от "Разделы" */
+    display: block; /* Должно быть видимо, если родитель .custom-dropdown показан */
+    height: 0; /* Начальная высота для GSAP анимации */
+    overflow: hidden; /* Для анимации высоты */
+    autoAlpha: 0; /* Начальная прозрачность для GSAP */
+}
+ .fullscreen-menu .custom-dropdown .dropdown-menu-custom li a.dropdown-item {
+    font-size: 1.1rem; 
+    font-weight: 400;
+    color: #495057;
+    padding: 0.4rem 1rem;
+}
+.fullscreen-menu .custom-dropdown .dropdown-menu-custom li a.dropdown-item:hover {
+    color: #0d6efd;
+    background-color: transparent;
+}
+
+.fullscreen-menu .close-menu-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background: none;
+    border: none;
+    font-size: 2.2rem;
+    color: #343a40;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+}
+.fullscreen-menu .close-menu-btn:hover {
+    color: #0d6efd;
+}
+
+/* --- Стили для анимации карточки при переходе (Flip) --- */
+.page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.65); /* Чуть темнее */
+    z-index: 1999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* По умолчанию не перехватывает события */
+}
+.card-transition-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000; 
+    pointer-events: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Начально скрыт, управляется JS */
+    visibility: hidden; /* Начально скрыт */
+}
+.card-transition-wrapper .card { /* Стили для карточки, когда она в этом wrapper'е */
+    opacity: 1; /* Управляется GSAP, но на всякий случай */
+    /* Размеры будут управляться GSAP, но можно задать max-width/height */
+    max-width: min(600px, 90vw); 
+    max-height: 80vh;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.3);
+    /* transform не задаем здесь, Flip сделает это */
+}
+
+
+/* --- Подвал --- */
+footer.bg-dark {
+  background-color: #212529 !important; 
+}

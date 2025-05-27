@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. Построение Сообщества - Семинар НКО</title>
+
+    <!-- Bootstrap CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        body { padding-top: 70px; /* Учитываем новую шапку */ overflow-x: hidden; }
+        .page-header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: .3rem;
+            text-align: center;
+        }
+        .page-header-section img.header-icon { 
+            width: 80px; height: 80px; margin-bottom: 1rem; filter: brightness(0) invert(1);
+        }
+
+        .content-section { 
+            margin-bottom: 3rem; 
+            opacity: 0; 
+            transform: translateY(40px);
+            min-height: 150px; 
+        }
+        .content-section h3 { 
+            margin-bottom: 1.5rem; display: flex; align-items: center; 
+            font-weight: 600; color: #343a40;
+        }
+        .content-section h3 img.section-icon { 
+            width: 36px; height: 36px; margin-right: 0.8rem; opacity: 0.8;
+        }
+        .content-section p, .content-section li { line-height: 1.7; color: #495057; }
+
+        /* Секция 1.1: Зачем НКО сообщество? */
+        #s1-1 .benefit-card {
+            opacity: 0;
+            transform: scale(0.85) translateY(20px);
+            cursor: pointer;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+        #s1-1 .benefit-card:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+        }
+        #benefitDetailModal .modal-title img { margin-right: 10px; }
+
+        /* Секция 1.2: Лестница Вовлечения */
+        #ladderOfEngagement { padding: 2rem; background-color: #f8f9fa; border-radius: .5rem; min-height: 300px; }
+        .ladder-step {
+            background-color: white; padding: 1rem 1.5rem; margin-bottom: 1rem;
+            border-radius: .3rem; border: 1px solid #e9ecef; cursor: pointer;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s, color 0.2s;
+            opacity: 0; transform: translateX(-30px); 
+        }
+        .ladder-step:hover {
+            transform: translateY(-5px) scale(1.02); 
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+        }
+        .ladder-step.active {
+            background-color: var(--bs-primary); color: white; border-color: var(--bs-primary);
+        }
+        .ladder-step.active h5, .ladder-step.active p, .ladder-step.active .step-icon { color: white !important; fill: white !important; }
+        .ladder-step h5 { margin-bottom: 0.5rem; font-weight: 500; display: flex; align-items: center;}
+        .step-icon { width: 24px; height: 24px; margin-right: 0.5rem; opacity: 0.7; }
+        #ladderInfoPanel {
+            margin-top: 1.5rem; padding: 1.5rem; background-color: white; border-radius: .3rem;
+            border: 1px solid #dee2e6; min-height: 150px;
+            opacity: 0; transform: scale(0.9); 
+        }
+        #ladderInfoPanel h4 { color: var(--bs-primary); }
+        #ladderInfoPanel ul { padding-left: 1.2rem; }
+
+        /* Секция Сторителлинг */
+        .story-card-wrapper .story-card { 
+            background-color: #fff; border-radius: .5rem;
+            box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.07);
+            padding: 1.5rem; margin-bottom: 1.5rem;
+            opacity: 0; 
+            transform: scale(0.9) translateY(20px); 
+        }
+        .story-card img.story-icon { width: 40px; height: 40px; margin-right: 1rem; float: left;}
+        .story-card h5 { color: #007bff; }
+        .story-card p.small { color: #495057; }
+        .example-story { 
+            background-color: #f8f9fa; 
+            padding:1rem; 
+            border-left: 4px solid #0d6efd; 
+            margin-top:1rem; 
+            border-radius: .25rem;
+            font-style: italic;
+        }
+
+        /* Секция 1.3: Инструменты */
+        .tool-item { 
+            cursor: pointer; transition: background-color 0.3s; 
+            opacity: 0; transform: translateY(20px); 
+        }
+        .tool-item:hover { background-color: #e9ecef; }
+        #toolDescription { 
+            margin-top: 1rem; padding: 1rem; border: 1px dashed #ced4da; 
+            border-radius: .3rem; min-height: 80px; font-style: italic;
+            opacity: 0; transform: translateY(10px); 
+        }
+        #userToolInputContainer { margin-top: 1.5rem; }
+        #aiToolFeedbackContainer { opacity: 0; transform: translateY(15px); }
+        #aiToolFeedbackResult { white-space: pre-wrap; }
+
+        /* Секция 1.4 Кейсы */
+        .case-study-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .case-study-card h5 { color: var(--bs-primary); margin-bottom: 0.75rem;}
+        .case-study-card .badge { margin-right: 5px; font-size: 0.8em; }
+        .case-study-card p { font-size: 0.95rem; line-height: 1.6; }
+        .case-study-card a { font-weight: 500; }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.html">
+                    <img src="../assets/images/logo.svg" alt="Лого НКО"> 
+                    Семинар НКО
+                </a>
+                <button class="navbar-custom-toggler ms-auto" aria-label="Открыть меню" id="customMenuToggler" aria-expanded="false">
+                    <svg viewBox="0 0 100 80" width="30" height="30" id="actualBurgerIcon" fill="currentColor">
+                        <rect class="line line1" x="0" y="10" width="100" height="10" rx="5"></rect>
+                        <rect class="line line2" x="0" y="35" width="100" height="10" rx="5"></rect>
+                        <rect class="line line3" x="0" y="60" width="100" height="10" rx="5"></rect>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Полноэкранное меню (управляется JS) -->
+    <div class="fullscreen-menu" id="fullscreenMenu">
+        <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
+        <ul class="navbar-nav-fullscreen">
+            <li class="nav-item fs-menu-item">
+                <a class="nav-link" href="../index.html">Главная</a>
+            </li>
+            <li class="nav-item fs-menu-item custom-dropdown">
+                <a class="nav-link dropdown-toggle-custom active" aria-current="page" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">
+                    Разделы
+                </a>
+                <ul class="dropdown-menu-custom">
+                    <li><a class="dropdown-item" href="0_introduction.html">0. Введение</a></li>
+                    <li><a class="dropdown-item active" href="1_community_building.html">1. Сообщество</a></li>
+                    <li><a class="dropdown-item" href="2_internal_communications.html">2. Коммуникации</a></li>
+                    <li><a class="dropdown-item" href="3_infrastructure.html">3. Инфраструктура</a></li>
+                    <li><a class="dropdown-item" href="4_legal_and_security.html">4. Безопасность</a></li>
+                    <li><a class="dropdown-item" href="5_effectiveness_and_development.html">5. Эффективность</a></li>
+                    <li><a class="dropdown-item" href="6_crisis_management.html">6. Антикризис</a></li>
+                    <li><a class="dropdown-item" href="7_cases_and_practice.html">7. Практика</a></li>
+                </ul>
+            </li>
+            <li class="nav-item fs-menu-item">
+                <a class="nav-link" href="useful_resources.html">Полезные ресурсы</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <main>
+        <div class="page-header-section">
+            <img src="../assets/icons/community.svg" alt="Сообщество" class="header-icon">
+            <h1 class="display-5 fw-bold">Раздел 1: Построение Сообщества (Community Building)</h1>
+            <p class="lead">Сообщество как источник поддержки, ресурсов, легитимности и со-творчества для вашей НКО.</p>
+        </div>
+
+        <div class="container py-4">
+            <!-- 1.1. Зачем НКО сообщество? -->
+            <section class="content-section" id="s1-1">
+                 <h3>
+                    <img src="../assets/icons/interactivity.svg" alt="Зачем" class="section-icon">
+                    1.1. Зачем НКО сообщество? <small class="text-muted fs-6 ms-2">(Нажмите на карточку для деталей)</small>
+                </h3>
+                <p>Сильное и вовлеченное сообщество — это не просто аудитория, а активный партнер вашей НКО. Оно предоставляет:</p>
+                <div class="row">
+                    <div class="col-md-4 mb-3 benefit-card-wrapper">
+                        <div class="p-3 border rounded bg-white h-100 benefit-card shadow-sm" data-bs-toggle="modal" data-bs-target="#benefitDetailModal" data-benefit-title="Поддержка и Ресурсы" data-benefit-details="Волонтеры вкладывают свое время и навыки. Донаторы предоставляют финансовую поддержку. Эксперты могут консультировать по специфическим вопросам. Активные члены сообщества помогают распространять информацию о вашей деятельности, увеличивая охват.">
+                            <h5 class="fw-semibold text-primary">Поддержка и Ресурсы</h5>
+                            <p class="small">Волонтеры, пожертвования, экспертная помощь, распространение информации.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 benefit-card-wrapper">
+                        <div class="p-3 border rounded bg-white h-100 benefit-card shadow-sm" data-bs-toggle="modal" data-bs-target="#benefitDetailModal" data-benefit-title="Легитимность и Доверие" data-benefit-details="Когда большое количество людей поддерживает вашу организацию, это демонстрирует общественную значимость вашей миссии. Это повышает доверие как со стороны потенциальных бенефициаров, так и со стороны партнеров, грантодателей и органов власти.">
+                            <h5 class="fw-semibold text-success">Легитимность и Доверие</h5>
+                            <p class="small">Широкая поддержка демонстрирует значимость вашей миссии.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 benefit-card-wrapper">
+                         <div class="p-3 border rounded bg-white h-100 benefit-card shadow-sm" data-bs-toggle="modal" data-bs-target="#benefitDetailModal" data-benefit-title="Со-творчество и Устойчивость" data-benefit-details="Члены сообщества могут генерировать новые идеи для проектов и активностей. Они предоставляют ценную обратную связь о вашей работе. Широкая база поддержки (включая мелкие, но регулярные пожертвования) снижает зависимость от крупных доноров и делает НКО более устойчивой.">
+                            <h5 class="fw-semibold text-info">Со-творчество и Устойчивость</h5>
+                            <p class="small">Идеи, обратная связь, снижение зависимости от крупных доноров.</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3">Специфика вашей НКО (прямого действия или нетворкинг) напрямую влияет на стратегию построения сообщества. НКО прямого действия часто строят сообщество вокруг конкретных бенефициаров и волонтеров. Нетворкинг-НКО объединяют другие организации, экспертов и активистов.</p>
+            </section>
+
+            <!-- Модальное окно для деталей преимуществ -->
+            <div class="modal fade" id="benefitDetailModal" tabindex="-1" aria-labelledby="benefitDetailModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="benefitDetailModalLabel"><img src="../assets/icons/interactivity.svg" alt="" width="24" height="24"> <span>Заголовок</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" id="benefitDetailModalBody">
+                    Детали...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- 1.2. Как вовлекать людей? (Лестница Вовлечения) -->
+            <section class="content-section" id="s1-2">
+                <h3>
+                    <img src="../assets/icons/practical.svg" alt="Стратегии" class="section-icon"> 
+                    1.2. Как вовлекать людей? Стратегии и Тактики
+                </h3>
+                <p>Ключевой инструмент для постепенного вовлечения – "Лестница Вовлечения". Она помогает понять, как люди проходят путь от первого знакомства с вашей НКО до глубокой вовлеченности и лидерства. На каждом этапе нужны свои подходы и коммуникации.</p>
+                
+                <div id="ladderOfEngagement">
+                    <h4 class="text-center mb-4">Интерактивная Лестница Вовлечения</h4>
+                    <p class="text-center text-muted small mb-4">Кликните на ступень, чтобы узнать больше о ней и какие действия можно предложить людям на этом этапе.</p>
+                    <div class="row">
+                        <div class="col-md-5" id="ladderStepsContainerWrapper">
+                            <div id="ladderStepsContainer">
+                                <!-- Ступени будут добавлены JS -->
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div id="ladderInfoPanel">
+                                <h4 id="ladderInfoTitle">Выберите ступень</h4>
+                                <p id="ladderInfoDescription">Здесь появится описание выбранной ступени и примеры действий.</p>
+                                <div id="ladderInfoActions" class="mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="mt-5 story-telling-title">Сторителлинг как основа вовлечения</h4>
+                <p class="story-telling-text">Истории – мощный инструмент для формирования эмпатии, понимания проблемы и мотивации к действию. Хорошая история делает абстрактные проблемы человечными и близкими.</p>
+                <div class="row mt-3">
+                    <div class="col-md-6 story-card-wrapper">
+                        <div class="story-card">
+                            <img src="../assets/icons/rights.svg" alt="История пострадавшего" class="story-icon">
+                            <h5 class="fw-semibold">Истории бенефициаров/пострадавших</h5>
+                            <p class="small">Рассказы людей, чьи права были нарушены, и как НКО (или могла бы) им помочь. Фокус на личном опыте, вызовах и надеждах. Важно соблюдать этику и получать согласие.</p>
+                            <div class="example-story">
+                                <p><em>"Меня зовут Анна. После незаконного увольнения я осталась без средств к существованию. Юристы НКО 'Защита Труда' помогли мне составить иск и добились восстановления на работе. Теперь я знаю, что не одна."</em></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 story-card-wrapper">
+                         <div class="story-card">
+                            <img src="../assets/icons/efficiency.svg" alt="История успеха" class="story-icon">
+                            <h5 class="fw-semibold">Истории успеха и изменений</h5>
+                            <p class="small">Примеры, когда благодаря действиям НКО и сообщества удалось добиться позитивных системных изменений или решить конкретную проблему. Показывает эффективность и вдохновляет.</p>
+                             <div class="example-story">
+                                <p><em>"Благодаря кампании #ЧистыйВоздухГороду, инициированной нашей НКО и поддержанной тысячами горожан, местные власти наконец установили фильтры на заводе. Это наша общая победа!"</em></p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-6 story-card-wrapper">
+                         <div class="story-card">
+                            <img src="../assets/icons/community.svg" alt="История волонтера" class="story-icon">
+                            <h5 class="fw-semibold">Истории волонтеров и доноров</h5>
+                            <p class="small">Рассказы о том, что мотивирует людей помогать вашей НКО, какой опыт они получают. Это помогает привлечь новых сторонников, показывая ценность их вклада.</p>
+                              <div class="example-story">
+                                <p><em>"Я начал волонтерить в 'Лучике Надежды', потому что хотел делать что-то значимое. Каждая улыбка ребенка, которому мы помогли, дает невероятный заряд энергии. И я нашел здесь настоящих друзей!"</em></p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-6 story-card-wrapper">
+                         <div class="story-card">
+                            <img src="../assets/icons/introngo.svg" alt="История НКО" class="story-icon">
+                            <h5 class="fw-semibold">История самой НКО</h5>
+                            <p class="small">Как и почему была создана ваша организация? Какие трудности преодолела? Какие ценности лежат в ее основе? Это формирует идентичность и доверие.</p>
+                             <div class="example-story">
+                                <p><em>"Все началось с небольшой группы энтузиастов в 2015 году, обеспокоенных состоянием местной реки. Сегодня 'Чистые Берега' – это движение, объединяющее сотни людей, и мы уже очистили 5 км береговой линии!"</em></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3"><strong>Ключевые элементы хорошей истории:</strong> герой (человек, группа, НКО), проблема/конфликт, путь к решению/изменению, конкретные детали, эмоциональный отклик, призыв к действию (явный или неявный).</p>
+            </section>
+
+            <!-- 1.3. Инструменты -->
+            <section class="content-section" id="s1-3">
+                 <h3>
+                    <img src="../assets/icons/low_budget.svg" alt="Инструменты" class="section-icon">
+                    1.3. Инструменты для работы с сообществом
+                </h3>
+                <p>Выбор инструментов зависит от вашей целевой аудитории и ресурсов. Вот некоторые популярные и часто малобюджетные варианты:</p>
+                <div class="list-group mb-3" id="communityTools">
+                    <button type="button" class="list-group-item list-group-item-action tool-item" data-description="VK, Telegram-каналы и чаты, Facebook*, Instagram*, Одноклассники (зависит от ЦА). Важно: регулярный качественный контент, вовлекающие посты, модерация, ответы на комментарии. Плюсы: широкий охват, прямой диалог. Минусы: требуют времени, алгоритмы соцсетей.">Социальные сети и Мессенджеры</button>
+                    <button type="button" class="list-group-item list-group-item-action tool-item" data-description="SendPulse (бесплатный тариф до 500 подписчиков), Mailchimp (ограниченный бесплатный тариф). Для информирования о новостях, событиях, призывах к действию, отчетах, сбора пожертвований. Плюсы: персонализация, сегментация. Минусы: нужно собирать базу, риск попадания в спам.">Email-рассылки</button>
+                    <button type="button" class="list-group-item list-group-item-action tool-item" data-description="Google Forms, Яндекс.Формы, Typeform (ограниченный бесплатный). Для опросов мнений, регистрации на мероприятия, сбора обратной связи, волонтерских анкет. Плюсы: простота, структурированный сбор данных. Минусы: могут быть проигнорированы, если нет мотивации.">Онлайн-формы и Опросы</button>
+                    <button type="button" class="list-group-item list-group-item-action tool-item" data-description="Bitrix24 (есть бесплатный тариф для НКО), Airtable (гибкая база данных, бесплатный тариф), Trello/Notion (для управления проектами и задачами, могут использоваться для учета контактов). Для учета волонтеров, доноров, участников мероприятий, истории взаимодействий. Плюсы: систематизация, улучшение коммуникаций. Минусы: требуют внедрения и обучения.">CRM-системы (базовые) и Управление контактами</button>
+                     <button type="button" class="list-group-item list-group-item-action tool-item" data-description="Jitsi Meet (бесплатно, опенсорс), Zoom (ограниченный бесплатный тариф на 40 минут), Google Meet. Для онлайн-встреч, вебинаров, консультаций, групповых обсуждений. Плюсы: доступность, интерактивность. Минусы: технические сложности у некоторых пользователей, 'Zoom-усталость'.">Платформы для онлайн-мероприятий</button>
+                     <button type="button" class="list-group-item list-group-item-action tool-item" data-description="Собственный сайт (Tilda, WordPress с бесплатными темами) или страница на агрегаторе (например, ВПомощи). Для представления организации, публикации новостей, отчетов, сбора пожертвований. Плюсы: центральный источник информации, формирование имиджа. Минусы: требует создания и поддержки.">Сайт или Лендинг</button>
+                </div>
+                <div id="toolDescription" class="text-muted">Выберите инструмент, чтобы увидеть его описание, плюсы и минусы.</div>
+
+                <div id="userToolInputContainer" class="mt-4 p-3 border rounded bg-light">
+                    <h5 class="mb-3">А какие инструменты используете или планируете использовать вы?</h5>
+                    <div class="mb-3">
+                        <label for="userToolName" class="form-label">Название инструмента:</label>
+                        <input type="text" class="form-control" id="userToolName" placeholder="Например, Discord-сервер">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userToolPurpose" class="form-label">Для каких целей в работе с сообществом?</label>
+                        <textarea class="form-control" id="userToolPurpose" rows="3" placeholder="Например, для неформального общения, координации волонтеров, проведения тематических обсуждений"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="getAiToolAdviceBtn">Получить совет ИИ по инструменту</button>
+                </div>
+                <div id="aiToolFeedbackContainer" class="mt-3" style="display: none;">
+                    <h5 class="text-primary">Комментарий от ИИ-помощника по вашему инструменту:</h5>
+                    <div id="aiToolFeedbackResult" class="p-3 border rounded bg-light-subtle text-muted">
+                        <em>Нажмите кнопку выше, чтобы получить совет...</em>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- 1.4. Кейсы -->
+            <section class="content-section" id="s1-4">
+                <h3>
+                    <img src="../assets/icons/cases.svg" alt="Кейсы" class="section-icon">
+                    1.4. Кейсы успешных правозащитных НКО (фокус на комьюнити и устойчивость)
+                </h3>
+                <p>Анализ успешных примеров комьюнити-билдинга помогает найти вдохновение и практические идеи. Особенно важен опыт организаций, столкнувшихся с давлением и сумевших сохранить свою работу благодаря поддержке сообщества.</p>
+                
+                <div class="case-study-card" id="case-kpp">
+                    <h5>Команда против пыток (ранее "Комитет против пыток")*</h5>
+                    <p><span class="badge bg-primary">Россия</span> <span class="badge bg-warning text-dark">Давление/Релокация части команды</span> <span class="badge bg-success">Сохранение деятельности</span></p>
+                    <p><strong>Суть деятельности:</strong> Расследование заявлений о пытках, оказание юридической и медицинской помощи пострадавшим, общественный контроль за местами принудительного содержания.</p>
+                    <p><strong>Комьюнити-билдинг и устойчивость:</strong>
+                        <ul>
+                            <li><strong>Публичность и открытость:</strong> Активное освещение своей деятельности в СМИ и соцсетях, публикация отчетов и конкретных дел. Это формирует общественный запрос на их работу и доверие.</li>
+                            <li><strong>Вовлечение юристов и экспертов:</strong> Создание сети сотрудничающих юристов в регионах, привлечение независимых экспертов для экспертиз.</li>
+                            <li><strong>Краудфандинг и частные пожертвования:</strong> После признания "иностранным агентом" и усиления давления, организация сделала ставку на поддержку со стороны российских граждан. Регулярные кампании по сбору средств, прозрачная отчетность о расходовании.</li>
+                            <li><strong>Поддержка пострадавших и их семей:</strong> Сообщество формируется не только из юристов и активистов, но и из тех, кому помогла организация, и их близких.</li>
+                            <li><strong>Международная поддержка и солидарность:</strong> Привлечение внимания международных правозащитных организаций и журналистов к своей работе и случаям давления.</li>
+                            <li><strong>Адаптивность:</strong> После вынужденной ликвидации юридического лица "Комитет против пыток" из-за законодательства об "иноагентах", команда продолжила работу как незарегистрированное объединение "Команда против пыток", сохранив экспертизу и общественную поддержку. Часть команды была вынуждена релоцироваться, но продолжает координировать работу.</li>
+                        </ul>
+                    </p>
+                    <p><a href="https://pytkam.net/" target="_blank" rel="noopener noreferrer">Сайт "Команды против пыток"</a></p>
+                    <p class="text-muted small">*Организация была внесена Минюстом РФ в реестр НКО, выполняющих функции иностранного агента, и впоследствии ликвидирована. "Команда против пыток" - незарегистрированное общественное объединение.</p>
+                </div>
+
+                 <div class="case-study-card" id="case-ovdinfo">
+                    <h5>ОВД-Инфо*</h5>
+                    <p><span class="badge bg-primary">Россия</span> <span class="badge bg-warning text-dark">Давление/Блокировки</span> <span class="badge bg-success">Сохранение деятельности</span></p>
+                    <p><strong>Суть деятельности:</strong> Мониторинг политически мотивированных преследований и задержаний на публичных акциях, оказание юридической помощи задержанным, информационно-просветительская работа.</p>
+                    <p><strong>Комьюнити-билдинг и устойчивость:</strong>
+                        <ul>
+                            <li><strong>Горячая линия и боты помощи:</strong> Создание легкодоступных каналов для получения оперативной юридической помощи (телефон, Telegram-боты). Это формирует ядро сообщества из тех, кто непосредственно пользуется их услугами.</li>
+                            <li><strong>Волонтерская сеть:</strong> Привлечение волонтеров для мониторинга судов, помощи в ОВД, сбора информации.</li>
+                            <li><strong>Краудфандинг:</strong> Одна из основных опор финансовой устойчивости. Регулярные призывы к поддержке, понятные объяснения, на что идут средства.</li>
+                            <li><strong>Информационная работа:</strong> Оперативное информирование о задержаниях и нарушениях прав через сайт, соцсети, Telegram-канал с огромной аудиторией. Создание уникального и востребованного контента.</li>
+                            <li><strong>Образовательные проекты:</strong> Вебинары, инструкции, правовые гиды для граждан, повышающие правовую грамотность и вовлекающие людей в самозащиту.</li>
+                            <li><strong>Технологическая адаптивность:</strong> Быстрое реагирование на блокировки сайта путем создания зеркал, использования VPN, развития каналов в мессенджерах.</li>
+                             <li><strong>Сообщество доноров:</strong> Формирование лояльного сообщества регулярных подписчиков-доноров, которые обеспечивают предсказуемость поступлений.</li>
+                        </ul>
+                    </p>
+                    <p><a href="https://ovd.info/" target="_blank" rel="noopener noreferrer">Сайт ОВД-Инфо</a> (может быть заблокирован в РФ)</p>
+                    <p class="text-muted small">*Проект внесен Минюстом РФ в реестр незарегистрированных общественных объединений, выполняющих функции иностранного агента. Сайт проекта заблокирован в РФ.</p>
+                </div>
+                <div class="alert alert-info mt-4" role="alert">
+                  <img src="../assets/icons/communication.svg" alt="idea" width="24" height="24" style="margin-right: 8px;">
+                  Обратите внимание: опыт этих организаций показывает важность диверсификации источников финансирования, сильной информационной работы, создания сети поддержки и гибкости в условиях меняющейся среды.
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="py-4 bg-dark text-white-50 mt-5">
+        <div class="container text-center">
+            <small>Материалы семинара © 2024.</small> <br>
+            <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+            <div class="mt-4">
+                <button class="btn btn-success" id="exportSectionResultsBtn">Выгрузить результаты раздела</button>
+            </div>
+        </div>
+    </footer>
+    <script src="../assets/fonts/Qanelas-Regular.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <!-- GSAP core and ScrollTrigger (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <!-- Пользовательские скрипты -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Логика для полноэкранного меню ---
+        const customMenuToggler = document.getElementById('customMenuToggler');
+        const fullscreenMenu = document.getElementById('fullscreenMenu');
+        const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
+        
+        if (customMenuToggler && fullscreenMenu) {
+            const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
+            const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
+            const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
+            const actualBurgerIcon = customMenuToggler.querySelector('svg');
+            const burgerLine1 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line1') : null;
+            const burgerLine2 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line2') : null;
+            const burgerLine3 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line3') : null;
+            let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
+
+            if (burgerLine1 && burgerLine2 && burgerLine3) {
+                const line1YInitial = parseFloat(burgerLine1.getAttribute('y'));
+                const line2YInitial = parseFloat(burgerLine2.getAttribute('y'));
+                const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
+                if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) {
+                    burgerTimeline
+                        .to(burgerLine1, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
+                        .to(burgerLine3, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
+                        .to(burgerLine2, { duration: 0.2, scaleX: 0, transformOrigin: "50% 50%", ease: "power2.in" }, "cross") 
+                        .to(burgerLine1, { duration: 0.25, rotation: 45,  transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd")
+                        .to(burgerLine3, { duration: 0.25, rotation: -45, transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd");
+                } else { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
+            } else if (actualBurgerIcon) { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
+
+            let fsMenuIsOpen = false;
+            gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
+            if (fsMenuItems.length > 0) gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
+            if (fsSubMenuItemsContainer) gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+
+            const openFullscreenMenu = () => { 
+                if (fsMenuIsOpen) return;
+                fsMenuIsOpen = true;
+                fullscreenMenu.style.display = 'flex';
+                burgerTimeline.play();
+                customMenuToggler.classList.add('open');
+                customMenuToggler.setAttribute('aria-expanded', 'true');
+                const tlOpen = gsap.timeline();
+                tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' });
+                if (fsMenuItems.length > 0) tlOpen.to(fsMenuItems, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, "-=0.2");
+                const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) {
+                    if (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto') {
+                         tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out' }, "-=0.1");
+                    }
+                }
+            };
+            const closeFullscreenMenu = () => {
+                if (!fsMenuIsOpen) return;
+                fsMenuIsOpen = false;
+                burgerTimeline.reverse();
+                customMenuToggler.classList.remove('open');
+                customMenuToggler.setAttribute('aria-expanded', 'false');
+                const tlClose = gsap.timeline({
+                    onComplete: () => {
+                        fullscreenMenu.style.display = 'none';
+                        if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
+                            gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); 
+                            gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0});
+                            const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                            if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');
+                       }
+                    }
+                });
+                if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
+                     tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in' });
+                }
+                if (fsMenuItems.length > 0) tlClose.to(fsMenuItems, { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, fsSubMenuItemsContainer ? "-=0.1" : 0);
+                tlClose.to(fullscreenMenu, { autoAlpha: 0, duration: 0.25, ease: 'power1.in' }, fsMenuItems.length > 0 ? "-=0.1" : 0); 
+            };
+
+            customMenuToggler.addEventListener('click', () => { fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); });
+            if (closeFullscreenMenuBtn) closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); });
+            
+            const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+            if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {
+                gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 }); 
+                gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                let subMenuFsIsOpen = false;
+                sectionsDropdownCustomFs.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    subMenuFsIsOpen = !subMenuFsIsOpen;
+                    sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
+                    if (subMenuFsIsOpen) {
+                        gsap.timeline().to(fsSubMenuItemsContainer, { height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', duration: 0.3, ease: 'power1.out' }).to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out' }, "-=0.2");
+                    } else {
+                        gsap.timeline().to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in' }).to(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, duration: 0.3, ease: 'power1.in' }, "-=0.1");
+                    }
+                });
+                const fsSubMenuLinks = fsSubMenuItemsContainer ? gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
+                fsSubMenuLinks.forEach(link => {
+                    link.addEventListener('mouseenter', () => gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 }));
+                    link.addEventListener('mouseleave', () => gsap.to(link, { color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), x: 0, duration: 0.2 }));
+                });
+            }
+            const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
+            if (activeFsDropdownItem) { activeFsDropdownItem.style.color = '#0d6efd'; activeFsDropdownItem.style.fontWeight = '500';}
+        }
+
+        // --- ОБЩИЕ АНИМАЦИИ СТРАНИЦЫ ---
+        gsap.from(".page-header-section h1", {duration: 0.8, y: -50, opacity: 0, ease: "power2.out", delay: 0.2});
+        gsap.from(".page-header-section p.lead", {duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4});
+        gsap.from(".page-header-section .header-icon", {duration: 1, scale: 0.5, opacity: 0, ease: "back.out(1.7)", delay: 0.1});
+
+        const contentSections = gsap.utils.toArray('.content-section');
+        contentSections.forEach(section => {
+            gsap.to(section, { 
+                opacity: 1, y: 0, duration: 0.7, ease: "power1.out",
+                scrollTrigger: { trigger: section, start: "top 90%", once: true }
+            });
+        });
+        
+        // --- СЕКЦИЯ 1.1: "Зачем НКО сообщество?" Интерактив с модальным окном ---
+        const benefitCards = gsap.utils.toArray('#s1-1 .benefit-card');
+         benefitCards.forEach((card, index) => {
+            gsap.to(card, {
+                opacity: 1, scale: 1, y: 0, duration: 0.4, delay: index * 0.1, ease: "back.out(1.2)",
+                 scrollTrigger: { trigger: card.closest('.benefit-card-wrapper'), start: "top 90%", once: true }
+            });
+        });
+        const benefitDetailModal = document.getElementById('benefitDetailModal');
+        if (benefitDetailModal) {
+            benefitDetailModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const title = button.getAttribute('data-benefit-title');
+                const details = button.getAttribute('data-benefit-details');
+                const modalTitle = benefitDetailModal.querySelector('.modal-title span');
+                const modalBody = benefitDetailModal.querySelector('.modal-body');
+                modalTitle.textContent = title;
+                modalBody.textContent = details;
+            });
+        }
+
+        // --- СЕКЦИЯ 1.2: "Как вовлекать людей?" Лестница Вовлечения ---
+        const ladderStepsData = [
+            { title: "Наблюдатель", description: "Знакомится с НКО через соцсети, сайт, публикации. Действий не требует, только потребление информации.", icon: "visibility", actions: ["Подписаться на рассылку", "Следить в соцсетях"] },
+            { title: "Микро-взаимодействие", description: "Простое публичное выражение поддержки (лайк, репост, комментарий). Помогает распространению информации.", icon: "thumb_up", actions: ["Поставить лайк важному посту", "Поделиться информацией с друзьями"] },
+            { title: "Участник онлайн-акции", description: "Более осознанное действие, требующее небольших усилий (подписать петицию, отправить шаблонное письмо, поучаствовать в опросе).", icon: "campaign", actions: ["Подписать онлайн-петицию", "Пройти опрос о проблеме"] },
+            { title: "Эпизодический волонтер", description: "Готовность потратить немного времени на конкретную задачу (помощь на мероприятии, распространение листовок, онлайн-помощь).", icon: "volunteer_activism", actions: ["Помочь на ближайшем мероприятии (2 часа)", "Перевести небольшой текст"] },
+            { title: "Разовый донор", description: "Первая финансовая поддержка, выражение доверия к организации и ее миссии.", icon: "paid", actions: ["Сделать небольшое пожертвование", "Купить мерч НКО"] },
+            { title: "Постоянный волонтер/активист", description: "Регулярное участие в деятельности, взятие на себя ответственности за участки работы (координация, дежурства, ведение рубрики).", icon: "groups", actions: ["Взять на себя регулярную задачу (раз в неделю)", "Стать координатором небольшой группы"] },
+            { title: "Постоянный донор/Фандрайзер", description: "Систематическая финансовая поддержка, возможно, привлечение новых доноров из своего круга.", icon: "monetization_on", actions: ["Оформить регулярное пожертвование", "Рассказать о возможности поддержать НКО своим знакомым"] },
+            { title: "Амбассадор/Лидер", description: "Активно продвигает идеи НКО, является ее публичным представителем, может инициировать собственные проекты в рамках миссии НКО.", icon: "record_voice_over", actions: ["Выступить с презентацией о НКО", "Организовать мероприятие в поддержку НКО"] }
+        ];
+        const stepsContainer = document.getElementById('ladderStepsContainer');
+        const infoTitleEl = document.getElementById('ladderInfoTitle');
+        // ИСПРАВЛЕНИЕ ОПЕЧАТКИ ЗДЕСЬ:
+        const infoDescriptionEl = document.getElementById('ladderInfoDescription'); 
+        const infoActionsEl = document.getElementById('ladderInfoActions');
+        const ladderInfoPanel = document.getElementById('ladderInfoPanel');
+
+        function initLadder() {
+            if (!stepsContainer || !infoTitleEl || !infoDescriptionEl || !ladderInfoPanel || !infoActionsEl) {
+                 console.error("LADDER_DEBUG: One or more ladder elements not found for initLadder!", {
+                    stepsContainer, infoTitleEl, infoDescriptionEl, ladderInfoPanel, infoActionsEl
+                 });
+                return;
+            }
+            
+            stepsContainer.innerHTML = ''; 
+            ladderStepsData.forEach((step, index) => {
+                const stepDiv = document.createElement('div');
+                stepDiv.classList.add('ladder-step');
+                stepDiv.innerHTML = `<h5><img src="../assets/icons/${step.icon}.svg" alt="" class="step-icon">${index + 1}. ${step.title}</h5><p class="small text-muted d-none d-md-block">${step.description.substring(0, 50)}...</p>`;
+                stepDiv.dataset.index = index;
+                stepsContainer.appendChild(stepDiv);
+
+                stepDiv.addEventListener('click', function() {
+                    document.querySelectorAll('#ladderStepsContainer .ladder-step').forEach(s => s.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    gsap.timeline()
+                        .to(ladderInfoPanel, {opacity: 0, scale:0.95, duration: 0.2, ease: "power1.in"})
+                        .call(() => {
+                            infoTitleEl.innerHTML = `<img src="../assets/icons/${step.icon}.svg" alt="" class="step-icon me-2">${step.title}`;
+                            infoDescriptionEl.textContent = step.description;
+                            infoActionsEl.innerHTML = '<h6>Примеры действий для этого этапа:</h6><ul>' + 
+                                step.actions.map(action => `<li>${action}</li>`).join('') + 
+                                '</ul>';
+                        })
+                        .to(ladderInfoPanel, {opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)"});
+                });
+            });
+
+            const ladderStepElements = gsap.utils.toArray('#ladderStepsContainer .ladder-step');
+            gsap.to(ladderStepElements, {
+                opacity: 1, x: 0, duration: 0.4, stagger: 0.07, ease: "power2.out",
+                scrollTrigger: { trigger: '#ladderStepsContainerWrapper', start: "top 80%", once: true }
+            });
+            gsap.to(ladderInfoPanel, {
+                opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)",
+                scrollTrigger: { trigger: ladderInfoPanel, start: "top 85%", once: true }
+            });
+        }
+        initLadder();
+
+        const storyCards = gsap.utils.toArray('.story-card-wrapper .story-card');
+        storyCards.forEach((card, index) => {
+            gsap.set(card, { rotate: (index % 2 === 0) ? -2 : 2 }); 
+            gsap.to(card, {
+                opacity: 1, scale: 1, rotate: 0, y: 0, duration: 0.5, ease: "circ.out",
+                scrollTrigger: { trigger: card.closest('.story-card-wrapper'), start: "top 85%", once: true }
+            });
+        });
+
+        // --- СЕКЦИЯ 1.3: Инструменты ---
+        const toolItems = document.querySelectorAll('#communityTools .tool-item');
+        const toolDescriptionDiv = document.getElementById('toolDescription');
+        let lastClickedTool = null;
+
+        if (toolItems.length > 0 && toolDescriptionDiv) {
+            gsap.to(toolItems, {
+                opacity: 1, y: 0, duration: 0.3, stagger: 0.05,
+                scrollTrigger: { trigger: '#communityTools', start: "top 85%", once: true }
+            });
+            gsap.to(toolDescriptionDiv, {
+                opacity: 1, y: 0, duration: 0.4, 
+                scrollTrigger: { trigger: toolDescriptionDiv, start: "top 90%", once: true }
+            });
+
+            toolItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const description = this.dataset.description;
+                    gsap.timeline()
+                        .to(toolDescriptionDiv, {opacity: 0, y: 10, duration: 0.2, ease: "power1.in"})
+                        .call(() => {
+                            toolDescriptionDiv.textContent = description;
+                            if (lastClickedTool) lastClickedTool.classList.remove('active');
+                            this.classList.add('active');
+                            lastClickedTool = this;
+                        })
+                        .to(toolDescriptionDiv, {opacity: 1, y: 0, duration: 0.3, ease: "power1.out"});
+                });
+            });
+        }
+        
+        const getAiToolAdviceBtn = document.getElementById('getAiToolAdviceBtn');
+        const aiToolFeedbackContainer = document.getElementById('aiToolFeedbackContainer');
+        const aiToolFeedbackResultEl = document.getElementById('aiToolFeedbackResult');
+
+        if (getAiToolAdviceBtn && aiToolFeedbackContainer && aiToolFeedbackResultEl) {
+            gsap.set(aiToolFeedbackContainer, {display: 'none', autoAlpha: 0});
+
+            getAiToolAdviceBtn.addEventListener('click', async () => {
+                const toolName = document.getElementById('userToolName').value;
+                const toolPurpose = document.getElementById('userToolPurpose').value;
+
+                if (!toolName || !toolPurpose) {
+                    alert("Пожалуйста, заполните название инструмента и его назначение.");
+                    return;
+                }
+                
+                gsap.timeline()
+                    .set(aiToolFeedbackContainer, {display: 'block'})
+                    .to(aiToolFeedbackContainer, {autoAlpha:1, y:0, duration:0.4, ease: 'power2.out'});
+                
+                aiToolFeedbackResultEl.innerHTML = '<em>🤔 Анализирую ваш инструмент...</em>';
+                gsap.fromTo(aiToolFeedbackResultEl, {opacity:0.5, y:5}, {opacity:1, y:0, duration:0.3});
+
+                try {
+                    const userPrompt = `
+Пользователь НКО предлагает использовать следующий инструмент для работы с сообществом:
+Название инструмента: ${toolName}
+Цели использования: ${toolPurpose}
+
+Дай краткий и содержательный комментарий об этом инструменте в контексте НКО. Укажи возможные плюсы и на что обратить внимание. Кратко. Ответ на русском.
+                    `;
+                    const response = await fetch('http://127.0.0.1:3355/v1/chat/completions', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            model: "qwen3-1.7b",
+                            messages: [
+                                { role: "system", content: "Ты — ИИ-эксперт по инструментам для НКО. Твоя задача — дать краткий и содержательный комментарий об инструменте, который предлагает пользователь. Укажи возможные плюсы и на что обратить внимание. Кратко. Ответ на русском." },
+                                { role: "user", content: userPrompt }
+                            ],
+                            temperature: 0.6, max_tokens: 350, stream: false
+                        })
+                    });
+                    if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
+                    const data = await response.json();
+                    let aiMessage = data.choices?.[0]?.message?.content?.trim() || "Не удалось получить комментарий от ИИ.";
+                    
+                    aiMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/^\s*-\s*(.*)/gm, '<li>$1</li>');
+                    if (aiMessage.includes('<li>')) {
+                       aiMessage = aiMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`);
+                       aiMessage = aiMessage.replace(/<\/ul>\s*<ul>/g, '');
+                    }
+                    aiMessage = aiMessage.replace(/\n/g, '<br>');
+
+                    gsap.to(aiToolFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                        aiToolFeedbackResultEl.innerHTML = aiMessage;
+                        gsap.to(aiToolFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
+                    }});
+
+                } catch (error) {
+                    console.error('AI Tool Advice Error:', error);
+                    gsap.to(aiToolFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                        aiToolFeedbackResultEl.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
+                        gsap.to(aiToolFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
+                    }});
+                }
+            });
+        }
+        
+        // --- СЕКЦИЯ 1.4 Кейсы ---
+        const caseCards = gsap.utils.toArray('.case-study-card');
+        caseCards.forEach((card, index) => {
+            gsap.to(card, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                delay: index * 0.15,
+                ease: "power1.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    once: true
+                }
+            });
+        });
+
+        ScrollTrigger.refresh();
+
+        // --- PDF экспорт раздела 1 ---
+        const exportBtn = document.getElementById('exportSectionResultsBtn');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({unit: 'pt', format: 'a4'});
+                if (window.QanelasRegularFontData && window.QanelasRegularFontData.base64) {
+                    doc.addFileToVFS('Qanelas-Regular.ttf', window.QanelasRegularFontData.base64);
+                    doc.addFont('Qanelas-Regular.ttf', 'Qanelas', 'normal');
+                }
+                doc.setFont('Qanelas', 'normal');
+                const pageWidth = doc.internal.pageSize.getWidth();
+                let y = 40;
+                // Заголовок
+                doc.setFontSize(22);
+                doc.setTextColor('#764ba2');
+                doc.text('Раздел 1: Построение сообщества', pageWidth/2, y, {align:'center'});
+                y += 30;
+                doc.setFontSize(14);
+                doc.setTextColor('#333');
+                // Секции
+                document.querySelectorAll('.content-section').forEach(section => {
+                    const title = section.querySelector('h3')?.innerText || '';
+                    if (title) {
+                        doc.setFontSize(15);
+                        doc.setTextColor('#667eea');
+                        doc.text(title, 40, y);
+                        y += 18;
+                    }
+                    doc.setFontSize(11);
+                    doc.setTextColor('#444');
+                    section.querySelectorAll('p, ul, ol').forEach(el => {
+                        let text = '';
+                        if (el.tagName === 'P') text = el.innerText;
+                        if (el.tagName === 'UL' || el.tagName === 'OL') {
+                            text = Array.from(el.children).map(li => '- ' + li.innerText).join('\n');
+                        }
+                        if (text) {
+                            const split = doc.splitTextToSize(text, pageWidth-80);
+                            doc.text(split, 40, y);
+                            y += split.length * 15 + 5;
+                        }
+                    });
+                    y += 10;
+                });
+                // AI feedback по инструменту (если есть)
+                const aiToolFeedback = document.getElementById('aiToolFeedbackResult')?.innerText;
+                if (aiToolFeedback && aiToolFeedback.trim() && aiToolFeedback.trim() !== 'Нажмите кнопку выше, чтобы получить совет...') {
+                    doc.setFontSize(14);
+                    doc.setTextColor('#007bff');
+                    doc.text('AI-отзыв по вашему инструменту:', 40, y);
+                    y += 18;
+                    doc.setFontSize(11);
+                    doc.setTextColor('#444');
+                    const split = doc.splitTextToSize(aiToolFeedback, pageWidth-80);
+                    doc.text(split, 40, y);
+                    y += split.length * 15 + 10;
+                }
+                doc.save('community_building_results.pdf');
+            });
+        }
+    });
+    </script>
+</body>
+</html>
