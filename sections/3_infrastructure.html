@@ -710,7 +710,7 @@ text.innerHTML = resultText.slice(0, i + 1);
             aiResponse.innerHTML = '<em>ИИ думает...</em>';
             try {
                 const userPrompt = `Пользователь НКО провел мозговой штурм по улучшению инфраструктуры. Вот его идеи:\nАспект 1: ${aspect1 || "Не указан"}\nДействия 1: ${action1 || "Не указаны"}\nАспект 2: ${aspect2 || "Не указан"}\nДействия 2: ${action2 || "Не указаны"}\nАспект 3: ${aspect3 || "Не указан"}\nДействия 3: ${action3 || "Не указаны"}\nПрокомментируй эти предложения. Дай краткий и конструктивный фидбэк. Можешь предложить дополнительные мысли или альтернативы, если это уместно. Ответ на русском. Кратко.`;
-                const response = await fetch('https://2b96-2a02-8388-8b00-5580-4a08-9764-1212-46e7.ngrok-free.app/v1/chat/completions', {
+                const response = await fetch('https://beb0-2a02-8388-8b00-5580-4a08-9764-1212-46e7.ngrok-free.app/v1/chat/completions', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
