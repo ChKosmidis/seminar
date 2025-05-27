@@ -6,106 +6,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>0. Введение в мир НКО - Семинар НКО</title>
 
-    <!-- Bootstrap CSS (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <!-- Ваши кастомные стили -->
     <link rel="stylesheet" href="../css/style.css">
     
     <style>
-        /* Стили для этой страницы */
-        body { padding-top: 70px; /* Учитываем высоту новой шапки */ }
-        .page-header-section {
-            background-color: #f8f9fa; /* Светлый фон */
+        body { 
+            padding-top: 70px; 
+            background-color: #f4f7f6; /* Light overall background */
+            overflow-x: hidden; /* Prevent horizontal scrollbars from animations */
+        }
+
+        /* --- Page Header Redesign --- */
+        .page-hero-section {
+            background: linear-gradient(135deg, #28a745, #1e7e34); /* Shades of green */
+            color: #fff;
+            padding: 4rem 1.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            border-radius: 0 0 25px 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .page-hero-section img.hero-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        .page-hero-section h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .page-hero-section .lead {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Content Section Redesign (0.1 - 0.4) --- */
+        .info-section {
             padding: 3rem 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: .3rem;
+            margin-bottom: 2.5rem;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+            opacity: 0; /* Initial state for GSAP */
+            transform: translateY(30px); /* Initial state for GSAP */
         }
-        .content-section { margin-bottom: 2.5rem; opacity:0; transform: translateY(20px); }
-        .content-section h3 { margin-bottom: 1rem; display: flex; align-items: center; }
-        .content-section h3 img.section-icon { width: 32px; height: 32px; margin-right: 0.75rem; opacity: 0.7; }
+        .info-section .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid; /* Color set by specific section style */
+        }
+        .info-section .section-icon-new {
+            width: 48px;
+            height: 48px;
+            margin-right: 1rem;
+            padding: 8px;
+            border-radius: 50%;
+            background-color: var(--section-icon-bg, #e9ecef);
+            color: var(--section-icon-color, #495057); /* For SVG fill if needed */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .info-section .section-icon-new img {
+            width: 28px; height: 28px; opacity:0.8;
+        }
+
+        .info-section h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 0;
+            color: #343a40;
+        }
+        .info-section p, .info-section ul {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #555;
+        }
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .info-section ul li {
+            padding-left: 1.8em;
+            position: relative;
+            margin-bottom: 0.75rem;
+        }
+        .info-section ul li::before {
+            content: '✓'; /* Checkmark or other icon */
+            position: absolute;
+            left: 0;
+            color: var(--section-accent-color, #198754); /* Color set by specific section style */
+            font-weight: bold;
+            font-size: 1.2em;
+        }
         
-        /* Интерактив */
-        #nkoChoiceInteractive { padding: 2rem; background-color: #e9ecef; border-radius: .3rem; margin-top: 2rem;}
-        #nkoChoiceInteractive label { font-weight: 500; }
+        /* Specific section styling */
+        #s0-1-new { border-left: 7px solid #198754; --section-accent-color: #198754; --section-icon-bg: #e3fcec; }
+        #s0-1-new .section-header { border-bottom-color: #198754; }
+        #s0-1-new .section-icon-new { background-color: #19875430; }
+
+
+        #s0-2-new { border-left: 7px solid #0d6efd; --section-accent-color: #0d6efd; --section-icon-bg: #e7eafe; }
+        #s0-2-new .section-header { border-bottom-color: #0d6efd; }
+        #s0-2-new .section-icon-new { background-color: #0d6efd30; }
+
+        #s0-3-new { border-left: 7px solid #ffc107; --section-accent-color: #ffc107; --section-icon-bg: #fff3cd; }
+        #s0-3-new .section-header { border-bottom-color: #ffc107; }
+        #s0-3-new .section-icon-new { background-color: #ffc10730; }
+
+
+        #s0-4-new { border-left: 7px solid #dc3545; --section-accent-color: #dc3545; --section-icon-bg: #fde2e2; }
+        #s0-4-new .section-header { border-bottom-color: #dc3545; }
+        #s0-4-new .section-icon-new { background-color: #dc354530; }
+
+
+        /* AI Interactive Block & Quiz (retained, minor style tweaks for consistency) */
+        #nkoChoiceInteractive, #nkoQuizSection {
+            opacity: 0; /* For GSAP */
+            transform: translateY(30px); /* For GSAP */
+            padding: 2.5rem; 
+            background-color: #ffffff; 
+            border-radius: 12px; 
+            margin-top: 2.5rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+        }
+        #nkoChoiceInteractive h4, #nkoQuizSection h4 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 2rem !important;
+        }
         #nkoConceptResult, #aiFeedbackContainer {
-            opacity: 0; /* Для GSAP анимации */
-            transform: translateY(15px); /* Для GSAP анимации */
+            opacity: 0; 
+            transform: translateY(15px);
         }
-        #aiFeedbackResult { white-space: pre-wrap; /* Сохранять переносы строк от AI */ }
-        
-        /* Квиз */
-        #nkoQuizSection { padding: 2rem; background-color: #f1f3f5; border-radius: .3rem; margin-top: 2rem;}
-        .quiz-question { margin-bottom: 1.5rem; }
+        #aiFeedbackResult { 
+            white-space: pre-wrap; 
+            background-color: #f8f9fa; 
+            border: 1px solid #e9ecef; 
+            padding: 1rem; 
+            border-radius: 8px;
+        }
+        .quiz-question { 
+            opacity:0; 
+            transform: translateX(-20px); 
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
         #quizResultChartContainer { max-width: 400px; margin: 2rem auto 0; }
         #quizScore { font-size: 1.2rem; font-weight: bold; }
 
-        /* Стили для анимации появления вопросов квиза */
-        .quiz-question { opacity:0; transform: translateX(-20px); }
-
-        /* --- Стили для интерактивных карточек и табов --- */
-        .intro-tab-btn {
-            font-weight: 500;
-            border-radius: 2rem;
-            background: #f1f3f5;
-            color: #495057;
-            transition: background 0.2s, color 0.2s;
-            box-shadow: none;
-        }
-        .intro-tab-btn.active, .intro-tab-btn:focus {
-            background: #198754;
-            color: #fff;
-        }
-        .intro-cards-stack {
-            position: relative;
-            width: 100%;
-            /* min-height убран, высота управляется JS или auto */
-        }
-        .intro-card {
-            position: absolute; /* Становится static на мобильных через @media */
-            left: 0; right: 0; top: 0;
-            width: 100%; 
-            opacity: 0;
-            z-index: 0;
-            transform: scale(0.98) translateY(20px);
-            pointer-events: none;
-            padding: 2rem 1.5rem;
-            border-radius: .7rem;
-            box-shadow: 0 2px 16px 0 rgba(60,60,60,0.07);
-            min-height: 250px; /* Минимальная высота самой карточки */
-            background: #fff;
-            border: none;
-        }
-        .intro-card.intro-card-active {
-            opacity: 1;
-            z-index: 1;
-            pointer-events: auto;
-            transform: scale(1) translateY(0);
-        }
-        .intro-card.card-0 { background: linear-gradient(90deg, #e3fcec 80%, #fff 100%); border-left: 6px solid #198754; }
-        .intro-card.card-1 { background: linear-gradient(90deg, #e7eafe 80%, #fff 100%); border-left: 6px solid #0d6efd; }
-        .intro-card.card-2 { background: linear-gradient(90deg, #fff3cd 80%, #fff 100%); border-left: 6px solid #ffc107; }
-        .intro-card.card-3 { background: linear-gradient(90deg, #fde2e2 80%, #fff 100%); border-left: 6px solid #dc3545; }
-        .intro-card ul { margin-bottom: 0.5rem; }
-        .intro-card h3 { font-size: 1.25rem; }
-        
-        @media (max-width: 600px) {
-            .intro-cards-stack { 
-                min-height: 0; 
-                height: auto !important; /* Важно для переопределения JS высоты */
-            }
-            .intro-card { 
-                position: static; 
-                min-height: 0; 
-                /* Стили opacity и transform для .intro-card-active/.intro-card остаются, 
-                   чтобы JS мог плавно показывать/скрывать активную карточку */
-            }
-             /* На мобильных, неактивные карты с position:static и opacity:0 все еще занимают место.
-                Класс intro-card-active и JS анимация должны это учитывать.
-                Текущая JS логика (смена opacity/transform) должна работать,
-                так как .intro-cards-stack будет иметь высоту активной статической карты. */
-        }
-        /* --- Конец новых стилей --- */
-        
+        /* Ensure header is above everything */
+        header { z-index: 1050; }
     </style>
 </head>
 
@@ -117,7 +178,6 @@
                     <img src="../assets/images/logo.svg" alt="Лого НКО"> 
                     Семинар НКО
                 </a>
-                
                 <button class="navbar-custom-toggler ms-auto" aria-label="Открыть меню" id="customMenuToggler" aria-expanded="false">
                     <svg viewBox="0 0 100 80" width="30" height="30" id="actualBurgerIcon" fill="currentColor">
                         <rect class="line line1" x="0" y="10" width="100" height="10" rx="5"></rect>
@@ -129,17 +189,12 @@
         </nav>
     </header>
 
-    <!-- Полноэкранное меню (управляется JS) -->
     <div class="fullscreen-menu" id="fullscreenMenu">
         <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
         <ul class="navbar-nav-fullscreen">
-            <li class="nav-item fs-menu-item">
-                <a class="nav-link" href="../index.html">Главная</a>
-            </li>
+            <li class="nav-item fs-menu-item"><a class="nav-link" href="../index.html">Главная</a></li>
             <li class="nav-item fs-menu-item custom-dropdown">
-                <a class="nav-link dropdown-toggle-custom active" aria-current="page" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">
-                    Разделы
-                </a>
+                <a class="nav-link dropdown-toggle-custom active" aria-current="page" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">Разделы</a>
                 <ul class="dropdown-menu-custom">
                     <li><a class="dropdown-item active" href="0_introduction.html">0. Введение</a></li>
                     <li><a class="dropdown-item" href="1_community_building.html">1. Сообщество</a></li>
@@ -151,89 +206,85 @@
                     <li><a class="dropdown-item" href="7_cases_and_practice.html">7. Практика</a></li>
                 </ul>
             </li>
-            <li class="nav-item fs-menu-item">
-                <a class="nav-link" href="useful_resources.html">Полезные ресурсы</a>
-            </li>
+            <li class="nav-item fs-menu-item"><a class="nav-link" href="useful_resources.html">Полезные ресурсы</a></li>
         </ul>
     </div>
 
-
     <main class="container py-4">
-        <div class="page-header-section text-center">
-            <img src="../assets/icons/introngo.svg" alt="Введение" width="64" height="64" class="mb-3">
+        <div class="page-hero-section">
+            <img src="../assets/icons/introngo.svg" alt="Введение Иконка" class="hero-icon">
             <h1 class="display-5 fw-bold">Раздел 0: Введение в мир НКО</h1>
-            <p class="lead text-muted">Фокус на правозащитную деятельность: ландшафт, специфика, нетворкинг и первые шаги.</p>
+            <p class="lead">Фокус на правозащитную деятельность: ландшафт, специфика, нетворкинг и первые шаги.</p>
         </div>
 
-        <!-- --- НОВЫЙ БЛОК: Переключаемые карточки с разделами 0.1–0.4 --- -->
-        <section class="mb-5">
-            <div class="d-flex justify-content-center mb-3" id="introTabs">
-                <button class="btn intro-tab-btn me-2 active" data-card="0">Ландшафт</button>
-                <button class="btn intro-tab-btn me-2" data-card="1">Правозащитные НКО</button>
-                <button class="btn intro-tab-btn me-2" data-card="2">Нетворкинг</button>
-                <button class="btn intro-tab-btn" data-card="3">Выбор направления</button>
+        <section class="info-section" id="s0-1-new">
+            <div class="section-header">
+                <div class="section-icon-new">
+                    <img src="../assets/icons/community.svg" alt="Ландшафт НКО">
+                </div>
+                <h2>0.1. Ландшафт НКО: Краткий обзор</h2>
             </div>
-            <div id="introCardsContainer" class="intro-cards-stack">
-                <div class="intro-card card-0 intro-card-active">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="../assets/icons/community.svg" alt="" class="section-icon me-2">
-                        <h3 class="mb-0">0.1. Ландшафт НКО: Краткий обзор</h3>
-                    </div>
-                    <p>Некоммерческие организации (НКО) играют ключевую роль в развитии гражданского общества. Они охватывают множество форм и направлений деятельности: от благотворительности и социальной поддержки до экологии, культуры и защиты прав человека.</p>
-                    <ul>
-                        <li><strong>Многообразие форм:</strong> Общественные организации, фонды, автономные некоммерческие организации, ассоциации (союзы) и др.</li>
-                        <li><strong>Направления деятельности:</strong> Социальное обслуживание, поддержка уязвимых групп, образование и просвещение, здравоохранение, охрана окружающей среды, развитие культуры и искусства, защита прав и свобод человека и гражданина.</li>
-                    </ul>
-                    <p>Общая миссия некоммерческого сектора — решение общественно значимых проблем и удовлетворение нематериальных потребностей граждан, действуя не ради извлечения прибыли, а во имя общественных благ.</p>
-                </div>
-                <div class="intro-card card-1">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="../assets/icons/rights.svg" alt="" class="section-icon me-2">
-                        <h3 class="mb-0">0.2. Правозащитные НКО: Миссия и специфика</h3>
-                    </div>
-                    <p>Правозащитная деятельность направлена на утверждение и защиту прав и свобод человека, гарантированных международными нормами и национальным законодательством. Ключевые направления работы правозащитных НКО включают:</p>
-                    <ul>
-                        <li><strong>Мониторинг и документирование:</strong> Сбор и анализ информации о нарушениях прав человека.</li>
-                        <li><strong>Просвещение:</strong> Повышение правовой грамотности населения, информирование о правах и способах их защиты.</li>
-                        <li><strong>Адвокация:</strong> Представление интересов отдельных лиц или групп, продвижение законодательных изменений.</li>
-                        <li><strong>Юридическая помощь:</strong> Бесплатные консультации и представительство в суде.</li>
-                        <li><strong>Поддержка жертв нарушений:</strong> Психологическая, социальная и иная помощь пострадавшим.</li>
-                    </ul>
-                    <p>Правозащитные НКО часто сталкиваются с особыми вызовами, рисками и этическими дилеммами, требующими высокой компетентности, осторожности и приверженности принципам.</p>
-                </div>
-                <div class="intro-card card-2">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="../assets/icons/communication.svg" alt="" class="section-icon me-2">
-                        <h3 class="mb-0">0.3. Нетворкинг-НКО (Ресурсные центры, коалиции)</h3>
-                    </div>
-                    <p>Сетевое взаимодействие и объединение усилий критически важны для эффективности правозащитной деятельности. Нетворкинг-НКО, такие как ресурсные центры и коалиции, выполняют следующие задачи:</p>
-                    <ul>
-                        <li>Обмен информацией, опытом и лучшими практиками.</li>
-                        <li>Координация совместных кампаний и акций.</li>
-                        <li>Адвокация на системном уровне по общим проблемам.</li>
-                        <li>Предоставление ресурсов, экспертизы и обучения для других НКО и активистов.</li>
-                        <li>Повышение устойчивости и безопасности всего правозащитного сообщества.</li>
-                    </ul>
-                    <p>Примеры успешных нетворкинг-инициатив показывают, как солидарность и сотрудничество помогают достигать значимых результатов даже в сложных условиях.</p>
-                </div>
-                <div class="intro-card card-3">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="../assets/icons/practical.svg" alt="" class="section-icon me-2">
-                        <h3 class="mb-0">0.4. Выбор направления и формы для вашей будущей НКО</h3>
-                    </div>
-                    <p>Прежде чем создавать НКО, важно тщательно проанализировать проблемное поле и определить свою нишу:</p>
-                    <ul>
-                        <li><strong>Анализ проблемного поля:</strong> Какая проблема наиболее актуальна? Кто уже работает над ней? Какие аспекты не охвачены?</li>
-                        <li><strong>Определение целевой аудитории:</strong> Кому конкретно вы хотите помогать? Каковы их потребности?</li>
-                        <li><strong>Формулирование миссии и видения:</strong> Какова долгосрочная цель вашей организации (видение)? Каким образом вы планируете ее достигать (миссия)?</li>
-                    </ul>
-                    <p>Ответив на эти вопросы, вы сможете более осознанно подойти к выбору организационно-правовой формы и разработке стратегии вашей будущей НКО.</p>
-                </div>
-            </div>
+            <p>Некоммерческие организации (НКО) играют ключевую роль в развитии гражданского общества. Они охватывают множество форм и направлений деятельности: от благотворительности и социальной поддержки до экологии, культуры и защиты прав человека.</p>
+            <ul>
+                <li><strong>Многообразие форм:</strong> Общественные организации, фонды, автономные некоммерческие организации, ассоциации (союзы) и др.</li>
+                <li><strong>Направления деятельности:</strong> Социальное обслуживание, поддержка уязвимых групп, образование и просвещение, здравоохранение, охрана окружающей среды, развитие культуры и искусства, защита прав и свобод человека и гражданина.</li>
+            </ul>
+            <p>Общая миссия некоммерческого сектора — решение общественно значимых проблем и удовлетворение нематериальных потребностей граждан, действуя не ради извлечения прибыли, а во имя общественных благ.</p>
         </section>
-        <!-- --- КОНЕЦ НОВОГО БЛОКА --- -->
+
+        <section class="info-section" id="s0-2-new">
+            <div class="section-header">
+                <div class="section-icon-new">
+                     <img src="../assets/icons/rights.svg" alt="Правозащитные НКО">
+                </div>
+                <h2>0.2. Правозащитные НКО: Миссия и специфика</h2>
+            </div>
+            <p>Правозащитная деятельность направлена на утверждение и защиту прав и свобод человека, гарантированных международными нормами и национальным законодательством. Ключевые направления работы правозащитных НКО включают:</p>
+            <ul>
+                <li><strong>Мониторинг и документирование:</strong> Сбор и анализ информации о нарушениях прав человека.</li>
+                <li><strong>Просвещение:</strong> Повышение правовой грамотности населения, информирование о правах и способах их защиты.</li>
+                <li><strong>Адвокация:</strong> Представление интересов отдельных лиц или групп, продвижение законодательных изменений.</li>
+                <li><strong>Юридическая помощь:</strong> Бесплатные консультации и представительство в суде.</li>
+                <li><strong>Поддержка жертв нарушений:</strong> Психологическая, социальная и иная помощь пострадавшим.</li>
+            </ul>
+            <p>Правозащитные НКО часто сталкиваются с особыми вызовами, рисками и этическими дилеммами, требующими высокой компетентности, осторожности и приверженности принципам.</p>
+        </section>
+
+        <section class="info-section" id="s0-3-new">
+            <div class="section-header">
+                <div class="section-icon-new">
+                    <img src="../assets/icons/communication.svg" alt="Нетворкинг НКО">
+                </div>
+                <h2>0.3. Нетворкинг-НКО (Ресурсные центры, коалиции)</h2>
+            </div>
+            <p>Сетевое взаимодействие и объединение усилий критически важны для эффективности правозащитной деятельности. Нетворкинг-НКО, такие как ресурсные центры и коалиции, выполняют следующие задачи:</p>
+            <ul>
+                <li>Обмен информацией, опытом и лучшими практиками.</li>
+                <li>Координация совместных кампаний и акций.</li>
+                <li>Адвокация на системном уровне по общим проблемам.</li>
+                <li>Предоставление ресурсов, экспертизы и обучения для других НКО и активистов.</li>
+                <li>Повышение устойчивости и безопасности всего правозащитного сообщества.</li>
+            </ul>
+            <p>Примеры успешных нетворкинг-инициатив показывают, как солидарность и сотрудничество помогают достигать значимых результатов даже в сложных условиях.</p>
+        </section>
         
-        <!-- Интерактив: Выбор проблемы и типа НКО -->
+        <section class="info-section" id="s0-4-new">
+            <div class="section-header">
+                <div class="section-icon-new">
+                    <img src="../assets/icons/practical.svg" alt="Выбор направления НКО">
+                </div>
+                <h2>0.4. Выбор направления и формы для вашей будущей НКО</h2>
+            </div>
+            <p>Прежде чем создавать НКО, важно тщательно проанализировать проблемное поле и определить свою нишу:</p>
+            <ul>
+                <li><strong>Анализ проблемного поля:</strong> Какая проблема наиболее актуальна? Кто уже работает над ней? Какие аспекты не охвачены?</li>
+                <li><strong>Определение целевой аудитории:</strong> Кому конкретно вы хотите помогать? Каковы их потребности?</li>
+                <li><strong>Формулирование миссии и видения:</strong> Какова долгосрочная цель вашей организации (видение)? Каким образом вы планируете ее достигать (миссия)?</li>
+            </ul>
+            <p>Ответив на эти вопросы, вы сможете более осознанно подойти к выбору организационно-правовой формы и разработке стратегии вашей будущей НКО.</p>
+        </section>
+        
+        <!-- Интерактив: Выбор проблемы и типа НКО (сохранена логика) -->
         <section class="content-section" id="nkoChoiceInteractive">
             <h4 class="text-center mb-4">Интерактив: Ваша будущая НКО</h4>
             <p class="text-center text-muted mb-4">Подумайте и ответьте на вопросы ниже. Это поможет вам сформулировать первоначальную концепцию и получить совет от ИИ.</p>
@@ -255,7 +306,7 @@
                 <textarea class="form-control" id="nkoJustification" rows="4" placeholder="Почему вы считаете, что именно этот тип НКО будет эффективен для решения выбранной проблемы? Какие у вас есть для этого ресурсы или идеи?"></textarea>
             </div>
             <div class="text-center">
-                <button type="button" class="btn btn-success" id="showNkoConceptBtn">Получить концепцию и совет ИИ</button>
+                <button type="button" class="btn btn-success btn-lg" id="showNkoConceptBtn">Получить концепцию и совет ИИ</button>
             </div>
             <div id="nkoConceptResult" class="mt-4 p-3 border rounded bg-white">
                 <h5>Ваша предварительная концепция:</h5>
@@ -266,20 +317,20 @@
             </div>
             <div id="aiFeedbackContainer" class="mt-4">
                 <h5 class="text-primary">Комментарий от ИИ-помощника:</h5>
-                <div id="aiFeedbackResult" class="p-3 border rounded bg-light-subtle text-muted">
+                <div id="aiFeedbackResult" class="p-3 border rounded text-muted">
                     <em>Нажмите кнопку выше, чтобы получить совет...</em>
                 </div>
             </div>
         </section>
 
-        <!-- Квиз по основам НКО -->
+        <!-- Квиз по основам НКО (сохранена логика) -->
         <section class="content-section" id="nkoQuizSection">
             <h4 class="text-center mb-4">Проверьте себя: Основы НКО</h4>
             <div id="quizContainer">
                 <!-- Вопросы будут добавлены через JS -->
             </div>
             <div class="text-center mt-4">
-                <button type="button" class="btn btn-primary" id="submitQuizBtn" style="display: none;">Показать результат</button>
+                <button type="button" class="btn btn-primary btn-lg" id="submitQuizBtn" style="display: none;">Показать результат</button>
             </div>
             <div id="quizResultText" class="mt-3 text-center" style="display:none;">
                 <p id="quizScore"></p>
@@ -299,207 +350,118 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS Bundle (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-    <!-- GSAP Core & Plugins (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/EasePack.min.js"></script>
-    <!-- Chart.js (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("AI_DEBUG: DOMContentLoaded event fired.");
-            gsap.registerPlugin(ScrollTrigger, EasePack);
+            gsap.registerPlugin(ScrollTrigger);
 
-            // --- Логика для полноэкранного меню ---
-            // ... (ваш существующий код меню без изменений) ...
+            // --- Меню (без изменений) ---
             const customMenuToggler = document.getElementById('customMenuToggler');
             const fullscreenMenu = document.getElementById('fullscreenMenu');
             const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
-            
             if (customMenuToggler && fullscreenMenu) {
                 const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
                 const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
                 const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
-
                 const actualBurgerIcon = customMenuToggler.querySelector('svg');
-                const burgerLine1 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line1') : null;
-                const burgerLine2 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line2') : null;
-                const burgerLine3 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line3') : null;
-                
+                const burgerLine1 = actualBurgerIcon?.querySelector('.line1');
+                const burgerLine2 = actualBurgerIcon?.querySelector('.line2');
+                const burgerLine3 = actualBurgerIcon?.querySelector('.line3');
                 let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
-
                 if (burgerLine1 && burgerLine2 && burgerLine3) {
                     const line1YInitial = parseFloat(burgerLine1.getAttribute('y'));
                     const line2YInitial = parseFloat(burgerLine2.getAttribute('y'));
                     const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
-                    
                     if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) {
-                        burgerTimeline
-                            .to(burgerLine1, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
-                            .to(burgerLine3, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
-                            .to(burgerLine2, { duration: 0.2, scaleX: 0, transformOrigin: "50% 50%", ease: "power2.in" }, "cross") 
-                            .to(burgerLine1, { duration: 0.25, rotation: 45,  transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd")
-                            .to(burgerLine3, { duration: 0.25, rotation: -45, transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd");
-                    } else {
-                        console.warn("AI_DEBUG: SVG burger lines y attributes not found. Falling back to simple rotation.");
-                        burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
-                    }
-                } else if (actualBurgerIcon) {
-                     console.warn("AI_DEBUG: Burger icon SVG or lines not fully found. Falling back to simple rotation.");
-                    burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
-                }
-
+                        burgerTimeline.to(burgerLine1, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross").to(burgerLine3, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross").to(burgerLine2, { duration: 0.2, scaleX: 0, transformOrigin: "50% 50%", ease: "power2.in" }, "cross") .to(burgerLine1, { duration: 0.25, rotation: 45,  transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd").to(burgerLine3, { duration: 0.25, rotation: -45, transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd");
+                    } else { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
+                } else if (actualBurgerIcon) { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});}
                 let fsMenuIsOpen = false;
                 gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
-                if (fsMenuItems.length > 0) {
-                    gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
-                }
-                 if (fsSubMenuItemsContainer) {
-                     gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
-                }
-
-                const openFullscreenMenu = () => { 
-                    if (fsMenuIsOpen) return;
-                    fsMenuIsOpen = true;
-                    
-                    fullscreenMenu.style.display = 'flex';
-                    burgerTimeline.play();
-                    customMenuToggler.classList.add('open');
-                    customMenuToggler.setAttribute('aria-expanded', 'true');
-
-                    const tlOpen = gsap.timeline();
-                    tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' });
-                    
-                    if (fsMenuItems.length > 0) {
-                       tlOpen.to(fsMenuItems, 
-                            { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, 
-                            "-=0.2"
-                        );
-                    }
-                    const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
-                    if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) {
-                        if (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto') {
-                             tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {
-                                autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out'
-                            }, "-=0.1");
-                        }
-                    }
-                };
-                const closeFullscreenMenu = () => {
-                    if (!fsMenuIsOpen) return;
-                    fsMenuIsOpen = false;
-
-                    burgerTimeline.reverse();
-                    customMenuToggler.classList.remove('open');
-                    customMenuToggler.setAttribute('aria-expanded', 'false');
-                    
-                    const tlClose = gsap.timeline({
-                        onComplete: () => {
-                            fullscreenMenu.style.display = 'none';
-                            if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
-                                gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); 
-                                gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0});
-                                const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
-                                if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');
-                           }
-                        }
-                    });
-
-                    if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
-                         tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {
-                            autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in'
-                        });
-                    }
-                    if (fsMenuItems.length > 0) {
-                        tlClose.to(fsMenuItems, { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, fsSubMenuItemsContainer ? "-=0.1" : 0);
-                    }
-                    tlClose.to(fullscreenMenu, { 
-                        autoAlpha: 0, 
-                        duration: 0.25, 
-                        ease: 'power1.in'
-                    }, fsMenuItems.length > 0 ? "-=0.1" : 0); 
-                };
-
+                if (fsMenuItems.length > 0) gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
+                if (fsSubMenuItemsContainer) gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                const openFullscreenMenu = () => { if (fsMenuIsOpen) return; fsMenuIsOpen = true; fullscreenMenu.style.display = 'flex'; burgerTimeline.play(); customMenuToggler.classList.add('open'); customMenuToggler.setAttribute('aria-expanded', 'true'); const tlOpen = gsap.timeline().to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' }); if (fsMenuItems.length > 0) tlOpen.to(fsMenuItems, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, "-=0.2"); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if (sectionsDropdownCustomFs?.classList.contains('active') && fsSubMenuItemsContainer && (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto')) { tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out'}, "-=0.1");}};
+                const closeFullscreenMenu = () => {if (!fsMenuIsOpen) return; fsMenuIsOpen = false; burgerTimeline.reverse(); customMenuToggler.classList.remove('open'); customMenuToggler.setAttribute('aria-expanded', 'false'); const tlClose = gsap.timeline({onComplete: () => {fullscreenMenu.style.display = 'none'; if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0}); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');}}}); if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in'});} if (fsMenuItems.length > 0) tlClose.to(fsMenuItems, { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, fsSubMenuItemsContainer ? "-=0.1" : 0); tlClose.to(fullscreenMenu, { autoAlpha: 0, duration: 0.25, ease: 'power1.in'}, fsMenuItems.length > 0 ? "-=0.1" : 0); };
                 customMenuToggler.addEventListener('click', () => { fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); });
-                
-                if (closeFullscreenMenuBtn) {
-                    closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
-                }
-                
+                if (closeFullscreenMenuBtn) closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
                 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); });
-                
                 const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
-                
-                if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {
-                    gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 }); 
-                    gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
-
-                    let subMenuFsIsOpen = false;
-                    sectionsDropdownCustomFs.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        subMenuFsIsOpen = !subMenuFsIsOpen;
-                        sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
-                        if (subMenuFsIsOpen) {
-                            gsap.timeline()
-                                .to(fsSubMenuItemsContainer, { 
-                                    height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem',
-                                    duration: 0.3, ease: 'power1.out' 
-                                })
-                                .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {
-                                    autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out'
-                                }, "-=0.2");
-                        } else {
-                            gsap.timeline()
-                                .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {
-                                    autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in'
-                                })
-                                .to(fsSubMenuItemsContainer, { 
-                                    height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0,
-                                    duration: 0.3, ease: 'power1.in' 
-                                }, "-=0.1");
-                        }
-                    });
-                    const fsSubMenuLinks = fsSubMenuItemsContainer ? gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
-                    fsSubMenuLinks.forEach(link => {
-                        link.addEventListener('mouseenter', () => {
-                            gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 });
-                        });
-                        link.addEventListener('mouseleave', () => {
-                            gsap.to(link, { color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), x: 0, duration: 0.2 });
-                        });
-                    });
-                }
+                if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 }); gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); let subMenuFsIsOpen = false; sectionsDropdownCustomFs.addEventListener('click', (e) => {e.preventDefault(); subMenuFsIsOpen = !subMenuFsIsOpen; sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString()); if (subMenuFsIsOpen) {gsap.timeline().to(fsSubMenuItemsContainer, { height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', duration: 0.3, ease: 'power1.out' }).to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out'}, "-=0.2");} else {gsap.timeline().to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in'}).to(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, duration: 0.3, ease: 'power1.in' }, "-=0.1");}}); const fsSubMenuLinks = fsSubMenuItemsContainer ? gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : []; fsSubMenuLinks.forEach(link => {link.addEventListener('mouseenter', () => gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 })); link.addEventListener('mouseleave', () => gsap.to(link, { color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), x: 0, duration: 0.2 }));});}
                 const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
-                if (activeFsDropdownItem) {
-                    activeFsDropdownItem.style.color = '#0d6efd'; 
-                    activeFsDropdownItem.style.fontWeight = '500';
-                }
-            } else {
-                console.warn("AI_DEBUG: Custom menu toggler or fullscreen menu not found. Fullscreen menu functionality disabled for this page.");
+                if (activeFsDropdownItem) { activeFsDropdownItem.style.color = '#0d6efd'; activeFsDropdownItem.style.fontWeight = '500';}
             }
 
+            // --- Анимации для нового дизайна ---
+            // Анимация заголовка страницы
+            gsap.from(".page-hero-section", {
+                duration: 1, 
+                opacity: 0, 
+                y: -50, 
+                ease: "power3.out",
+                delay: 0.2
+            });
+            gsap.from(".page-hero-section .hero-icon", {
+                duration: 0.8,
+                scale: 0.5,
+                opacity: 0,
+                delay: 0.5,
+                ease: "back.out(1.7)"
+            });
+            gsap.from(".page-hero-section h1", {
+                duration: 0.8,
+                y: 30,
+                opacity: 0,
+                delay: 0.7,
+                ease: "power3.out"
+            });
+            gsap.from(".page-hero-section .lead", {
+                duration: 0.8,
+                y: 20,
+                opacity: 0,
+                delay: 0.9,
+                ease: "power3.out"
+            });
 
-            // Анимация для секций контента
-            const contentSections = gsap.utils.toArray('.content-section');
-            contentSections.forEach((section, index) => {
+            // Анимация информационных секций (0.1 - 0.4)
+            const infoSections = gsap.utils.toArray('.info-section');
+            infoSections.forEach((section, index) => {
                 gsap.to(section, {
                     opacity: 1,
                     y: 0,
-                    duration: 0.7,
-                    delay: index * 0.1, 
+                    duration: 0.8,
+                    ease: "power3.out",
                     scrollTrigger: {
                         trigger: section,
-                        start: "top 85%",
-                        once: true
+                        start: "top 85%", // Анимация начнется, когда 85% секции видно
+                        once: true,
+                        // markers: true, // для отладки
                     }
                 });
             });
             
-            // --- Интерактив "Выбор проблемы и типа НКО" ---
-            // ... (ваш существующий код этого блока без изменений) ...
+            // Анимация для блоков "Интерактив с ИИ" и "Квиз" (бывшие content-section)
+             const interactiveBlocks = gsap.utils.toArray('#nkoChoiceInteractive, #nkoQuizSection');
+             interactiveBlocks.forEach((block, index) => {
+                gsap.to(block, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: block,
+                        start: "top 85%",
+                        once: true,
+                        // markers: true, // для отладки
+                    }
+                });
+            });
+
+
+            // --- Логика Интерактива с ИИ (без изменений) ---
             const showNkoConceptBtn = document.getElementById('showNkoConceptBtn');
             const nkoConceptResultDiv = document.getElementById('nkoConceptResult');
             const copyConceptBtn = document.getElementById('copyConceptBtn');
@@ -508,8 +470,6 @@
 
             if (nkoConceptResultDiv && aiFeedbackContainer) {
                  gsap.set([nkoConceptResultDiv, aiFeedbackContainer], {autoAlpha: 0, display: 'none'}); 
-            } else {
-                console.error("AI_DEBUG: ERROR - nkoConceptResultDiv or aiFeedbackContainer not found!");
             }
 
             if (showNkoConceptBtn) {
@@ -542,7 +502,7 @@
 
                     try {
                         const userPromptContent = `Проанализируй концепцию для НКО и дай содержательный и краткий комментарий.\nПроблема: ${problem || "не указана"}\nТип НКО: ${nkoTypeValue === '' ? "не выбран" : nkoType}\nОбоснование: ${justification || "не указано"}\n\nТвои мысли:`;
-                        const response = await fetch('https://beb0-2a02-8388-8b00-5580-4a08-9764-1212-46e7.ngrok-free.app/v1/chat/completions', { /* ... fetch options ... */ 
+                        const response = await fetch('https://beb0-2a02-8388-8b00-5580-4a08-9764-1212-46e7.ngrok-free.app/v1/chat/completions', { 
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -578,7 +538,7 @@
                 });
             }
             if(copyConceptBtn) {
-                copyConceptBtn.addEventListener('click', () => { /* ... copy logic ... */ 
+                copyConceptBtn.addEventListener('click', () => { 
                     const conceptText = `Проблема: ${document.getElementById('resultProblem').textContent}\nТип НКО: ${document.getElementById('resultNkoType').textContent}\nОбоснование: ${document.getElementById('resultJustification').textContent}`;
                     navigator.clipboard.writeText(conceptText).then(() => {
                         gsap.to(copyConceptBtn, {scale: 1.1, duration: 0.1, yoyo: true, repeat: 1, onComplete: () => {
@@ -589,9 +549,7 @@
                 });
             }
 
-
-            // --- Квиз по основам НКО ---
-             // ... (ваш существующий код квиза без изменений) ...
+            // --- Логика Квиза (без изменений, кроме анимации вопросов) ---
             const quizContainer = document.getElementById('quizContainer');
             const submitQuizBtn = document.getElementById('submitQuizBtn');
             const quizResultTextDiv = document.getElementById('quizResultText');
@@ -604,236 +562,73 @@
                 { question: "Что из перечисленного является ключевым направлением работы правозащитных НКО?", options: ["Организация коммерческих выставок", "Мониторинг и документирование нарушений прав", "Создание спортивных клубов", "Разработка компьютерных игр"], correctAnswer: "Мониторинг и документирование нарушений прав" },
                 { question: "Сетевое взаимодействие (нетворкинг) для НКО способствует:", options: ["Увеличению конкуренции между организациями", "Обмену опытом и координации усилий", "Изоляции от внешнего мира", "Обязательному слиянию организаций"], correctAnswer: "Обмену опытом и координации усилий" }
             ];
-            function displayQuiz() { /* ... */ 
-                if (!quizContainer) return;
-                let output = [];
-                quizQuestions.forEach((currentQuestion, questionNumber) => {
-                    let answers = [];
-                    currentQuestion.options.forEach(option => {
-                        answers.push(
-                            `<div class="form-check">
-                                <input class="form-check-input" type="radio" name="question${questionNumber}" id="q${questionNumber}option${option.replace(/\s+/g, '')}" value="${option}">
-                                <label class="form-check-label" for="q${questionNumber}option${option.replace(/\s+/g, '')}">
-                                    ${option}
-                                </label>
-                            </div>`
-                        );
-                    });
-                    output.push(
-                        `<div class="quiz-question mb-4 p-3 border rounded bg-white">
-                            <p class="fw-semibold">${questionNumber + 1}. ${currentQuestion.question}</p>
-                            ${answers.join('')}
-                        </div>`
-                    );
-                });
-                quizContainer.innerHTML = output.join('');
+            
+            function displayQuiz() { 
+                if (!quizContainer) return; 
+                let output = []; 
+                quizQuestions.forEach((currentQuestion, questionNumber) => { 
+                    let answers = []; 
+                    currentQuestion.options.forEach(option => { 
+                        answers.push( `<div class="form-check"><input class="form-check-input" type="radio" name="question${questionNumber}" id="q${questionNumber}option${option.replace(/\s+/g, '')}" value="${option}"><label class="form-check-label" for="q${questionNumber}option${option.replace(/\s+/g, '')}">${option}</label></div>` ); 
+                    }); 
+                    output.push( `<div class="quiz-question mb-4"><p class="fw-semibold">${questionNumber + 1}. ${currentQuestion.question}</p>${answers.join('')}</div>` ); // Removed some classes from here, added in CSS
+                }); 
+                quizContainer.innerHTML = output.join(''); 
                 if(submitQuizBtn) submitQuizBtn.style.display = 'block';
 
+                // Анимация появления вопросов квиза
                 const quizQuestionElements = gsap.utils.toArray('.quiz-question');
                 quizQuestionElements.forEach((q_el, index) => {
                     gsap.to(q_el, {
-                        opacity: 1, x: 0, duration: 0.5, delay: index * 0.15, 
-                        scrollTrigger: { trigger: q_el, start: "top 90%", once: true }
+                        opacity: 1, x: 0, duration: 0.6, delay: index * 0.2, 
+                        ease: "power2.out",
+                        scrollTrigger: { 
+                            trigger: quizContainer, // Trigger based on the whole quiz container
+                            start: "top 80%", // Start when quiz container is mostly in view
+                            once: true 
+                        }
                     });
                 });
             }
+
             if (submitQuizBtn) { submitQuizBtn.addEventListener('click', showResults); }
-            function showResults() { /* ... */ 
-                let score = 0;
-                quizQuestions.forEach((currentQuestion, questionNumber) => {
-                    const selector = `input[name="question${questionNumber}"]:checked`;
-                    const userAnswer = (quizContainer.querySelector(selector) || {}).value;
-                    if (userAnswer === currentQuestion.correctAnswer) score++;
-                });
-                const percentage = Math.round((score / quizQuestions.length) * 100);
-                if(quizScoreEl) quizScoreEl.textContent = `Ваш результат: ${score} из ${quizQuestions.length} (${percentage}%)`;
-                gsap.set([quizResultTextDiv, quizResultChartContainer], {display: 'block'});
+            
+            function showResults() { 
+                let score = 0; 
+                quizQuestions.forEach((currentQuestion, questionNumber) => { 
+                    const selector = `input[name="question${questionNumber}"]:checked`; 
+                    const userAnswer = (quizContainer.querySelector(selector) || {}).value; 
+                    if (userAnswer === currentQuestion.correctAnswer) score++; 
+                }); 
+                const percentage = Math.round((score / quizQuestions.length) * 100); 
+                if(quizScoreEl) quizScoreEl.textContent = `Ваш результат: ${score} из ${quizQuestions.length} (${percentage}%)`; 
+                
+                gsap.set([quizResultTextDiv, quizResultChartContainer], {display: 'block'}); 
                 gsap.fromTo([quizResultTextDiv, quizResultChartContainer], 
                     {opacity:0, y:20, scale:0.95}, 
-                    {opacity:1, y:0, scale:1, duration:0.6, ease: 'back.out(1.4)', stagger:0.2}
-                );
-                const ctx = document.getElementById('quizResultChart').getContext('2d');
+                    {opacity:1, y:0, scale:1, duration:0.6, ease: 'back.out(1.4)', stagger:0.2} 
+                ); 
+                const ctx = document.getElementById('quizResultChart').getContext('2d'); 
                 if (quizResultChartInstance) quizResultChartInstance.destroy(); 
-                quizResultChartInstance = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: { /* ... chart data ... */ 
-                        labels: ['Правильные ответы', 'Неправильные ответы'],
-                        datasets: [{
-                            label: 'Результат квиза', data: [score, quizQuestions.length - score],
-                            backgroundColor: ['rgba(25, 135, 84, 0.8)', 'rgba(220, 53, 69, 0.8)'],
-                            borderColor: ['rgba(25, 135, 84, 1)','rgba(220, 53, 69, 1)'],
-                            borderWidth: 1, hoverOffset: 8
-                        }]
-                    },
-                    options: { /* ... chart options ... */
+                quizResultChartInstance = new Chart(ctx, { 
+                    type: 'doughnut', 
+                    data: { 
+                        labels: ['Правильные ответы', 'Неправильные ответы'], 
+                        datasets: [{ 
+                            label: 'Результат квиза', data: [score, quizQuestions.length - score], 
+                            backgroundColor: ['rgba(25, 135, 84, 0.8)', 'rgba(220, 53, 69, 0.8)'], 
+                            borderColor: ['rgba(25, 135, 84, 1)','rgba(220, 53, 69, 1)'], 
+                            borderWidth: 1, hoverOffset: 8 
+                        }] 
+                    }, 
+                    options: { 
                          responsive: true, maintainAspectRatio: true, animation: { animateScale: true, animateRotate: true },
-                         plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(context) { let label = context.label || ''; if (label) { label += ': '; } if (context.parsed !== null) { label += context.parsed; } return label; }}}}
-                    }
-                });
-                if(submitQuizBtn) gsap.to(submitQuizBtn, {opacity:0, duration:0.3, onComplete: () => submitQuizBtn.style.display = 'none'});
+                         plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(context) { let label = context.label || ''; if (label) { label += ': '; } if (context.parsed !== null) { label += context.parsed; } return label; }}}} 
+                    } 
+                }); 
+                if(submitQuizBtn) gsap.to(submitQuizBtn, {opacity:0, duration:0.3, onComplete: () => submitQuizBtn.style.display = 'none'}); 
             }
-            if (quizContainer) { displayQuiz(); }
-            
-            // --- Интерактивные карточки: логика переключения и анимации ---
-            const introTabs = document.getElementById('introTabs');
-            const introCardsContainer = document.getElementById('introCardsContainer');
-            const introCards = gsap.utils.toArray('.intro-card');
-            let currentCard = 0; 
-            let isAnimating = false; // Prevent spam clicks during transition
-
-            const isMobileView = () => window.matchMedia("(max-width: 600px)").matches;
-
-            function updateContainerHeightForDesktop() {
-                if (isMobileView() || !introCardsContainer || introCards.length === 0 || !introCards[currentCard]) {
-                    if(isMobileView() && introCardsContainer) gsap.set(introCardsContainer, { height: 'auto' });
-                    return;
-                }
-                
-                const activeCard = introCards[currentCard];
-                // Ensure the card is 'block' and visible (even if opacity 0) to measure correctly for absolute positioning
-                const originalStyles = {
-                    display: activeCard.style.display,
-                    opacity: activeCard.style.opacity,
-                    transform: activeCard.style.transform,
-                    visibility: activeCard.style.visibility
-                };
-
-                gsap.set(activeCard, { 
-                    display: 'block', 
-                    opacity: 1, // Needs to be > 0 for offsetHeight
-                    transform: 'none', // No transforms that affect height
-                    visibility: 'hidden' // Measure without showing
-                });
-                const height = activeCard.offsetHeight;
-                gsap.set(activeCard, originalStyles); // Restore
-
-                if (height > 0 && Math.abs(gsap.getProperty(introCardsContainer, "height") - height) > 1) {
-                   gsap.to(introCardsContainer, { height: height, duration: 0.3, ease: 'power2.inOut' });
-                } else if (height > 0) {
-                   gsap.set(introCardsContainer, { height: height });
-                }
-            }
-
-            // INITIALIZATION
-            if (introCards.length > 0) {
-                let initialActiveCardIndex = introCards.findIndex(card => card.classList.contains('intro-card-active'));
-                if (initialActiveCardIndex === -1) initialActiveCardIndex = 0;
-                currentCard = initialActiveCardIndex;
-
-                introCards.forEach((card, i) => {
-                    const isActive = (i === currentCard);
-                    card.classList.toggle('intro-card-active', isActive);
-                    if (isActive) {
-                        gsap.set(card, { opacity: 1, scale: 1, y: 0, pointerEvents: 'auto', display: 'block' });
-                    } else {
-                        gsap.set(card, { 
-                            opacity: 0, scale: 0.98, y: 20, pointerEvents: 'none', 
-                            display: isMobileView() ? 'none' : 'block' // Desktop: block (absolute), Mobile: none (static)
-                        });
-                    }
-                });
-                gsap.delayedCall(0.05, updateContainerHeightForDesktop); // Initial height for desktop
-            }
-
-            // RESIZE HANDLING
-            window.addEventListener('resize', gsap.debounce(() => {
-                const mobile = isMobileView();
-                introCards.forEach((card, i) => {
-                    if (i === currentCard) {
-                        gsap.set(card, { display: 'block' }); // Active card always block
-                    } else {
-                        gsap.set(card, { display: mobile ? 'none' : 'block' });
-                    }
-                });
-                if (mobile) {
-                    gsap.set(introCardsContainer, { height: 'auto' });
-                } else {
-                    updateContainerHeightForDesktop();
-                }
-            }, 150));
-
-            // CLICK HANDLER
-            if (introTabs && introCards.length > 0) {
-                introTabs.addEventListener('click', (e) => {
-                    if (isAnimating) return;
-                    const btn = e.target.closest('.intro-tab-btn');
-                    if (!btn) return;
-
-                    const newCardIndex = parseInt(btn.getAttribute('data-card'));
-                    if (isNaN(newCardIndex) || newCardIndex === currentCard) return;
-                    
-                    isAnimating = true;
-
-                    introTabs.querySelectorAll('.intro-tab-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    const prevCard = introCards[currentCard];
-                    const nextCard = introCards[newCardIndex];
-
-                    if (!prevCard || !nextCard) {
-                        console.error("Card switch error: prev or next card not found.");
-                        isAnimating = false; 
-                        return;
-                    }
-
-                    const mobile = isMobileView();
-                    const tl = gsap.timeline({
-                        onComplete: () => {
-                            currentCard = newCardIndex;
-                            isAnimating = false;
-                            // Final check for container height
-                            if (mobile) {
-                                gsap.set(introCardsContainer, { height: 'auto' });
-                            } else {
-                                updateContainerHeightForDesktop();
-                            }
-                        }
-                    });
-
-                    // 1. Animate container height (on desktop only)
-                    if (!mobile) {
-                        const originalNextStyles = { display: nextCard.style.display, opacity: nextCard.style.opacity, transform: nextCard.style.transform, visibility: nextCard.style.visibility };
-                        gsap.set(nextCard, { display: 'block', opacity: 1, transform: 'none', visibility: 'hidden' });
-                        const nextCardHeight = nextCard.offsetHeight;
-                        gsap.set(nextCard, originalNextStyles);
-                        if (nextCardHeight > 0) {
-                            tl.to(introCardsContainer, { height: nextCardHeight, duration: 0.3, ease: 'power2.inOut' }, 0);
-                        }
-                    }
-                    
-                    // 2. Animate previous card out
-                    tl.add(() => { // Remove active class at the start of its animation
-                        prevCard.classList.remove('intro-card-active');
-                    }, 0);
-                    tl.to(prevCard, {
-                        opacity: 0, scale: 0.98, y: 20, duration: 0.35, pointerEvents: 'none'
-                    }, 0); // Starts at timeline position 0
-
-                    // 3. After prevCard is animated out, set its display if on mobile
-                    tl.add(() => {
-                        if (mobile) {
-                            gsap.set(prevCard, { display: 'none' }); 
-                        }
-                    }); // This will be added to the end of the current timeline (after prevCard fade)
-
-                    // 4. Prepare and animate next card in
-                    tl.add(() => { // Add a step to prepare the next card
-                        if (mobile) {
-                            gsap.set(nextCard, { display: 'block' }); // Make it take space on mobile
-                        } else {
-                            gsap.set(nextCard, { display: 'block' }); // Ensure it's block on desktop too
-                        }
-                        nextCard.classList.add('intro-card-active');
-                    });
-                    
-                    tl.fromTo(nextCard, 
-                        { opacity: 0, scale: 0.98, y: 20 }, // Initial state for animation
-                        { opacity: 1, scale: 1, y: 0, duration: 0.5, pointerEvents: 'auto', ease: 'power2.out' }
-                    ); // Continues from the end of the timeline
-                });
-            }
-            // --- Конец интерактивных карточек ---
-            console.log("AI_DEBUG: End of DOMContentLoaded script execution.");
+            if (quizContainer) displayQuiz();
         });
     </script>
 </body>
