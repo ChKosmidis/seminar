@@ -164,7 +164,6 @@
 
 <body>
     <header>
-        <!-- ... (Шапка и полноэкранное меню, как в предыдущих файлах, активный пункт "4. Безопасность") ... -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
             <div class="container">
                 <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.html">
@@ -285,9 +284,8 @@
                 </div>
             </section>
 
-            <!-- Остальные секции и интерактивные элементы будут добавлены по аналогии -->
             <!-- 4.3. Чек-лист "Экспресс-Аудит Цифровой Безопасности" и Интерактив -->
-            <section class="content-section interactive-section" id="s4-3">
+            <section class="content-section interactive-section security-audit-theme" id="s4-3">
                 <h4>
                     <img src="../assets/icons/safety.svg" alt="Цифровая безопасность" class="section-icon">
                     4.3. Практикум: Экспресс-Аудит Цифровой Безопасности
@@ -317,8 +315,8 @@
             </section>
 
 
-             <!-- 4.7. Интерактив "Разработка базового плана реагирования" -->
-            <section class="content-section interactive-section" id="s4-7">
+             <!-- 4.4. Интерактив "Разработка базового плана реагирования" (был 4.7) -->
+            <section class="content-section interactive-section" id="s4-4">
                  <h4>
                     <img src="../assets/icons/crisis.svg" alt="План реагирования" class="section-icon">
                     4.4. Интерактив: План Реагирования на Угрозы
@@ -363,8 +361,6 @@
                     </div>
                 </div>
             </section>
-            <!-- Другие подсекции (4.4, 4.5, 4.6) могут быть добавлены как простые текстовые блоки или также с интерактивными элементами по аналогии -->
-
         </div>
     </main>
 
@@ -372,6 +368,9 @@
          <div class="container text-center">
              <small>Материалы семинара © 2024.</small> <br>
              <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+             <div class="mt-4">
+                 <button class="btn btn-success" id="exportSectionResultsBtn">Выгрузить результаты раздела</button>
+             </div>
          </div>
     </footer>
 
@@ -379,18 +378,24 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/EasePack.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="../assets/fonts/Qanelas-Regular.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
     
     <script>
+    const GOOGLE_AI_API_KEY = "AIzaSyDl6bLHj4tFonVVBnKDhgIpdrTQuZXmhqo";
+    const GOOGLE_AI_API_URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
+    const GOOGLE_AI_MODEL = "gemma-3n-e4b-it"; // Используем модель из запроса пользователя
+    const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateContent?key=${GOOGLE_AI_API_KEY}`;
+
     document.addEventListener('DOMContentLoaded', () => {
         gsap.registerPlugin(ScrollTrigger, EasePack);
 
-        // --- Код для полноэкранного меню (аналогично другим страницам) ---
-        // ... (полный код из предыдущих ответов) ...
+        // --- Код для полноэкранного меню ---
         const customMenuToggler = document.getElementById('customMenuToggler');
         const fullscreenMenu = document.getElementById('fullscreenMenu');
         const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
-        if (customMenuToggler && fullscreenMenu) {
+        if (customMenuToggler && fullscreenMenu) { 
             const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
             const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
             const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
@@ -466,83 +471,37 @@
             const ths = comparisonTable.querySelectorAll('th.interactive-opf');
             ths.forEach((th, idx) => {
                 th.addEventListener('click', () => {
-                    // Удалить предыдущую карточку если есть
                     if (opfCard) {
-                        gsap.to(opfCard, {y: 40, autoAlpha: 0, scale: 0.95, duration: 0.3, ease: 'power2.in', onComplete: () => {
-                            opfCard.remove();
-                            opfCard = null;
-                        }});
-                        if (opfCardBg) {
-                            gsap.to(opfCardBg, {autoAlpha: 0, duration: 0.25, onComplete: () => {opfCardBg.remove(); opfCardBg = null;}});
-                        }
-                        if (opfCardResizeHandler) {
-                            window.removeEventListener('resize', opfCardResizeHandler);
-                            opfCardResizeHandler = null;
-                        }
+                        gsap.to(opfCard, {y: 40, autoAlpha: 0, scale: 0.95, duration: 0.3, ease: 'power2.in', onComplete: () => { opfCard.remove(); opfCard = null; }});
+                        if (opfCardBg) { gsap.to(opfCardBg, {autoAlpha: 0, duration: 0.25, onComplete: () => {opfCardBg.remove(); opfCardBg = null;}}); }
+                        if (opfCardResizeHandler) { window.removeEventListener('resize', opfCardResizeHandler); opfCardResizeHandler = null; }
                     }
-                    // Создать затемнение
                     opfCardBg = document.createElement('div');
                     opfCardBg.className = 'custom-modal-backdrop active';
                     opfCardBg.style.zIndex = 1040;
                     opfCardBg.style.pointerEvents = 'auto';
                     document.body.appendChild(opfCardBg);
-                    // Клик по фону закрывает карточку
                     opfCardBg.addEventListener('click', () => {
                         if (opfCard) gsap.to(opfCard, {y: 40, autoAlpha: 0, scale: 0.95, duration: 0.3, ease: 'power2.in', onComplete: () => {opfCard.remove(); opfCard = null;}});
                         gsap.to(opfCardBg, {autoAlpha: 0, duration: 0.25, onComplete: () => {opfCardBg.remove(); opfCardBg = null;}});
-                        if (opfCardResizeHandler) {
-                            window.removeEventListener('resize', opfCardResizeHandler);
-                            opfCardResizeHandler = null;
-                        }
+                        if (opfCardResizeHandler) { window.removeEventListener('resize', opfCardResizeHandler); opfCardResizeHandler = null; }
                     });
-                    // Карточка
                     opfCard = document.createElement('div');
                     opfCard.className = 'opf-info-card';
                     opfCard.style.zIndex = 1051;
-                    opfCard.innerHTML = `
-                        <button class="btn-close opf-card-close" style="position:absolute;top:18px;right:18px;z-index:2" aria-label="Закрыть"></button>
-                        <h4 class="mb-3 text-danger">${th.textContent}</h4>
-                        <div>${opfData[th.getAttribute('data-opf')] || '<p>Информация недоступна.</p>'}</div>
-                    `;
+                    opfCard.innerHTML = `<button class="btn-close opf-card-close" style="position:absolute;top:18px;right:18px;z-index:2" aria-label="Закрыть"></button><h4 class="mb-3 text-danger">${th.textContent}</h4><div>${opfData[th.getAttribute('data-opf')] || '<p>Информация недоступна.</p>'}</div>`;
                     document.body.appendChild(opfCard);
-                    // Стилизация и анимация
-                    Object.assign(opfCard.style, {
-                        position: 'fixed',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        minWidth: '320px',
-                        maxWidth: '95vw',
-                        width: '420px',
-                        background: '#fff',
-                        borderRadius: '1rem',
-                        boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-                        padding: '2.2rem 2rem 1.5rem 2rem',
-                        zIndex: 1051,
-                        opacity: 0,
-                        scale: 0.95,
-                        pointerEvents: 'auto',
-                        overflowY: 'auto',
-                        maxHeight: '80vh',
-                    });
-                    // Центрирование и адаптация по высоте
-                    function updateOpfCardMaxHeight() {
-                        const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-                        opfCard.style.maxHeight = Math.floor(vh * 0.8) + 'px';
-                    }
+                    Object.assign(opfCard.style, { position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', minWidth: '320px', maxWidth: '95vw', width: '420px', background: '#fff', borderRadius: '1rem', boxShadow: '0 8px 32px rgba(0,0,0,0.18)', padding: '2.2rem 2rem 1.5rem 2rem', zIndex: 1051, opacity: 0, scale: 0.95, pointerEvents: 'auto', overflowY: 'auto', maxHeight: '80vh' });
+                    function updateOpfCardMaxHeight() { const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0); opfCard.style.maxHeight = Math.floor(vh * 0.8) + 'px'; }
                     updateOpfCardMaxHeight();
                     opfCardResizeHandler = updateOpfCardMaxHeight;
                     window.addEventListener('resize', opfCardResizeHandler);
                     gsap.to(opfCard, {autoAlpha: 1, scale: 1, duration: 0.38, ease: 'power2.out'});
-                    // Кнопка закрытия
                     opfCard.querySelector('.opf-card-close').addEventListener('click', () => {
                         gsap.to(opfCard, {autoAlpha: 0, scale: 0.95, duration: 0.3, ease: 'power2.in', onComplete: () => {opfCard.remove(); opfCard = null;}});
-    gsap.to(opfCardBg, {autoAlpha: 0, duration: 0.25, onComplete: () => {opfCardBg.remove(); opfCardBg = null;}});
-    if (opfCardResizeHandler) {
-        window.removeEventListener('resize', opfCardResizeHandler);
-        opfCardResizeHandler = null;
-    }
-});
+                        gsap.to(opfCardBg, {autoAlpha: 0, duration: 0.25, onComplete: () => {opfCardBg.remove(); opfCardBg = null;}});
+                        if (opfCardResizeHandler) { window.removeEventListener('resize', opfCardResizeHandler); opfCardResizeHandler = null; }
+                    });
                 });
             });
         }
@@ -559,151 +518,50 @@
         risksData.forEach(risk => {
             const card = document.createElement('div');
             card.className = 'risk-card';
-            card.innerHTML = `
-                <div class="risk-card-header" style="cursor:pointer;">
-                    <h5>${risk.title}</h5>
-                    <span class="arrow-icon">▼</span>
-                </div>
-                <div class="risk-card-body">
-                    <p>${risk.description}</p>
-                </div>
-            `;
+            card.innerHTML = `<div class="risk-card-header" style="cursor:pointer;"><h5>${risk.title}</h5><span class="arrow-icon">▼</span></div><div class="risk-card-body"><p>${risk.description}</p></div>`;
             riskListContainer.appendChild(card);
             const header = card.querySelector('.risk-card-header');
             const body = card.querySelector('.risk-card-body');
-            // Скрываем body по умолчанию
-            body.style.display = 'none';
-            body.style.overflow = 'hidden';
-            body.style.height = '0';
-            body.style.paddingTop = '0';
-            body.style.paddingBottom = '0';
+            body.style.display = 'none'; body.style.overflow = 'hidden'; body.style.height = '0'; body.style.paddingTop = '0'; body.style.paddingBottom = '0';
             header.addEventListener('click', () => {
                 const isActive = card.classList.toggle('active');
                 if (isActive) {
-                    body.style.display = 'block';
-                    body.style.overflow = 'hidden';
-                    body.style.height = '0';
-                    body.style.paddingTop = '0';
-                    body.style.paddingBottom = '0';
-                    // Нужно дать браузеру применить стили, иначе scrollHeight будет 0
+                    body.style.display = 'block'; body.style.overflow = 'hidden'; body.style.height = '0'; body.style.paddingTop = '0'; body.style.paddingBottom = '0';
                     requestAnimationFrame(() => {
                         const targetHeight = body.scrollHeight;
-                        gsap.to(body, {
-                            height: targetHeight + 'px',
-                            autoAlpha: 1,
-                            paddingTop: '1.25rem',
-                            paddingBottom: '1.25rem',
-                            duration: 0.38,
-                            ease: 'power1.inOut',
-                            onUpdate: () => { body.style.overflow = 'hidden'; },
-                            onComplete: () => {
-                                body.style.height = '';
-                                body.style.overflow = '';
-                            }
-                        });
+                        gsap.to(body, { height: targetHeight + 'px', autoAlpha: 1, paddingTop: '1.25rem', paddingBottom: '1.25rem', duration: 0.38, ease: 'power1.inOut', onUpdate: () => { body.style.overflow = 'hidden'; }, onComplete: () => { body.style.height = ''; body.style.overflow = ''; } });
                     });
                 } else {
                     body.style.overflow = 'hidden';
-                    gsap.to(body, {
-                        height: 0,
-                        autoAlpha: 0,
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        duration: 0.3,
-                        ease: 'power1.inOut',
-                        onUpdate: () => { body.style.overflow = 'hidden'; },
-                        onComplete: () => {
-                            body.style.display = 'none';
-                            body.style.overflow = '';
-                        }
-                    });
+                    gsap.to(body, { height: 0, autoAlpha: 0, paddingTop: 0, paddingBottom: 0, duration: 0.3, ease: 'power1.inOut', onUpdate: () => { body.style.overflow = 'hidden'; }, onComplete: () => { body.style.display = 'none'; body.style.overflow = ''; } });
                 }
             });
         });
         
         // --- Экспресс-Аудит Цифровой Безопасности ---
-        // Оборачиваем секцию в контейнер для смены темы
         const auditSection = document.getElementById('s4-3');
         auditSection.classList.add('security-audit-theme');
-
         const checklistItems = document.querySelectorAll('#digitalSecurityChecklist li');
         const checkedCountEl = document.getElementById('checkedCount');
         const totalCountEl = document.getElementById('totalCount');
         const securityProgressEl = document.getElementById('securityProgress');
         totalCountEl.textContent = checklistItems.length;
         let currentChecked = 0;
-
-        // Цвета для плавного перехода (красный → жёлтый → зелёный)
-        const colorStops = [
-            { percent: 0, bg: '#ffe5e5', grad: '#fff0f0', border: '#f8d7da', h4: '#dc3545', bar: '#dc3545' },
-            { percent: 0.5, bg: '#fffbe5', grad: '#fffbe0', border: '#ffe066', h4: '#ffc107', bar: '#ffc107' },
-            { percent: 1, bg: '#e6f9e6', grad: '#f0fff0', border: '#b7e4c7', h4: '#198754', bar: '#198754' }
-        ];
-
-        function lerpColor(a, b, t) {
-            // a, b: hex colors, t: 0..1
-            const ah = a.replace('#', '');
-            const bh = b.replace('#', '');
-            const ar = parseInt(ah.substring(0,2),16), ag = parseInt(ah.substring(2,4),16), ab = parseInt(ah.substring(4,6),16);
-            const br = parseInt(bh.substring(0,2),16), bg = parseInt(bh.substring(2,4),16), bb = parseInt(bh.substring(4,6),16);
-            const rr = Math.round(ar + (br-ar)*t);
-            const rg = Math.round(ag + (bg-ag)*t);
-            const rb = Math.round(ab + (bb-ab)*t);
-            return `#${rr.toString(16).padStart(2,'0')}${rg.toString(16).padStart(2,'0')}${rb.toString(16).padStart(2,'0')}`;
-        }
-
-        function getInterpolatedColors(percent) {
-            let left = colorStops[0], right = colorStops[colorStops.length-1];
-            for (let i=1; i<colorStops.length; ++i) {
-                if (percent <= colorStops[i].percent) {
-                    left = colorStops[i-1];
-                    right = colorStops[i];
-                    break;
-                }
-            }
-            const range = right.percent - left.percent;
-            const t = range === 0 ? 0 : (percent - left.percent) / range;
-            return {
-                bg: lerpColor(left.bg, right.bg, t),
-                grad: lerpColor(left.grad, right.grad, t),
-                border: lerpColor(left.border, right.border, t),
-                h4: lerpColor(left.h4, right.h4, t),
-                bar: lerpColor(left.bar, right.bar, t)
-            };
-        }
-
-        function updateAuditTheme() {
-            const percent = currentChecked / checklistItems.length;
-            const colors = getInterpolatedColors(percent);
-            auditSection.style.background = `linear-gradient(135deg, ${colors.bg} 0%, ${colors.grad} 100%)`;
-            auditSection.style.border = `2px solid ${colors.border}`;
-            const h4 = auditSection.querySelector('h4');
-            if (h4) h4.style.color = colors.h4;
-            securityProgressEl.style.background = `linear-gradient(90deg, ${colors.bar} 60%, ${colors.grad} 100%)`;
-        }
+        const colorStops = [ { percent: 0, bg: '#ffe5e5', grad: '#fff0f0', border: '#f8d7da', h4: '#dc3545', bar: '#dc3545' }, { percent: 0.5, bg: '#fffbe5', grad: '#fffbe0', border: '#ffe066', h4: '#ffc107', bar: '#ffc107' }, { percent: 1, bg: '#e6f9e6', grad: '#f0fff0', border: '#b7e4c7', h4: '#198754', bar: '#198754' }];
+        function lerpColor(a, b, t) { const ah = a.replace('#', ''); const bh = b.replace('#', ''); const ar = parseInt(ah.substring(0,2),16), ag = parseInt(ah.substring(2,4),16), ab = parseInt(ah.substring(4,6),16); const br = parseInt(bh.substring(0,2),16), bg = parseInt(bh.substring(2,4),16), bb = parseInt(bh.substring(4,6),16); const rr = Math.round(ar + (br-ar)*t); const rg = Math.round(ag + (bg-ag)*t); const rb = Math.round(ab + (bb-ab)*t); return `#${rr.toString(16).padStart(2,'0')}${rg.toString(16).padStart(2,'0')}${rb.toString(16).padStart(2,'0')}`; }
+        function getInterpolatedColors(percent) { let left = colorStops[0], right = colorStops[colorStops.length-1]; for (let i=1; i<colorStops.length; ++i) { if (percent <= colorStops[i].percent) { left = colorStops[i-1]; right = colorStops[i]; break; } } const range = right.percent - left.percent; const t = range === 0 ? 0 : (percent - left.percent) / range; return { bg: lerpColor(left.bg, right.bg, t), grad: lerpColor(left.grad, right.grad, t), border: lerpColor(left.border, right.border, t), h4: lerpColor(left.h4, right.h4, t), bar: lerpColor(left.bar, right.bar, t) }; }
+        function updateAuditTheme() { const percent = currentChecked / checklistItems.length; const colors = getInterpolatedColors(percent); auditSection.style.background = `linear-gradient(135deg, ${colors.bg} 0%, ${colors.grad} 100%)`; auditSection.style.border = `2px solid ${colors.border}`; const h4 = auditSection.querySelector('h4'); if (h4) h4.style.color = colors.h4; securityProgressEl.style.background = `linear-gradient(90deg, ${colors.bar} 60%, ${colors.grad} 100%)`; }
         updateAuditTheme();
-
         checklistItems.forEach(item => {
             item.addEventListener('click', () => {
-                const wasChecked = item.classList.contains('checked');
-                item.classList.toggle('checked');
-                // GSAP анимация для галочки и фона
-                if (!wasChecked) {
-                    gsap.fromTo(item, {backgroundColor: '#fff'}, {backgroundColor: '#e9f5e9', borderColor: '#c3e6cb', duration: 0.3});
-                    gsap.fromTo(item, {scale: 1}, {scale: 1.04, yoyo: true, repeat: 1, duration: 0.12, ease: 'power1.inOut'});
-                } else {
-                    gsap.to(item, {backgroundColor: '#fff', borderColor: '#eee', duration: 0.3});
-                }
+                const wasChecked = item.classList.contains('checked'); item.classList.toggle('checked');
+                if (!wasChecked) { gsap.fromTo(item, {backgroundColor: '#fff'}, {backgroundColor: '#e9f5e9', borderColor: '#c3e6cb', duration: 0.3}); gsap.fromTo(item, {scale: 1}, {scale: 1.04, yoyo: true, repeat: 1, duration: 0.12, ease: 'power1.inOut'});
+                } else { gsap.to(item, {backgroundColor: '#fff', borderColor: '#eee', duration: 0.3}); }
                 currentChecked = document.querySelectorAll('#digitalSecurityChecklist li.checked').length;
-                checkedCountEl.textContent = currentChecked;
-                const percentage = Math.round((currentChecked / checklistItems.length) * 100);
+                checkedCountEl.textContent = currentChecked; const percentage = Math.round((currentChecked / checklistItems.length) * 100);
                 gsap.to(securityProgressEl, { width: percentage + '%', duration: 0.5, ease: 'power2.out' });
-                securityProgressEl.setAttribute('aria-valuenow', percentage);
-                securityProgressEl.textContent = percentage > 10 ? percentage + '%' : '';
-                // Анимация прогресс-бара
-                gsap.fromTo(securityProgressEl, {scaleY: 1.1}, {scaleY: 1, duration: 0.3, ease: 'power1.out'});
-                // Плавная смена темы блока
-                updateAuditTheme();
+                securityProgressEl.setAttribute('aria-valuenow', percentage); securityProgressEl.textContent = percentage > 10 ? percentage + '%' : '';
+                gsap.fromTo(securityProgressEl, {scaleY: 1.1}, {scaleY: 1, duration: 0.3, ease: 'power1.out'}); updateAuditTheme();
             });
         });
 
@@ -714,18 +572,11 @@
         const getThreatAiAdviceBtn = document.getElementById('getThreatAiAdviceBtn');
         const aiThreatResponseFeedbackContainer = document.getElementById('aiThreatResponseFeedbackContainer');
         const aiThreatResponseFeedbackResultEl = document.getElementById('aiThreatResponseFeedbackResult');
-        
         gsap.set(aiThreatResponseFeedbackContainer, {display: 'none', autoAlpha:0});
-
         threatSelect.addEventListener('change', function() {
-            if (this.value) {
-                selectedThreatNameEl.textContent = this.options[this.selectedIndex].text;
-                gsap.to(threatResponseForm, {display: 'block', height: 'auto', opacity: 1, duration: 0.3});
-            } else {
-                gsap.to(threatResponseForm, {display: 'none', height: 0, opacity: 0, duration: 0.3});
-            }
+            if (this.value) { selectedThreatNameEl.textContent = this.options[this.selectedIndex].text; gsap.to(threatResponseForm, {display: 'block', height: 'auto', opacity: 1, duration: 0.3});
+            } else { gsap.to(threatResponseForm, {display: 'none', height: 0, opacity: 0, duration: 0.3}); }
         });
-
         if (getThreatAiAdviceBtn) {
             getThreatAiAdviceBtn.addEventListener('click', async () => {
                 const threat = threatSelect.value;
@@ -734,50 +585,45 @@
                 const actions = document.getElementById('immediateActions').value;
                 const internal = document.getElementById('internalNotify').value;
                 const external = document.getElementById('externalNotify').value;
-
-                if (!threat || !actions) {
-                    alert("Пожалуйста, выберите угрозу и опишите немедленные действия.");
-                    return;
-                }
-                 gsap.timeline().set(aiThreatResponseFeedbackContainer, {display: 'block'}).to(aiThreatResponseFeedbackContainer, {autoAlpha:1, y:0, duration: 0.4, ease: 'power2.out'});
+                if (!threat || !actions) { alert("Пожалуйста, выберите угрозу и опишите немедленные действия."); return; }
+                gsap.timeline().set(aiThreatResponseFeedbackContainer, {display: 'block'}).to(aiThreatResponseFeedbackContainer, {autoAlpha:1, y:0, duration: 0.4, ease: 'power2.out'});
                 aiThreatResponseFeedbackResultEl.innerHTML = '<em>🛡️ ИИ оценивает ваш план реагирования...</em>';
                 gsap.fromTo(aiThreatResponseFeedbackResultEl, {opacity:0.5, y:5}, {opacity:1, y:0, duration:0.3});
-
                 try {
-                    const userPrompt = `
-Пользователь НКО разрабатывает план реагирования на угрозу: "${threatText}".
-Предложенный план:
-- Главный ответственный (роль): ${responsible || "Не указано"}
-- Первые 3-5 немедленных действий: ${actions}
-- Оповещение внутри команды: ${internal || "Не указано"}
-- Оповещение извне: ${external || "Не указано"}
-
-Дай краткий и конструктивный фидбэк по этому плану. Укажи сильные стороны и что можно улучшить/добавить. Ответ на русском. Кратко.
-                    `;
-                    const response = await fetch('https://beb0-2a02-8388-8b00-5580-4a08-9764-1212-46e7.ngrok-free.app/v1/chat/completions', { /* ... fetch details ... */ 
+                    // Объединяем system prompt и user prompt
+                    const systemPrompt = "Ты — ИИ-эксперт по безопасности НКО и кризисному управлению. Твоя задача — дать краткий конструктивный фидбэк на план реагирования пользователя. Кратко. Ответ на русском.";
+                    const userPrompt = `${systemPrompt}\n\nПользователь НКО разрабатывает план реагирования на угрозу: "${threatText}".\nПредложенный план:\n- Главный ответственный (роль): ${responsible || "Не указано"}\n- Первые 3-5 немедленных действий: ${actions}\n- Оповещение внутри команды: ${internal || "Не указано"}\n- Оповещение извне: ${external || "Не указано"}\n\nДай краткий и конструктивный фидбэк по этому плану. Укажи сильные стороны и что можно улучшить/добавить. Ответ на русском. Кратко.`;
+                    const requestPayload = {
+                        contents: [{
+                            role: "user",
+                            parts: [{ "text": userPrompt }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.6,
+                            maxOutputTokens: 500
+                        }
+                    };
+                    const response = await fetch(GOOGLE_AI_API_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            model: "qwen3-1.7b",
-                            messages: [
-                                { role: "system", content: "Ты — ИИ-эксперт по безопасности НКО и кризисному управлению. Твоя задача — дать краткий конструктивный фидбэк на план реагирования пользователя. Кратко. Ответ на русском." },
-                                { role: "user", content: userPrompt }
-                            ],
-                            temperature: 0.5, max_tokens: 500, stream: false
-                        })
+                        body: JSON.stringify(requestPayload)
                     });
-                    if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
+
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({ error: { message: 'Unknown error format' } }));
+                        console.error("Google AI API Error Data:", errorData);
+                        throw new Error(`Ошибка сети: ${response.status} - ${errorData.error?.message || response.statusText || 'Unknown error'}`);
+                    }
                     const data = await response.json();
-                    let aiMessage = data.choices?.[0]?.message?.content?.trim() || "Не удалось получить комментарий от ИИ.";
+                    let aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "Не удалось получить комментарий от ИИ.";
                     aiMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/^\s*-\s*(.*)/gm, '<li>$1</li>');
                     if (aiMessage.includes('<li>')) { aiMessage = aiMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`); aiMessage = aiMessage.replace(/<\/ul>\s*<ul>/g, '');}
                     aiMessage = aiMessage.replace(/\n/g, '<br>');
-
                     gsap.to(aiThreatResponseFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
                         aiThreatResponseFeedbackResultEl.innerHTML = aiMessage;
                         gsap.to(aiThreatResponseFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
                     }});
-                } catch (error) { /* ... error handling ... */
+                } catch (error) { 
                     console.error('AI Threat Response Error:', error);
                     gsap.to(aiThreatResponseFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
                         aiThreatResponseFeedbackResultEl.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
@@ -788,79 +634,94 @@
         }
         
         // --- PDF экспорт раздела 4 ---
-const exportBtn = document.getElementById('exportSectionResultsBtn');
-if (!exportBtn) {
-    // Добавить кнопку в футер, если её нет
-    const footer = document.querySelector('footer .container.text-center .mt-4') || document.querySelector('footer .container.text-center');
-    if (footer) {
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-success';
-        btn.id = 'exportSectionResultsBtn';
-        btn.textContent = 'Выгрузить результаты раздела';
-        footer.appendChild(btn);
-    }
-}
-const exportBtn4 = document.getElementById('exportSectionResultsBtn');
-if (exportBtn4) {
-    exportBtn4.addEventListener('click', function() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({unit: 'pt', format: 'a4'});
-        if (window.QanelasRegularFontData && window.QanelasRegularFontData.base64) {
-            doc.addFileToVFS('Qanelas-Regular.ttf', window.QanelasRegularFontData.base64);
-            doc.addFont('Qanelas-Regular.ttf', 'Qanelas', 'normal');
-        }
-        doc.setFont('Qanelas', 'normal');
-        const pageWidth = doc.internal.pageSize.getWidth();
-        let y = 40;
-        // Заголовок
-        doc.setFontSize(22);
-        doc.setTextColor('#dc3545');
-        doc.text('Раздел 4: Правовые основы и безопасность', pageWidth/2, y, {align:'center'});
-        y += 30;
-        doc.setFontSize(14);
-        doc.setTextColor('#333');
-        // Секции
-        document.querySelectorAll('.content-section').forEach(section => {
-            const title = section.querySelector('h3, .section-title')?.innerText || '';
-            if (title) {
-                doc.setFontSize(15);
-                doc.setTextColor('#dc3545');
-                doc.text(title, 40, y);
-                y += 18;
-            }
-            doc.setFontSize(11);
-            doc.setTextColor('#444');
-            section.querySelectorAll('p, ul, ol').forEach(el => {
-                let text = '';
-                if (el.tagName === 'P') text = el.innerText;
-                if (el.tagName === 'UL' || el.tagName === 'OL') {
-                    text = Array.from(el.children).map(li => '- ' + li.innerText).join('\n');
+        const exportBtn4 = document.getElementById('exportSectionResultsBtn');
+        if (exportBtn4) {
+            exportBtn4.addEventListener('click', function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({unit: 'pt', format: 'a4'});
+                if (window.QanelasRegularFontData && window.QanelasRegularFontData.base64) {
+                    doc.addFileToVFS('Qanelas-Regular.ttf', window.QanelasRegularFontData.base64);
+                    doc.addFont('Qanelas-Regular.ttf', 'Qanelas', 'normal');
                 }
-                if (text) {
-                    const split = doc.splitTextToSize(text, pageWidth-80);
-                    doc.text(split, 40, y);
-                    y += split.length * 15 + 5;
-                }
+                doc.setFont('Qanelas', 'normal');
+                const pageWidth = doc.internal.pageSize.getWidth();
+                let y = 40;
+                doc.setFontSize(22); doc.setTextColor('#dc3545'); doc.text('Раздел 4: Правовые основы и безопасность', pageWidth/2, y, {align:'center'}); y += 30;
+                document.querySelectorAll('.content-section').forEach(section => {
+                    const titleEl = section.querySelector('h3, h4'); // More specific selection
+                    if(titleEl) {
+                       const title = titleEl.innerText.replace(/\s*<small.*<\/small>/i, '').trim(); // Remove small tag content
+                       if (title) {
+                           doc.setFontSize(15); doc.setTextColor('#dc3545'); doc.text(title, 40, y); y += 20;
+                       }
+                    }
+                    doc.setFontSize(11); doc.setTextColor('#444');
+                    section.querySelectorAll('p, ul:not(.checklist-security) li, .alert ul li, .example-story p, .risk-card-body p').forEach(el => { // Added more selectors
+                        let text = el.innerText.trim();
+                        if (el.tagName === 'LI' && !el.closest('.checklist-security')) text = '• ' + text;
+                        if (text) {
+                            const split = doc.splitTextToSize(text, pageWidth - 80);
+                            doc.text(split, 40, y); y += split.length * 13 + 4;
+                            if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+                        }
+                    });
+                    // Экспресс-аудит
+                    if (section.id === 's4-3') {
+                        doc.setFontSize(12); doc.setTextColor('#58151c'); y += 5;
+                        doc.text('Экспресс-Аудит Цифровой Безопасности - Отмеченные пункты:', 40, y); y+=15;
+                        doc.setFontSize(10); doc.setTextColor('#333');
+                        let checkedItemsAudit = [];
+                        section.querySelectorAll('#digitalSecurityChecklist li.checked').forEach(li => {
+                            checkedItemsAudit.push([li.innerText]);
+                        });
+                         if(checkedItemsAudit.length > 0){
+                            doc.autoTable({
+                                head: [['Отмечено']],
+                                body: checkedItemsAudit,
+                                startY: y, theme: 'grid', headStyles: {fillColor: [248,215,218]}, styles: {font: 'Qanelas', fontSize:9, cellPadding:3},
+                                margin: {left: 40, right: 40}
+                            });
+                            y = doc.lastAutoTable.finalY + 15;
+                         } else {
+                            doc.text('Нет отмеченных пунктов.', 50, y); y += 15;
+                         }
+                         if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+                    }
+                    // План реагирования - форма
+                    if (section.id === 's4-4') {
+                        const threatVal = threatSelect.value;
+                        if (threatVal) {
+                            doc.setFontSize(12); doc.setTextColor('#58151c'); y += 5;
+                            doc.text(`План реагирования на угрозу: ${threatSelect.options[threatSelect.selectedIndex].text}`, 40, y); y+=15;
+                            const planData = [
+                                ["Ответственный:", document.getElementById('responsiblePerson').value || "Не указано"],
+                                ["Действия:", document.getElementById('immediateActions').value || "Не указано"],
+                                ["Внутреннее оповещение:", document.getElementById('internalNotify').value || "Не указано"],
+                                ["Внешнее оповещение:", document.getElementById('externalNotify').value || "Не указано"]
+                            ];
+                            doc.autoTable({
+                                body: planData,
+                                startY: y, theme: 'plain', styles: {font: 'Qanelas', fontSize:10, cellPadding:2},
+                                margin: {left: 40, right: 40}
+                            });
+                             y = doc.lastAutoTable.finalY + 10;
+                             if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+                        }
+                        const aiThreatResponseFeedback = document.getElementById('aiThreatResponseFeedbackResult')?.innerText;
+                        if (aiThreatResponseFeedback && aiThreatResponseFeedback.trim() && !aiThreatResponseFeedback.includes('Выберите угрозу')) {
+                            doc.setFontSize(12); doc.setTextColor('#0d6efd'); doc.text('AI-отзыв по плану реагирования:', 40, y); y += 15;
+                            doc.setFontSize(10); doc.setTextColor('#444');
+                            const split = doc.splitTextToSize(aiThreatResponseFeedback, pageWidth-80);
+                            doc.text(split, 40, y); y += split.length * 12 + 10;
+                            if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+                        }
+                    }
+                    y += 10;
+                     if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+                });
+                doc.save('legal_and_security_results.pdf');
             });
-            y += 10;
-        });
-        // AI feedback по плану реагирования (если есть)
-        const aiThreatResponseFeedback = document.getElementById('aiThreatResponseFeedbackResult')?.innerText;
-        if (aiThreatResponseFeedback && aiThreatResponseFeedback.trim() && aiThreatResponseFeedback.trim() !== 'ИИ анализирует ваш план...') {
-            doc.setFontSize(14);
-            doc.setTextColor('#dc3545');
-            doc.text('AI-отзыв по вашему плану реагирования:', 40, y);
-            y += 18;
-            doc.setFontSize(11);
-            doc.setTextColor('#444');
-            const split = doc.splitTextToSize(aiThreatResponseFeedback, pageWidth-80);
-            doc.text(split, 40, y);
-            y += split.length * 15 + 10;
         }
-        doc.save('legal_and_security_results.pdf');
-    });
-}
-
         ScrollTrigger.refresh();
     });
     </script>

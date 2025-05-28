@@ -356,6 +356,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     
     <script>
+const GOOGLE_AI_API_KEY = "AIzaSyDl6bLHj4tFonVVBnKDhgIpdrTQuZXmhqo";
+// ЗАМЕНИТЕ ЭТОТ URL НА АКТУАЛЬНЫЙ ДЛЯ GEMMA, ЕСЛИ ОН ДРУГОЙ!
+const GOOGLE_AI_API_URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
+const GOOGLE_AI_MODEL = "gemma-3n-e4b-it"; // Ваша модель
+const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateContent?key=${GOOGLE_AI_API_KEY}`;
+
         document.addEventListener('DOMContentLoaded', () => {
             gsap.registerPlugin(ScrollTrigger);
 
@@ -461,7 +467,7 @@
             });
 
 
-            // --- Логика Интерактива с ИИ (без изменений) ---
+            // --- Логика Интерактива с ИИ (обновлено для Gemini/Gemma) ---
             const showNkoConceptBtn = document.getElementById('showNkoConceptBtn');
             const nkoConceptResultDiv = document.getElementById('nkoConceptResult');
             const copyConceptBtn = document.getElementById('copyConceptBtn');
@@ -501,27 +507,26 @@
                     } else { return; }
 
                     try {
-                        const userPromptContent = `Проанализируй концепцию для НКО и дай содержательный и краткий комментарий.\nПроблема: ${problem || "не указана"}\nТип НКО: ${nkoTypeValue === '' ? "не выбран" : nkoType}\nОбоснование: ${justification || "не указано"}\n\nТвои мысли:`;
-                        const response = await fetch('https://beb0-2a02-8388-8b00-5580-4a08-9764-1212-46e7.ngrok-free.app/v1/chat/completions', { 
+                        // Gemini/Gemma API: только role: "user" и "model" разрешены
+                        const userPromptContent = `Ты — дружелюбный ИИ-помощник для начинающих НКО. Твоя задача — дать содержательный и краткий комментарий на предложенную концепцию НКО. Подчеркни сильные стороны. Ответ должен быть на русском языке.\n\nПроблема: ${problem || "не указана"}\nТип НКО: ${nkoTypeValue === '' ? "не выбран" : nkoType}\nОбоснование: ${justification || "не указано"}\n\nТвои мысли:`;
+                        const response = await fetch(GOOGLE_AI_API_URL, {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
                             body: JSON.stringify({
-                                model: "qwen3-1.7b",
-                                messages: [
-                                    { role: "system", content: "Ты — дружелюбный ИИ-помощник для начинающих НКО. Твоя задача — дать содержательный и краткий комментарий на предложенную концепцию НКО. Подчеркни сильные стороны. Ответ должен быть на русском языке." },
-                                    { role: "user", content: userPromptContent }
+                                contents: [
+                                    { role: "user", parts: [{ text: userPromptContent }] }
                                 ],
-                                temperature: 0.7, max_tokens: 800, stream: false
+                                generationConfig: {
+                                    temperature: 0.7,
+                                    maxOutputTokens: 800
+                                }
                             })
                         });
                         if (!response.ok) { const errorText = await response.text(); throw new Error(`Ошибка сети: ${response.status} ${response.statusText}. ${errorText}`);}
                         const data = await response.json();
-                        let aiMessage = data.choices?.[0]?.message?.content?.trim() || "Не удалось получить ответ.";
-                        if (aiMessage.toLowerCase().startsWith("<think>")) {
-                            const thinkEndIndex = aiMessage.toLowerCase().indexOf("</think>");
-                            aiMessage = thinkEndIndex !== -1 ? aiMessage.substring(thinkEndIndex + "</think>".length).trim() : aiMessage.replace(/^<think>\s*/i, "").trim();
-                            if (!aiMessage) aiMessage = "ИИ задумался...";
-                        }
+                        let aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "Не удалось получить ответ.";
                         let htmlMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/^\s*\*\s+(.*)/gm, '<li>$1</li>');
                         if (htmlMessage.includes('<li>')) { htmlMessage = htmlMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`).replace(/<\/ul>\s*<ul>/g, '');}
                         htmlMessage = htmlMessage.replace(/\n/g, '<br>');

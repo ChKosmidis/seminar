@@ -37,7 +37,7 @@
         .kpi-area-header h5 { margin-bottom: 0; font-size: 1.2rem; }
         .kpi-area-header .arrow-icon { transition: transform 0.3s ease; font-size: 1.5rem; }
         .kpi-area-card.active .kpi-area-header .arrow-icon { transform: rotate(180deg); }
-        .kpi-area-content { padding: 1.5rem; display: block; height: 0; overflow: visible; } /* Скрыто, но для анимации GSAP */
+        .kpi-area-content { padding: 1.5rem; display: block; height: 0; overflow: hidden; } /* Changed overflow to hidden */
         .kpi-table th { background-color: #f8f9fa; }
 
         /* PDCA Цикл */
@@ -68,7 +68,6 @@
 </head>
 <body>
     <header>
-        <!-- ... (Шапка и полноэкранное меню, как в предыдущих файлах, активный пункт "5. Эффективность") ... -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
             <div class="container">
                 <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.html">
@@ -207,25 +206,35 @@
     </main>
 
     <footer class="py-4 bg-dark text-white-50 mt-5">
-        <!-- ... (Подвал) ... -->
          <div class="container text-center">
              <small>Материалы семинара © 2024.</small> <br>
              <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+             <div class="mt-4">
+                 <button class="btn btn-success" id="exportSectionResultsBtn">Выгрузить результаты раздела</button>
+             </div>
          </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="../assets/fonts/Qanelas-Regular.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        gsap.registerPlugin(ScrollTrigger); // EasePack не используется здесь, можно убрать если больше нигде не нужен
+    const GOOGLE_AI_API_KEY = "AIzaSyDl6bLHj4tFonVVBnKDhgIpdrTQuZXmhqo";
+    const GOOGLE_AI_API_URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
+    const GOOGLE_AI_MODEL = "gemma-3n-e4b-it"; 
+    const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateContent?key=${GOOGLE_AI_API_KEY}`;
 
-        // --- Код для полноэкранного меню (аналогично другим страницам) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Код для полноэкранного меню ---
         const customMenuToggler = document.getElementById('customMenuToggler');
         const fullscreenMenu = document.getElementById('fullscreenMenu');
         const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
-        if (customMenuToggler && fullscreenMenu) { /* ... весь код меню ... */ 
+        if (customMenuToggler && fullscreenMenu) { 
             const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
             const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
             const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
@@ -310,7 +319,6 @@
         kpiAreasData.forEach((area, areaIdx) => {
             const card = document.createElement('div');
             card.className = 'kpi-area-card';
-
             let examplesHtml = '<div class="table-responsive"><table class="table kpi-table table-sm table-hover"><thead><tr><th>Ключевая цель</th><th>Возможные KPI (примеры)</th><th>Как измерить?</th></tr></thead><tbody>';
             area.examples.forEach((ex, exIdx) => {
                 examplesHtml += `<tr data-row="${exIdx}">
@@ -320,7 +328,6 @@
                 </tr>`;
             });
             examplesHtml += '</tbody></table></div>';
-
             card.innerHTML = `
                 <div class="kpi-area-header">
                     <h5><img src="../assets/icons/${area.icon}" alt="${area.title}" style="width:28px; height:28px;" class="me-2">${area.title}</h5> 
@@ -335,101 +342,84 @@
                             <div class="kpi-ai-feedback-result p-2 border rounded bg-light-subtle text-muted"><em>Сделайте выбор по каждому столбцу и отправьте на оценку...</em></div>
                         </div>
                     </div>
-                </div>
-            `;
+                </div>`;
             kpiContainer.appendChild(card);
-
             const header = card.querySelector('.kpi-area-header');
             const content = card.querySelector('.kpi-area-content');
             gsap.set(content, { height: 0, autoAlpha: 0 });
-
             header.addEventListener('click', () => {
                 const isActive = card.classList.toggle('active');
                 if (isActive) {
-                    gsap.set(content, {height: 'auto', autoAlpha: 1});
+                    gsap.set(content, {height: 'auto', autoAlpha: 1}); // Set to auto first
                     gsap.from(content, {height: 0, autoAlpha: 0, duration: 0.4, ease: 'power2.inOut', onComplete: () => {
-                        content.style.height = 'auto';
-                        // Плавная прокрутка к карточке, чтобы кнопка и ответ были видны
-                        card.scrollIntoView({behavior: 'smooth', block: 'start'});
+                        content.style.height = 'auto'; // Ensure it remains auto after animation
+                         ScrollTrigger.refresh(); // Refresh ScrollTrigger if content height changes
                     }});
                 } else {
-                    gsap.to(content, {height: 0, autoAlpha: 0, duration: 0.4, ease: 'power2.inOut'});
+                    gsap.to(content, {height: 0, autoAlpha: 0, duration: 0.4, ease: 'power2.inOut', onComplete: () => {
+                         ScrollTrigger.refresh();
+                    }});
                 }
             });
-
-            // --- Квиз-логика выбора по столбцам ---
             const quizCells = card.querySelectorAll('.kpi-quiz-cell');
             const sendBtn = card.querySelector('button.btn-success');
             const feedbackBlock = card.querySelector('.kpi-ai-feedback');
             const feedbackResult = card.querySelector('.kpi-ai-feedback-result');
             let selected = { goal: null, kpi: null, measure: null };
-
             quizCells.forEach(cell => {
                 cell.style.cursor = 'pointer';
                 cell.addEventListener('click', () => {
                     const col = cell.getAttribute('data-col');
-                    // Снять выделение с других ячеек этого столбца
                     card.querySelectorAll(`.kpi-quiz-cell.kpi-${col}`).forEach(c => c.classList.remove('table-success'));
-                    // Выделить выбранную
                     cell.classList.add('table-success');
                     selected[col] = cell.innerText;
-                    // Проверить, выбраны ли все три
                     if (selected.goal && selected.kpi && selected.measure) {
-                        sendBtn.style.display = 'inline-block';
-                        sendBtn.disabled = false;
-                    } else {
-                        sendBtn.style.display = 'none';
-                        sendBtn.disabled = true;
-                    }
+                        sendBtn.style.display = 'inline-block'; sendBtn.disabled = false;
+                    } else { sendBtn.style.display = 'none'; sendBtn.disabled = true; }
                     feedbackBlock.style.display = 'none';
                 });
             });
-
             sendBtn.addEventListener('click', async () => {
                 if (!selected.goal || !selected.kpi || !selected.measure) return;
-                sendBtn.disabled = true;
-                sendBtn.innerText = 'Отправка...';
-                feedbackBlock.style.display = 'block';
-                feedbackResult.innerHTML = '<em>📊 ИИ оценивает ваш выбор...</em>';
+                sendBtn.disabled = true; sendBtn.innerText = 'Отправка...';
+                feedbackBlock.style.display = 'block'; feedbackResult.innerHTML = '<em>📊 ИИ оценивает ваш выбор...</em>';
                 try {
-                    const userPrompt = `Пользователь выбрал:\nЦель: ${selected.goal}\nKPI: ${selected.kpi}\nМетрика: ${selected.measure}\nПрокомментируй этот выбор. Является ли KPI SMART (конкретным, измеримым, достижимым, релевантным, ограниченным по времени)? Что можно улучшить? Ответ на русском.`;
-                    const response = await fetch('http://127.0.0.1:3355/v1/chat/completions', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            model: "qwen3-1.7b",
-                            messages: [
-                                { role: "system", content: "Ты — ИИ-ментор по стратегическому развитию НКО. Твоя задача — дать конструктивный фидбэк на выбранные KPI, оценив их по SMART-критериям. Будь краток, дружелюбен и предлагай улучшения. Ответ на русском." },
-                                { role: "user", content: userPrompt }
-                            ],
-                            temperature: 0.5, max_tokens: 400, stream: false
-                        })
+                    const userSelectionPrompt = `Пользователь выбрал:\nЦель: ${selected.goal}\nKPI: ${selected.kpi}\nМетрика: ${selected.measure}`;
+                    const systemPromptForKpiWorksheet = "Ты — ИИ-ментор по стратегическому развитию НКО. Твоя задача — дать конструктивный фидбэк на выбранные KPI, оценив их по SMART-критериям. Будь краток, дружелюбен и предлагай улучшения. Ответ на русском.";
+                    const combinedPrompt = `${systemPromptForKpiWorksheet}\n\n### Выбор пользователя:\n${userSelectionPrompt}\n\n### Твой фидбэк:`;
+
+                    const requestPayload = {
+                        contents: [{ role: "user", parts: [{ "text": combinedPrompt }] }],
+                        generationConfig: { temperature: 0.5, maxOutputTokens: 400 }
+                    };
+                    const response = await fetch(GOOGLE_AI_API_URL, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestPayload)
                     });
-                    if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({ error: { message: 'Unknown API error format' } }));
+                        console.error("Google AI API Error (KPI Worksheet):", errorData);
+                        throw new Error(`Ошибка сети: ${response.status} - ${errorData.error?.message || response.statusText}`);
+                    }
                     const data = await response.json();
-                    let aiMessage = data.choices?.[0]?.message?.content?.trim() || "Не удалось получить комментарий от ИИ.";
+                    let aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "Не удалось получить комментарий от ИИ.";
                     aiMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/^\s*-\s*(.*)/gm, '<li>$1</li>');
                     if (aiMessage.includes('<li>')) { aiMessage = aiMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`); aiMessage = aiMessage.replace(/<\/ul>\s*<ul>/g, '');}
                     aiMessage = aiMessage.replace(/\n/g, '<br>');
                     feedbackResult.innerHTML = aiMessage;
                 } catch (error) {
+                    console.error('AI KPI Worksheet Error:', error);
                     feedbackResult.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
-                } finally {
-                    sendBtn.disabled = false;
-                    sendBtn.innerText = 'Отправить выбранное ИИ для оценки';
-                }
+                } finally { sendBtn.disabled = false; sendBtn.innerText = 'Отправить выбранное ИИ для оценки'; }
             });
         });
         
-        // --- PDCA Цикл Интерактив (ИСПРАВЛЕННЫЙ) ---
+        // --- PDCA Цикл Интерактив ---
         const pdcaSteps = document.querySelectorAll('.pdca-step');
         pdcaSteps.forEach(step => {
             const details = step.querySelector('p.details');
             gsap.set(details, {height: 0, autoAlpha: 0, marginTop:0});
-
             step.addEventListener('click', () => {
                 const isActive = step.classList.toggle('active');
-                // Анимация только для текущего элемента
                 if (isActive) {
                     gsap.set(details, {height: 'auto', autoAlpha: 1, marginTop: '0.75rem'});
                     gsap.from(details, {height: 0, autoAlpha: 0, marginTop:0, duration: 0.3, ease: 'power1.inOut'});
@@ -450,49 +440,38 @@
                 const area = document.getElementById('kpiAreaSelect').value;
                 const kpi = document.getElementById('kpiProposed').value;
                 const rationale = document.getElementById('kpiRationale').value;
-
-                if (!area || !kpi || !rationale) {
-                    alert("Пожалуйста, выберите область, предложите KPI и его обоснование.");
-                    return;
-                }
-                 gsap.timeline().set(aiKpiFeedbackContainer, {display: 'block'}).to(aiKpiFeedbackContainer, {autoAlpha:1, y:0, duration:0.4, ease: 'power2.out'});
+                if (!area || !kpi || !rationale) { alert("Пожалуйста, выберите область, предложите KPI и его обоснование."); return; }
+                gsap.timeline().set(aiKpiFeedbackContainer, {display: 'block'}).to(aiKpiFeedbackContainer, {autoAlpha:1, y:0, duration:0.4, ease: 'power2.out'});
                 aiKpiFeedbackResultEl.innerHTML = '<em>📊 ИИ оценивает ваши KPI...</em>';
                 gsap.fromTo(aiKpiFeedbackResultEl, {opacity:0.5, y:5}, {opacity:1, y:0, duration:0.3});
-                
                 try {
-                    const userPrompt = `
-Пользователь НКО предлагает KPI для области "${area}":
-Предложенный KPI: ${kpi}
-Обоснование: ${rationale}
-
-Прокомментируй это предложение. Является ли KPI SMART (конкретным, измеримым, достижимым, релевантным, ограниченным по времени - насколько это возможно оценить)? Что можно улучшить? Ответ на русском. Кратко.
-                    `;
-                     const response = await fetch('https://beb0-2a02-8388-8b00-5580-4a08-9764-1212-46e7.ngrok-free.app/v1/chat/completions', { /* ... */ 
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            model: "qwen3-1.7b",
-                            messages: [
-                                { role: "system", content: "Ты — ИИ-ментор по стратегическому развитию НКО. Твоя задача — дать конструктивный и краткий фидбэк на предложенные KPI, оценив их по SMART-критериям (где это возможно). Кратко. Ответ на русском." },
-                                { role: "user", content: userPrompt }
-                            ],
-                            temperature: 0.5, max_tokens: 400, stream: false
-                        })
-                    });
-                    if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
-                    const data = await response.json();
-                    let aiMessage = data.choices?.[0]?.message?.content?.trim() || "Не удалось получить комментарий от ИИ.";
+                    const userPromptForBrainstorm = `Пользователь НКО предлагает KPI для области "${area}":\nПредложенный KPI: ${kpi}\nОбоснование: ${rationale}`;
+                    const systemPromptForKpiBrainstorm = "Ты — ИИ-ментор по стратегическому развитию НКО. Твоя задача — дать конструктивный и краткий фидбэк на предложенные KPI, оценив их по SMART-критериям (где это возможно). Кратко. Ответ на русском.";
+                    const combinedPrompt = `${systemPromptForKpiBrainstorm}\n\n### Предложение пользователя:\n${userPromptForBrainstorm}\n\n### Твой фидбэк:`;
                     
+                    const requestPayload = {
+                        contents: [{ role: "user", parts: [{ "text": combinedPrompt }] }],
+                        generationConfig: { temperature: 0.5, maxOutputTokens: 400 }
+                    };
+                    const response = await fetch(GOOGLE_AI_API_URL, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestPayload)
+                    });
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({ error: { message: 'Unknown API error format' } }));
+                        console.error("Google AI API Error (KPI Brainstorm):", errorData);
+                        throw new Error(`Ошибка сети: ${response.status} - ${errorData.error?.message || response.statusText}`);
+                    }
+                    const data = await response.json();
+                    let aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "Не удалось получить комментарий от ИИ.";
                     aiMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/^\s*-\s*(.*)/gm, '<li>$1</li>');
                     if (aiMessage.includes('<li>')) { aiMessage = aiMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`); aiMessage = aiMessage.replace(/<\/ul>\s*<ul>/g, '');}
                     aiMessage = aiMessage.replace(/\n/g, '<br>');
-
                     gsap.to(aiKpiFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
                         aiKpiFeedbackResultEl.innerHTML = aiMessage;
                         gsap.to(aiKpiFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
                     }});
-                } catch (error) { /* ... */ 
-                     console.error('AI KPI Advice Error:', error);
+                } catch (error) { 
+                     console.error('AI KPI Brainstorm Error:', error);
                     gsap.to(aiKpiFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
                         aiKpiFeedbackResultEl.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
                         gsap.to(aiKpiFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
@@ -503,20 +482,8 @@
         
         // --- PDF экспорт раздела 5 ---
         const exportBtn = document.getElementById('exportSectionResultsBtn');
-        if (!exportBtn) {
-            // Добавить кнопку в футер, если её нет
-            const footer = document.querySelector('footer .container.text-center .mt-4') || document.querySelector('footer .container.text-center');
-            if (footer) {
-                const btn = document.createElement('button');
-                btn.className = 'btn btn-success';
-                btn.id = 'exportSectionResultsBtn';
-                btn.textContent = 'Выгрузить результаты раздела';
-                footer.appendChild(btn);
-            }
-        }
-        const exportBtn5 = document.getElementById('exportSectionResultsBtn');
-        if (exportBtn5) {
-            exportBtn5.addEventListener('click', function() {
+        if (exportBtn) {
+            exportBtn.addEventListener('click', function() {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({unit: 'pt', format: 'a4'});
                 if (window.QanelasRegularFontData && window.QanelasRegularFontData.base64) {
@@ -526,50 +493,106 @@
                 doc.setFont('Qanelas', 'normal');
                 const pageWidth = doc.internal.pageSize.getWidth();
                 let y = 40;
-                // Заголовок
-                doc.setFontSize(22);
-                doc.setTextColor('#fd7e14');
-                doc.text('Раздел 5: Эффективность и развитие', pageWidth/2, y, {align:'center'});
-                y += 30;
-                doc.setFontSize(14);
-                doc.setTextColor('#333');
-                // Секции
-                document.querySelectorAll('.content-section').forEach(section => {
-                    const title = section.querySelector('h3, .section-title')?.innerText || '';
-                    if (title) {
-                        doc.setFontSize(15);
-                        doc.setTextColor('#fd7e14');
-                        doc.text(title, 40, y);
-                        y += 18;
+                doc.setFontSize(22); doc.setTextColor('#fd7e14'); doc.text('Раздел 5: Эффективность и развитие', pageWidth/2, y, {align:'center'}); y += 30;
+                
+                // KPI Рабочий лист
+                doc.setFontSize(15); doc.setTextColor('#fd7e14'); y += 5;
+                doc.text("5.1. Рабочий лист: \"KPI для Моей НКО\"", 40, y); y += 20;
+                doc.setFontSize(10); doc.setTextColor('#444');
+                const kpiCards = document.querySelectorAll('#kpiAreasContainer .kpi-area-card');
+                kpiCards.forEach(card => {
+                    const areaTitle = card.querySelector('.kpi-area-header h5')?.innerText.trim() || "Без названия";
+                    const selectedCells = card.querySelectorAll('.kpi-quiz-cell.table-success');
+                    if(selectedCells.length === 3){ // Only if a full row is selected
+                        doc.setFontSize(12); doc.setTextColor('#333'); y+=5;
+                        doc.text(`Область: ${areaTitle}`, 40, y); y+=15;
+                        doc.setFontSize(10);
+                        const goalText = card.querySelector('.kpi-goal.table-success')?.innerText || "-";
+                        const kpiText = card.querySelector('.kpi-kpi.table-success')?.innerText || "-";
+                        const measureText = card.querySelector('.kpi-measure.table-success')?.innerText || "-";
+                        const tableData = [
+                            ["Цель", goalText],
+                            ["KPI", kpiText],
+                            ["Измерение", measureText]
+                        ];
+                        doc.autoTable({
+                            startY: y,
+                            head: [['Параметр', 'Выбрано']],
+                            body: tableData,
+                            theme: 'grid', headStyles: {fillColor: [255, 193, 7]}, styles: {font: 'Qanelas', fontSize:9, cellPadding:3},
+                            margin: {left: 40, right: 40}
+                        });
+                        y = doc.lastAutoTable.finalY + 10;
+
+                        const aiFeedbackResultKPI = card.querySelector('.kpi-ai-feedback-result')?.innerText;
+                        if (aiFeedbackResultKPI && aiFeedbackResultKPI.trim() && !aiFeedbackResultKPI.includes('ИИ оценивает ваш выбор...')) {
+                            doc.setFontSize(10); doc.setTextColor('#0d6efd'); y += 5;
+                            doc.text('AI-отзыв по выбору KPI:', 45, y); y += 12;
+                            doc.setFontSize(9); doc.setTextColor('#555');
+                            const splitFeedback = doc.splitTextToSize(aiFeedbackResultKPI, pageWidth - 90);
+                            doc.text(splitFeedback, 45, y); y += splitFeedback.length * 11 + 8;
+                        }
+                        if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
                     }
-                    doc.setFontSize(11);
-                    doc.setTextColor('#444');
-                    section.querySelectorAll('p, ul, ol').forEach(el => {
-                        let text = '';
-                        if (el.tagName === 'P') text = el.innerText;
-                        if (el.tagName === 'UL' || el.tagName === 'OL') {
-                            text = Array.from(el.children).map(li => '- ' + li.innerText).join('\n');
-                        }
-                        if (text) {
-                            const split = doc.splitTextToSize(text, pageWidth-80);
-                            doc.text(split, 40, y);
-                            y += split.length * 15 + 5;
-                        }
-                    });
-                    y += 10;
                 });
-                // AI feedback по KPI (если есть)
-                const aiKpiFeedback = document.getElementById('aiKpiFeedbackResult')?.innerText;
-                if (aiKpiFeedback && aiKpiFeedback.trim() && aiKpiFeedback.trim() !== '📊 ИИ оценивает ваши KPI...') {
-                    doc.setFontSize(14);
-                    doc.setTextColor('#fd7e14');
-                    doc.text('AI-отзыв по вашим KPI:', 40, y);
-                    y += 18;
-                    doc.setFontSize(11);
-                    doc.setTextColor('#444');
-                    const split = doc.splitTextToSize(aiKpiFeedback, pageWidth-80);
-                    doc.text(split, 40, y);
-                    y += split.length * 15 + 10;
+                y += 10;
+                if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+
+
+                // PDCA
+                doc.setFontSize(15); doc.setTextColor('#fd7e14'); y+=5;
+                doc.text("5.2. Цикл PDCA (Plan-Do-Check-Act) для НКО", 40, y); y += 20;
+                doc.setFontSize(10); doc.setTextColor('#444');
+                const pdcaElements = document.querySelectorAll('#s5-3 .pdca-step');
+                pdcaElements.forEach(el => {
+                    const stepTitle = el.querySelector('h5')?.innerText.trim();
+                    const stepDetails = el.querySelector('p.details')?.innerText.trim().replace(/Описание:\s*/, '').replace(/Пример для НКО:\s*/, '\nПример: ');
+                    if(stepTitle && stepDetails){
+                        doc.setFontSize(11); doc.setTextColor('#333');
+                        doc.text(`• ${stepTitle}`, 45, y); y+=13;
+                        doc.setFontSize(9); doc.setTextColor('#555');
+                        const splitDetails = doc.splitTextToSize(stepDetails, pageWidth - 90);
+                        doc.text(splitDetails, 50, y); y += splitDetails.length * 11 + 5;
+                        if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+                    }
+                });
+                y += 10;
+                 if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+
+
+                // KPI Brainstorm
+                const kpiAreaSelected = document.getElementById('kpiAreaSelect').value;
+                const kpiProposedText = document.getElementById('kpiProposed').value;
+                const kpiRationaleText = document.getElementById('kpiRationale').value;
+                const aiKpiFeedbackBrainstorm = document.getElementById('aiKpiFeedbackResult')?.innerText;
+
+                if (kpiAreaSelected || kpiProposedText || kpiRationaleText) {
+                     doc.setFontSize(15); doc.setTextColor('#fd7e14'); y += 5;
+                     doc.text("5.3. Интерактив: Мозговой штурм KPI", 40, y); y += 20;
+                     doc.setFontSize(10); doc.setTextColor('#444');
+                    const brainstormData = [
+                        ["Выбранная область:", kpiAreaSelected || "Не указано"],
+                        ["Предложенный KPI:", kpiProposedText || "Не указано"],
+                        ["Обоснование:", kpiRationaleText || "Не указано"]
+                    ];
+                     doc.autoTable({
+                        startY: y,
+                        head: [['Параметр', 'Ваш ввод']],
+                        body: brainstormData,
+                        theme: 'grid', headStyles: {fillColor: [255, 193, 7]}, styles: {font: 'Qanelas', fontSize:9, cellPadding:3},
+                        margin: {left: 40, right: 40}
+                    });
+                    y = doc.lastAutoTable.finalY + 10;
+                    if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+
+                    if (aiKpiFeedbackBrainstorm && aiKpiFeedbackBrainstorm.trim() && !aiKpiFeedbackBrainstorm.includes('ИИ оценивает ваши KPI...')) {
+                        doc.setFontSize(10); doc.setTextColor('#0d6efd'); y += 5;
+                        doc.text('AI-отзыв по мозговому штурму KPI:', 45, y); y += 12;
+                        doc.setFontSize(9); doc.setTextColor('#555');
+                        const split = doc.splitTextToSize(aiKpiFeedbackBrainstorm, pageWidth - 90);
+                        doc.text(split, 45, y); y += split.length * 11 + 8;
+                        if (y > doc.internal.pageSize.getHeight() - 60) { doc.addPage(); y = 40; }
+                    }
                 }
                 doc.save('effectiveness_and_development_results.pdf');
             });
