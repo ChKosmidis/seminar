@@ -111,18 +111,68 @@
             border-top: 1px dashed #eee;
         }
 
-        /* NPO Profile Matcher Styles */
+        /* NPO Profile Matcher Styles - UPDATED for Tiles */
         #npoMatcherSection {
-            background-color: #e9ecef;
+            background-color: #f0eafc; /* Lighter purple background */
             padding: 2.5rem;
             border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 20px rgba(111, 66, 193, 0.1); /* Purple shadow */
         }
-        #npoMatcherSection .form-label { font-weight: 500; color: #495057; }
-        #npoMatcherSection .form-check-label { font-size: 0.95rem; }
+        #npoMatcherSection .filter-group-title {
+            font-weight: 600; /* Bolder title */
+            color: #4a148c; /* Darker purple for title */
+            margin-bottom: 1rem; /* Increased bottom margin */
+            font-size: 1.15rem;
+            text-align: left; /* Align title to the left */
+        }
+        #npoMatcherSection .tiles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem; /* Increased spacing between tiles */
+            margin-bottom: 2rem; /* Spacing between filter groups */
+            justify-content: flex-start; /* Align tiles to the start */
+        }
+
+        #npoMatcherSection .filter-tile {
+            display: inline-block;
+            padding: 0.6rem 1.1rem; /* Adjusted padding for better feel */
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6f42c1; /* Main purple for text */
+            background-color: #fff;
+            border: 1px solid #d1c4e9; /* Lighter purple border */
+            border-radius: 25px; /* Pill shape */
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            opacity: 0; /* Initial for GSAP */
+            transform: scale(0.85) translateY(15px); /* Initial for GSAP */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        #npoMatcherSection .filter-tile:hover {
+            background-color: #f3e5f5; /* Very light purple for hover */
+            border-color: #9c27b0; /* Slightly darker purple border on hover */
+            color: #7b1fa2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+
+        #npoMatcherSection .filter-tile.active {
+            background-color: #6f42c1; /* Main purple from header */
+            color: #fff;
+            border-color: #5e35b1; /* Darker border for active */
+            transform: scale(1.03) translateY(0); /* Slight pop on active, no Y shift */
+            box-shadow: 0 5px 12px rgba(111, 66, 193, 0.35);
+        }
+
         #npoMatcherSection .btn-match {
-            background: linear-gradient(135deg, #6f42c1, #9a69d9);
+            background: linear-gradient(135deg, #6f42c1, #8e24aa); /* Refined gradient */
             border: none;
+            padding: 0.7rem 2rem; /* Adjusted padding for button */
+            font-weight: 500;
+        }
+        #npoMatcherSection .btn-match:hover {
+            background: linear-gradient(135deg, #5e35b1, #7b1fa2);
         }
         #matchedCasesContainer { margin-top: 2rem; }
         .no-cases-found {
@@ -232,26 +282,26 @@
                     <img src="../assets/icons/interactivity.svg" alt="Подбор кейсов" class="section-icon me-2">
                     Интерактив: Подбор релевантных кейсов
                 </h4>
-                <p class="text-center text-muted mb-4">Отметьте интересующие вас направления и условия работы, чтобы увидеть наиболее подходящие примеры НКО.</p>
+                <p class="text-center text-muted mb-4">Кликните на плитки, чтобы выбрать интересующие вас направления и условия работы, затем нажмите "Подобрать кейсы".</p>
                 
-                <div class="row">
-                    <div class="col-md-6 mb-4">
-                        <h5>Области деятельности/интереса:</h5>
-                        <div class="filter-checkbox-group" id="interestAreasFilter">
-                            <!-- Чекбоксы будут добавлены JS -->
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <h5>Условия работы/контекст:</h5>
-                        <div class="filter-checkbox-group" id="operatingConditionsFilter">
-                            <!-- Чекбоксы будут добавлены JS -->
-                        </div>
+                <div class="mb-4"> 
+                    <h5 class="filter-group-title">Области деятельности/интереса:</h5>
+                    <div class="tiles-container" id="interestTilesContainer">
+                        <!-- Плитки для областей интереса будут добавлены JS -->
                     </div>
                 </div>
-                <div class="text-center">
+                
+                <div class="mb-4"> 
+                    <h5 class="filter-group-title">Условия работы/контекст:</h5>
+                    <div class="tiles-container" id="conditionTilesContainer">
+                        <!-- Плитки для условий работы будут добавлены JS -->
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
                     <button class="btn btn-primary btn-lg btn-match" id="matchNPOsBtn">Подобрать кейсы</button>
                 </div>
-                <div id="matchedCasesContainer" class="mt-4">
+                <div id="matchedCasesContainer" class="row mt-4">
                     <!-- Отфильтрованные кейсы -->
                 </div>
             </section>
@@ -434,7 +484,7 @@
                 title: "Мемориал (Международный Мемориал / ПЦ \"Мемориал\")*",
                 color: "#6610f2", // Indigo
                 tags: ["Права человека", "История", "Политические репрессии", "Архивы", "Просвещение", "Юридическая помощь", "Ликвидирована в РФ", "В изгнании/Продолжение деятельности"],
-                description: "Историко-просветительское, правозащитное и благотворительное общество, занимавшееся исследованием политических репрессий в СССР и современной России, защитой прав человека. Структуры продолжают работу несмотря на ликвидацию.",
+                description: "Историко-просветительское, правозащитное и благотворительное общество, занимаавшееся исследованием политических репрессий в СССР и современной России, защитой прав человека. Структуры продолжают работу несмотря на ликвидацию.",
                 community_aspects: [
                     "Поддержка исследователей, работа с архивами, сохранение исторической памяти.",
                     "Организация выставок, лекций, конференций и публичных мероприятий (в прошлом в РФ, продолжается за рубежом).",
@@ -587,66 +637,151 @@
          const interestAreas = Array.from(new Set(caseData.flatMap(c => c.tags.filter(t => !["В России", "Давление/Блокировки", "Релокация части команды", "Ликвидирована в РФ", "В изгнании/Продолжение деятельности", "В России (стабильно)", "В России/В изгнании"].includes(t))))).sort();
         const operatingConditions = Array.from(new Set(caseData.flatMap(c => c.tags.filter(t => ["В России", "Давление/Блокировки", "Релокация части команды", "Ликвидирована в РФ", "В изгнании/Продолжение деятельности", "В России (стабильно)", "В России/В изгнании"].includes(t))))).sort();
 
-
-        const interestAreasFilterContainer = document.getElementById('interestAreasFilter');
-        const operatingConditionsFilterContainer = document.getElementById('operatingConditionsFilter');
+        const interestTilesContainer = document.getElementById('interestTilesContainer');
+        const conditionTilesContainer = document.getElementById('conditionTilesContainer');
         const matchNPOsBtn = document.getElementById('matchNPOsBtn');
         const matchedCasesContainer = document.getElementById('matchedCasesContainer');
 
+        function createTile(value, idPrefix) {
+            const tile = document.createElement('span'); // Using span for inline-block nature
+            tile.className = 'filter-tile';
+            tile.dataset.value = value;
+            tile.id = `${idPrefix}-${value.replace(/[\s\/]+/g, '')}`; // Create a safe ID
+            tile.textContent = value;
+            tile.setAttribute('role', 'button'); // For accessibility
+            tile.setAttribute('tabindex', '0'); // Make it focusable
+
+            tile.addEventListener('click', () => {
+                tile.classList.toggle('active');
+                gsap.to(tile, { 
+                    scale: tile.classList.contains('active') ? 1.05 : 1, 
+                    y: tile.classList.contains('active') ? -2 : 0,
+                    duration: 0.15, 
+                    ease: "power1.out" 
+                });
+            });
+            // Allow activation with Enter/Space for accessibility
+            tile.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    tile.click();
+                }
+            });
+            return tile;
+        }
+
         function populateFilters() {
-            if (interestAreasFilterContainer) {
-                interestAreasFilterContainer.innerHTML = ''; // Clear previous
+            if (interestTilesContainer) {
+                interestTilesContainer.innerHTML = ''; 
                 interestAreas.forEach(area => {
-                    interestAreasFilterContainer.innerHTML += `
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="${area}" id="interest-${area.replace(/[\s\/]+/g, '')}">
-                            <label class="form-check-label" for="interest-${area.replace(/[\s\/]+/g, '')}">${area}</label>
-                        </div>
-                    `;
+                    interestTilesContainer.appendChild(createTile(area, 'interest'));
                 });
             }
-            if (operatingConditionsFilterContainer) {
-                operatingConditionsFilterContainer.innerHTML = ''; // Clear previous
+            if (conditionTilesContainer) {
+                conditionTilesContainer.innerHTML = ''; 
                  operatingConditions.forEach(condition => {
-                    operatingConditionsFilterContainer.innerHTML += `
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="${condition}" id="condition-${condition.replace(/[\s\/]+/g, '')}">
-                            <label class="form-check-label" for="condition-${condition.replace(/[\s\/]+/g, '')}">${condition}</label>
-                        </div>
-                    `;
+                    conditionTilesContainer.appendChild(createTile(condition, 'condition'));
                 });
             }
-            gsap.utils.toArray('.filter-checkbox-group .form-check').forEach((chk, i) => {
-                 gsap.to(chk, {
-                    opacity: 1, x: 0, duration: 0.4, delay: 0.2 + i * 0.05,
-                    scrollTrigger: { trigger: chk.closest('.filter-checkbox-group'), start: "top 85%", once: true}
+            
+            // GSAP animation for tiles appearance
+            gsap.utils.toArray('#npoMatcherSection .filter-tile').forEach((tile, i) => {
+                 gsap.to(tile, {
+                    opacity: 1, 
+                    scale: 1,
+                    y: 0, 
+                    duration: 0.5, 
+                    delay: 0.1 + i * 0.04, // Slightly adjusted delay
+                    ease: "back.out(1.6)", // Adjusted ease
+                    scrollTrigger: { 
+                        trigger: tile.parentElement, 
+                        start: "top 90%", // Start animation when container is almost visible
+                        once: true
+                    }
                 });
             });
         }
         
-        if (interestAreasFilterContainer && operatingConditionsFilterContainer && matchNPOsBtn && matchedCasesContainer) {
+        if (interestTilesContainer && conditionTilesContainer && matchNPOsBtn && matchedCasesContainer) {
             populateFilters();
 
             matchNPOsBtn.addEventListener('click', () => {
-                const selectedInterests = Array.from(interestAreasFilterContainer.querySelectorAll('input:checked')).map(input => input.value);
-                const selectedConditions = Array.from(operatingConditionsFilterContainer.querySelectorAll('input:checked')).map(input => input.value);
+                const selectedInterests = Array.from(interestTilesContainer.querySelectorAll('.filter-tile.active')).map(tile => tile.dataset.value);
+                const selectedConditions = Array.from(conditionTilesContainer.querySelectorAll('.filter-tile.active')).map(tile => tile.dataset.value);
 
                 const filteredCases = caseData.filter(caseItem => {
-                    const matchesInterests = selectedInterests.length === 0 || selectedInterests.every(interest => caseItem.tags.includes(interest)); // Changed to 'every' for stricter matching
-                    const matchesConditions = selectedConditions.length === 0 || selectedConditions.every(condition => caseItem.tags.includes(condition)); // Changed to 'every'
-                    return matchesInterests && matchesConditions;
+                    // НОВАЯ ЛОГИКА: соответствие хотя бы одному из выбранных критериев
+                    // Если ни один интерес не выбран, считаем, что по интересам подходит (чтобы показать все по условиям)
+                    const matchesInterests = selectedInterests.length === 0 || selectedInterests.some(interest => caseItem.tags.includes(interest));
+                    
+                    // Если ни одно условие не выбрано, считаем, что по условиям подходит (чтобы показать все по интересам)
+                    const matchesConditions = selectedConditions.length === 0 || selectedConditions.some(condition => caseItem.tags.includes(condition));
+
+                    // Карточка должна соответствовать ИЛИ интересам (если они выбраны) ИЛИ условиям (если они выбраны)
+                    // Если выбраны и те, и другие, то она должна соответствовать И тому, И другому.
+                    // Если не выбрано ничего, показываем все.
+                    if (selectedInterests.length > 0 && selectedConditions.length > 0) {
+                        return matchesInterests && matchesConditions;
+                    } else if (selectedInterests.length > 0) {
+                        return matchesInterests;
+                    } else if (selectedConditions.length > 0) {
+                        return matchesConditions;
+                    } else {
+                        return true; // Если ничего не выбрано, показываем все кейсы
+                    }
                 });
                 
-                gsap.to(matchedCasesContainer, {opacity:0, duration:0.3, onComplete: () => {
-                    renderCases(filteredCases, matchedCasesContainer);
-                    gsap.to(matchedCasesContainer, {opacity:1, duration:0.4});
-                    if(filteredCases.length > 0) {
-                         matchedCasesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }});
+                // ... остальной код обработчика (анимация и рендеринг) остается без изменений ...
+                const scrollTarget = document.getElementById('npoMatcherSection').querySelector('h4'); 
+                const existingCards = matchedCasesContainer.querySelectorAll('.case-study-card');
+
+                if (existingCards.length > 0) {
+                    gsap.to(existingCards, {
+                        opacity: 0,
+                        y: 20,
+                        scale: 0.95,
+                        stagger: 0.05,
+                        duration: 0.3,
+                        ease: "power1.in",
+                        onComplete: () => {
+                            renderCases(filteredCases, matchedCasesContainer); 
+                            if (scrollTarget) { 
+                                gsap.to(window, {
+                                    duration: 0.5, 
+                                    scrollTo: { 
+                                        y: scrollTarget, 
+                                        offsetY: 20 
+                                    }, 
+                                    ease: "power2.inOut"
+                                });
+                            } else if (filteredCases.length > 0) {
+                                 gsap.to(window, {
+                                    duration: 0.5, 
+                                    scrollTo: { y: matchedCasesContainer, offsetY: 20 }, 
+                                    ease: "power2.inOut"
+                                });
+                            }
+                        }
+                    });
+                } else {
+                     renderCases(filteredCases, matchedCasesContainer);
+                     if (scrollTarget) {
+                        gsap.to(window, {
+                            duration: 0.5, 
+                            scrollTo: { y: scrollTarget, offsetY: 20 }, 
+                            ease: "power2.inOut"
+                        });
+                     } else if (filteredCases.length > 0) {
+                         gsap.to(window, {
+                            duration: 0.5, 
+                            scrollTo: { y: matchedCasesContainer, offsetY: 20 }, 
+                            ease: "power2.inOut"
+                        });
+                     }
+                }
             });
         }
-        
+
 
         // --- 7.3. AI Советник ---
         const getAICaseAdviceBtn = document.getElementById('getAICaseAdviceBtn');
@@ -697,13 +832,13 @@ ${caseSummaries}
                     if (aiMessage.includes('<li>')) { aiMessage = aiMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`); aiMessage = aiMessage.replace(/<\/ul>\s*<ul>/g, '');}
                     aiMessage = aiMessage.replace(/\n/g, '<br>');
 
-                    gsap.to(aiCaseAdviceResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                    gsap.to(aiCaseAdviceResultEl, {opacity:0, y: -5, duration: 0.2, onComplete: () => {
                         aiCaseAdviceResultEl.innerHTML = aiMessage;
                         gsap.to(aiCaseAdviceResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
                     }});
                 } catch (error) {
                     console.error('AI Case Advice Error:', error);
-                    gsap.to(aiCaseAdviceResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                    gsap.to(aiCaseAdviceResultEl, {opacity:0, y: -5, duration: 0.2, onComplete: () => {
                         aiCaseAdviceResultEl.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
                         gsap.to(aiCaseAdviceResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
                     }});
