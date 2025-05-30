@@ -64,6 +64,34 @@
         .kpi-input-group { margin-bottom: 1.5rem; }
         #aiKpiFeedbackContainer { display: none; margin-top: 1.5rem; }
         #aiKpiFeedbackResult { white-space: pre-wrap; }
+
+        /* НАВИГАЦИЯ ПО РАЗДЕЛАМ */
+        .section-nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 2px 8px rgba(32, 201, 151, 0.07);
+            padding: 0.5rem 0;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .section-nav-btn {
+            flex: 1;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .section-nav-btn.btn-success {
+            background-color: #198754;
+            color: white;
+            border-color: #198754;
+        }
+        .section-nav-btn.btn-success:hover {
+            background-color: #157347;
+            border-color: #146c43;
+        }
     </style>
 </head>
 <body>
@@ -112,6 +140,21 @@
             </li>
         </ul>
     </div>
+
+    <!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
+    <nav class="section-nav-bar" style="position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 8px rgba(32,201,151,0.07);padding:0.5rem 0 0.5rem 0;display:flex;gap:0.5rem;justify-content:center;align-items:center;">
+      <a href="0_introduction.html" class="btn btn-outline-success section-nav-btn">Введение</a>
+      <a href="1_community_building.html" class="btn btn-outline-success section-nav-btn">1. Сообщество</a>
+      <a href="2_internal_communications.html" class="btn btn-outline-success section-nav-btn">2. Коммуникации</a>
+      <a href="3_infrastructure.html" class="btn btn-outline-success section-nav-btn">3. Инфраструктура</a>
+      <a href="4_legal_and_security.html" class="btn btn-outline-success section-nav-btn">4. Право и безопасность</a>
+      <a href="5_effectiveness_and_development.html" class="btn btn-success section-nav-btn">5. Эффективность</a>
+      <a href="6_crisis_management.html" class="btn btn-outline-success section-nav-btn">6. Кризисы</a>
+      <a href="7_fundraising.html" class="btn btn-outline-success section-nav-btn">7. Фандрайзинг</a>
+      <a href="8_cases_and_practice.html" class="btn btn-outline-success section-nav-btn">8. Кейсы</a>
+      <a href="useful_resources.html" class="btn btn-outline-secondary section-nav-btn">Ресурсы</a>
+    </nav>
+    <!-- /НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
 
     <main>
         <div class="page-header-section">

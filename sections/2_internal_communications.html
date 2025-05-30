@@ -33,7 +33,7 @@
             font-weight: 600; color: #343a40;
         }
         .content-section h3 img.section-icon, .content-section h4 img.section-icon { 
-            width: 32px; height: 32px; margin-right: 0.8rem; opacity: 0.8;
+            width: 45px; height: 45px; margin-right: 0.8rem; opacity: 0.8;
         }
         .content-section p, .content-section li { line-height: 1.7; color: #495057; }
 
@@ -114,6 +114,395 @@
         #exportSectionResultsBtn:hover {
             background-color: #157347;
         }
+
+        /* Новый стиль для блока с коммуникациями с волонтерами */
+        .bg-volunteer-blue {
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+          color: #fff;
+        }
+        .volunteer-comms-list-cards .list-group-item {
+          background: #fff !important;
+          color: #222 !important;
+          border: none;
+          box-shadow: 0 2px 8px rgba(30,64,175,0.08);
+          margin-bottom: 1rem;
+          border-radius: 1rem !important;
+          transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .volunteer-comms-list-cards .list-group-item.active,
+        .volunteer-comms-list-cards .list-group-item:hover {
+          box-shadow: 0 4px 16px rgba(30,64,175,0.16);
+          transform: translateY(-2px) scale(1.02);
+        }
+        .volunteer-comms-list-cards .list-group-item strong {
+          color: #2563eb;
+        }
+        .volunteer-comms-list-cards .details {
+          background: #f1f5fb;
+          color: #1e293b;
+          border-left: 3px solid #3b82f6;
+          border-radius: 0 0 0.7rem 0.7rem;
+          margin-top: 0.5rem;
+          padding: 0.7rem 1rem 0.7rem 1.2rem;
+          font-size: 0.97em;
+          box-shadow: 0 1px 4px rgba(30,64,175,0.06);
+        }
+        .bg-volunteer-blue .list-group-item {
+          background: #fff !important;
+        }
+
+        /* Новый стиль для коммуникаций с волонтерами (современные карточки) */
+        .volunteer-comms-list-modern {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 2rem 0;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.2rem;
+        }
+        .volunteer-comms-item {
+          background: linear-gradient(135deg, #e3f0ff 0%, #cfe2ff 100%);
+          border-left: 5px solid #0d6efd;
+          border-radius: .7rem;
+          box-shadow: 0 2px 10px rgba(13,110,253,0.07);
+          padding: 1.1rem 1.3rem 0.7rem 1.3rem;
+          color: #212529;
+          min-width: 260px;
+          flex: 1 1 320px;
+          position: relative;
+          transition: box-shadow 0.2s, transform 0.2s;
+          cursor: pointer;
+        }
+        .volunteer-comms-item:hover {
+          box-shadow: 0 6px 18px rgba(13,110,253,0.13);
+          transform: translateY(-3px) scale(1.03);
+        }
+        .comms-main {
+          font-size: 1.13rem;
+          font-weight: 600;
+          color: #0d387d;
+          margin-bottom: 0.3rem;
+        }
+        .comms-details {
+          background: #fff;
+          color: #333;
+          border-radius: .5rem;
+          margin-top: 0.2rem;
+          padding: 0.7rem 1rem 0.7rem 1rem;
+          font-size: 0.98rem;
+          box-shadow: 0 1px 6px rgba(13,110,253,0.07);
+          transition: background 0.2s;
+        }
+        @media (max-width: 768px) {
+          .volunteer-comms-list-modern { flex-direction: column; gap: 0.8rem; }
+          .volunteer-comms-item { min-width: 0; }
+        }
+
+        .comms-tools-row { margin-bottom: 2rem; }
+.comms-flip-card {
+  background: transparent;
+  perspective: 1200px;
+  min-height: 220px;
+  cursor: pointer;
+}
+.comms-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  transition: transform 0.7s cubic-bezier(.4,1.6,.4,1);
+  transform-style: preserve-3d;
+}
+.comms-flip-card.flipped .comms-flip-inner {
+  transform: rotateY(180deg);
+}
+.comms-flip-front, .comms-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.2rem;
+  box-shadow: 0 6px 32px rgba(30,64,175,0.13), 0 1.5px 6px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  color: #fff;
+  font-size: 1.08rem;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.comms-flip-front h5 { font-weight: 700; color: #fff; margin-bottom: 0.7rem; }
+.comms-flip-front p { color: #e0e7ef; }
+.comms-flip-back {
+  background: #fff;
+  color: #1e293b;
+  transform: rotateY(180deg);
+  box-shadow: 0 8px 32px rgba(30,64,175,0.18), 0 2px 8px rgba(0,0,0,0.09);
+  padding-top: 2.2rem;
+}
+.comms-flip-back h6 { color: #2563eb; font-weight: 600; }
+.comms-flip-back ul { padding-left: 1.1rem; margin-bottom: 0; }
+.comms-flip-back li { margin-bottom: 0.4rem; font-size: 1.01rem; }
+.comms-flip-messengers .comms-flip-front { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+.comms-flip-tasks .comms-flip-front { background: linear-gradient(135deg, #f59e42 0%, #fbbf24 100%); }
+.comms-flip-clouds .comms-flip-front { background: linear-gradient(135deg, #34d399 0%, #059669 100%); }
+.comms-flip-knowledge .comms-flip-front { background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%); }
+.comms-flip-card:hover .comms-flip-front, .comms-flip-card.flipped .comms-flip-front {
+  box-shadow: 0 12px 36px rgba(30,64,175,0.22), 0 3px 12px rgba(0,0,0,0.13);
+}
+.comms-flip-card:active .comms-flip-front {
+  box-shadow: 0 2px 8px rgba(30,64,175,0.10);
+}
+@media (max-width: 768px) {
+  .comms-flip-card, .comms-flip-inner { min-height: 180px; }
+  .comms-flip-front, .comms-flip-back { padding: 1.2rem 1rem 1rem 1rem; }
+}
+
+/* --- Новый стиль для флип-карточек диагностики проблем --- */
+.diagnosis-flip-card {
+  background: transparent;
+  perspective: 1200px;
+  min-height: 220px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+.diagnosis-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  transition: transform 0.7s cubic-bezier(.4,1.6,.4,1);
+  transform-style: preserve-3d;
+}
+.diagnosis-flip-card.flipped .diagnosis-flip-inner {
+  transform: rotateY(180deg);
+}
+.diagnosis-flip-front, .diagnosis-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.2rem;
+  box-shadow: 0 6px 32px rgba(30,64,175,0.13), 0 1.5px 6px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  font-size: 1.08rem;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.diagnosis-flip-front {
+  background: #f8d7da;
+  color: #58151c;
+}
+.diagnosis-flip-back {
+  background: #d1e7dd;
+  color: #0a3622;
+  transform: rotateY(180deg);
+  box-shadow: 0 8px 32px rgba(30,64,175,0.18), 0 2px 8px rgba(0,0,0,0.09);
+  padding-top: 2.2rem;
+}
+.diagnosis-flip-card:hover .diagnosis-flip-front, .diagnosis-flip-card.flipped .diagnosis-flip-front {
+  box-shadow: 0 12px 36px rgba(30,64,175,0.22), 0 3px 12px rgba(0,0,0,0.13);
+}
+.diagnosis-flip-card:active .diagnosis-flip-front {
+  box-shadow: 0 2px 8px rgba(30,64,175,0.10);
+}
+@media (max-width: 768px) {
+  .diagnosis-flip-card, .diagnosis-flip-inner { min-height: 180px; }
+  .diagnosis-flip-front, .diagnosis-flip-back { padding: 1.2rem 1rem 1rem 1rem; }
+}
+
+.feedback-principles-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.3rem;
+  margin-bottom: 2.5rem;
+  justify-content: center;
+}
+.feedback-principle-card {
+  background: linear-gradient(135deg, #e0f7fa 0%, #e3f0ff 100%);
+  border-left: 5px solid #0d6efd;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(13,110,253,0.08);
+  padding: 1.2rem 1.5rem 1.1rem 1.5rem;
+  min-width: 240px;
+  max-width: 320px;
+  flex: 1 1 260px;
+  color: #0d387d;
+  font-weight: 600;
+  font-size: 1.13rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+  overflow: hidden;
+}
+.feedback-principle-card:hover {
+  box-shadow: 0 8px 24px rgba(13,110,253,0.16);
+  transform: translateY(-3px) scale(1.03);
+}
+.principle-desc {
+  display: block;
+  color: #495057;
+  font-weight: 400;
+  font-size: 0.99rem;
+  margin-top: 0.5rem;
+  padding-left: 0.1rem;
+}
+@media (max-width: 900px) {
+  .feedback-principles-grid { flex-direction: column; gap: 1rem; align-items: stretch; }
+  .feedback-principle-card { min-width: 0; max-width: 100%; }
+}
+
+.nko-carousel-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 2.5rem auto;
+  position: relative;
+  overflow: visible;
+  background: linear-gradient(135deg, #e6f9ed 0%, #d1f5e1 100%);
+  border-radius: 1.3rem;
+  padding: 2.2rem 1.2rem 1.7rem 1.2rem;
+  box-shadow: 0 2px 16px rgba(13,110,53,0.07);
+}
+.nko-carousel-track {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: stretch;
+  will-change: auto;
+}
+.nko-carousel-slide {
+  background: #f3fcf7;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 12px rgba(13,110,53,0.08);
+  min-width: 220px;
+  max-width: 260px;
+  flex: 0 0 240px;
+  padding: 2rem 1.2rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #176c3a;
+  font-weight: 600;
+  font-size: 1.13rem;
+  position: relative;
+  opacity: 1;
+  transform: scale(1);
+  transition: box-shadow 0.2s, transform 0.3s, opacity 0.3s;
+  border: 1.5px solid #b6e2c6;
+}
+.nko-carousel-slide span {
+  display: block;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #176c3a;
+}
+.nko-carousel-slide .nko-carousel-desc {
+  color: #2e4d3a;
+  font-weight: 400;
+  font-size: 1.01rem;
+  margin-top: 0.5rem;
+}
+.nko-chain-arrow {
+  position: absolute;
+  right: -32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+.nko-chain-arrow svg path {
+  stroke: #1bb86c;
+}
+@media (max-width: 900px) {
+  .nko-carousel-track { gap: 1.2rem; }
+  .nko-carousel-slide { min-width: 160px; max-width: 180px; padding: 1.1rem 0.5rem 0.7rem 0.5rem; }
+  .nko-chain-arrow { right: -18px; }
+  .nko-carousel-container { padding: 1.2rem 0.2rem 1.2rem 0.2rem; }
+}
+.culture-cards-accordion .culture-card-accordion {
+  background: #fff;
+  border: 1px solid #e3e8ef;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(13,110,253,0.07);
+  padding: 1.1rem 1.2rem 0.7rem 1.2rem;
+  color: #0d387d;
+  font-weight: 600;
+  font-size: 1.08rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+.culture-cards-accordion .culture-card-accordion:hover {
+  box-shadow: 0 8px 24px rgba(13,110,253,0.13);
+  transform: translateY(-2px) scale(1.03);
+}
+.culture-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.13rem;
+}
+.culture-card-body {
+  color: #495057;
+  font-weight: 400;
+  font-size: 0.99rem;
+  margin-top: 0.5rem;
+  display: none;
+  padding-left: 2.2rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  border-left: 3px solid #0d6efd;
+}
+.culture-card-accordion.open .culture-card-body {
+  display: block;
+  animation: fadeInDown 0.4s cubic-bezier(.4,1.6,.4,1);
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+        /* НАВИГАЦИЯ ПО РАЗДЕЛАМ */
+        .section-nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 2px 8px rgba(32,201,151,0.07);
+            padding: 0.5rem 0;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .section-nav-btn {
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .section-nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        .section-nav-btn.btn-success {
+            background-color: #198754;
+            color: white;
+        }
+        .section-nav-btn.btn-success:hover {
+            background-color: #157347;
+        }
     </style>
 </head>
 
@@ -165,10 +554,25 @@
         </ul>
     </div>
 
+    <!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
+    <nav class="section-nav-bar" style="position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 8px rgba(32,201,151,0.07);padding:0.5rem 0 0.5rem 0;display:flex;gap:0.5rem;justify-content:center;align-items:center;">
+      <a href="0_introduction.html" class="btn btn-outline-success section-nav-btn">Введение</a>
+      <a href="1_community_building.html" class="btn btn-outline-success section-nav-btn">1. Сообщество</a>
+      <a href="2_internal_communications.html" class="btn btn-success section-nav-btn">2. Коммуникации</a>
+      <a href="3_infrastructure.html" class="btn btn-outline-success section-nav-btn">3. Инфраструктура</a>
+      <a href="4_legal_and_security.html" class="btn btn-outline-success section-nav-btn">4. Право и безопасность</a>
+      <a href="5_effectiveness_and_development.html" class="btn btn-outline-success section-nav-btn">5. Эффективность</a>
+      <a href="6_crisis_management.html" class="btn btn-outline-success section-nav-btn">6. Кризисы</a>
+      <a href="7_fundraising.html" class="btn btn-outline-success section-nav-btn">7. Фандрайзинг</a>
+      <a href="8_cases_and_practice.html" class="btn btn-outline-success section-nav-btn">8. Кейсы</a>
+      <a href="useful_resources.html" class="btn btn-outline-secondary section-nav-btn">Ресурсы</a>
+    </nav>
+    <!-- /НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
+
     <main>
         <div class="page-header-section">
             <img src="../assets/icons/communication.svg" alt="Внутренние коммуникации" class="header-icon">
-            <h1 class="display-5 fw-bold">Раздел 2: Внутренние Коммуникации</h1>
+            <h1 class="display-5 fw-bold">Внутренние Коммуникации</h1>
             <p class="lead">Фундамент эффективности вашей команды: как наладить общение, которое вдохновляет и ведет к результату.</p>
         </div>
 
@@ -177,43 +581,80 @@
             <section class="content-section" id="s2-1">
                 <h3>
                     <img src="../assets/icons/efficiency.svg" alt="Фундамент" class="section-icon">
-                    2.1. Фундамент Эффективности: Роль Внутренних Коммуникаций
+                    Роль внутренних коммуникаций
                 </h3>
                 <h4>Как коммуникации влияют на НКО?</h4>
-                <p>Представьте путь вашей НКО как цепочку. Сильные коммуникации – это звенья, которые делают её прочной:</p>
-                <div class="communication-flow-diagram mb-4">
-                    <div class="flow-step" data-bs-toggle="popover" data-bs-trigger="hover focus" title="Миссия и Ценности" data-bs-content="Четко донесенные миссия и ценности объединяют команду вокруг общей цели.">
-                        <img src="../assets/icons/introngo.svg" alt="Миссия"><strong>Миссия</strong>
+                <div class="nko-carousel-container mb-4">
+                  <div class="nko-carousel-track">
+                    <div class="nko-carousel-slide" data-title="Миссия и Ценности">
+                      <img src="../assets/icons/introngo.svg" alt="Миссия"><span>Миссия</span>
+                      <div class="nko-carousel-desc">Четко донесенные миссия и ценности объединяют команду вокруг общей цели.</div>
                     </div>
-                    <div class="flow-arrow">➔</div>
-                    <div class="flow-step" data-bs-toggle="popover" data-bs-trigger="hover focus" title="Команда" data-bs-content="Эффективное общение помогает формировать сплоченную команду, где каждый понимает свою роль.">
-                         <img src="../assets/icons/community.svg" alt="Команда"><strong>Команда</strong>
+                    <div class="nko-carousel-slide" data-title="Команда">
+                      <img src="../assets/icons/community.svg" alt="Команда"><span>Команда</span>
+                      <div class="nko-carousel-desc">Эффективное общение помогает формировать сплоченную команду, где каждый понимает свою роль.</div>
                     </div>
-                    <div class="flow-arrow">➔</div>
-                    <div class="flow-step" data-bs-toggle="popover" data-bs-trigger="hover focus" title="Мотивация и Вовлеченность" data-bs-content="Открытый диалог, признание вклада и обратная связь повышают мотивацию и вовлеченность сотрудников и волонтеров.">
-                         <img src="../assets/icons/interactivity.svg" alt="Мотивация"><strong>Мотивация</strong>
+                    <div class="nko-carousel-slide" data-title="Мотивация и Вовлеченность">
+                      <img src="../assets/icons/interactivity.svg" alt="Мотивация"><span>Мотивация</span>
+                      <div class="nko-carousel-desc">Открытый диалог, признание вклада и обратная связь повышают мотивацию и вовлеченность сотрудников и волонтеров.</div>
                     </div>
-                     <div class="flow-arrow">➔</div>
-                    <div class="flow-step" data-bs-toggle="popover" data-bs-trigger="hover focus" title="Результат" data-bs-content="Слаженная и мотивированная команда, объединенная общей целью, достигает лучших результатов в своей деятельности.">
-                        <img src="../assets/icons/cases.svg" alt="Результат"><strong>Результат</strong>
+                    <div class="nko-carousel-slide" data-title="Результат">
+                      <img src="../assets/icons/cases.svg" alt="Результат"><span>Результат</span>
+                      <div class="nko-carousel-desc">Слаженная и мотивированная команда, объединенная общей целью, достигает лучших результатов в своей деятельности.</div>
                     </div>
+                  </div>
                 </div>
-                
+
                 <h4 class="mt-4"><img src="../assets/icons/practical.svg" alt="Оргкультура" class="section-icon">Признаки здоровой организационной культуры <small class="text-muted fs-6 ms-1">(Нажмите на признак)</small></h4>
-                <div class="row">
-                    <div class="col-md-3 mb-3"><div class="culture-card" data-bs-toggle="modal" data-bs-target="#cultureDetailModal" data-title="Доверие" data-details="Люди не боятся высказывать свое мнение, признавать ошибки и полагаться друг на друга. Руководство доверяет команде выполнение задач."><img src="../assets/icons/safety.svg" alt="">Доверие</div></div>
-                    <div class="col-md-3 mb-3"><div class="culture-card" data-bs-toggle="modal" data-bs-target="#cultureDetailModal" data-title="Открытость" data-details="Информация свободно циркулирует в обе стороны. Решения принимаются прозрачно, команда понимает, почему происходят те или иные изменения."><img src="../assets/icons/communication.svg" alt="">Открытость</div></div>
-                    <div class="col-md-3 mb-3"><div class="culture-card" data-bs-toggle="modal" data-bs-target="#cultureDetailModal" data-title="Поддержка" data-details="Члены команды помогают друг другу, готовы делиться знаниями и опытом. Существует культура взаимопомощи и наставничества."><img src="../assets/icons/community.svg" alt="">Поддержка</div></div>
-                    <div class="col-md-3 mb-3"><div class="culture-card" data-bs-toggle="modal" data-bs-target="#cultureDetailModal" data-title="Прозрачность" data-details="Касается как принятия решений, так и финансовых потоков (в разумных пределах). Сотрудники и волонтеры понимают, как работает НКО."><img src="../assets/icons/visibility.svg" alt="">Прозрачность</div></div>
+                <div class="row culture-cards-accordion">
+                  <div class="col-md-3 mb-3">
+                    <div class="culture-card-accordion">
+                      <div class="culture-card-header"><img src="../assets/icons/safety.svg" alt="">Доверие</div>
+                      <div class="culture-card-body">Люди не боятся высказывать свое мнение, признавать ошибки и полагаться друг на друга. Руководство доверяет команде выполнение задач.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <div class="culture-card-accordion">
+                      <div class="culture-card-header"><img src="../assets/icons/communication.svg" alt="">Открытость</div>
+                      <div class="culture-card-body">Информация свободно циркулирует в обе стороны. Решения принимаются прозрачно, команда понимает, почему происходят те или иные изменения.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <div class="culture-card-accordion">
+                      <div class="culture-card-header"><img src="../assets/icons/community.svg" alt="">Поддержка</div>
+                      <div class="culture-card-body">Члены команды помогают друг другу, готовы делиться знаниями и опытом. Существует культура взаимопомощи и наставничества.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <div class="culture-card-accordion">
+                      <div class="culture-card-header"><img src="../assets/icons/visibility.svg" alt="">Прозрачность</div>
+                      <div class="culture-card-body">Касается как принятия решений, так и финансовых потоков (в разумных пределах). Сотрудники и волонтеры понимают, как работает НКО.</div>
+                    </div>
+                  </div>
                 </div>
 
                  <h4 class="mt-4"><img src="../assets/icons/volunteer_activism.svg" alt="Волонтеры" class="section-icon">Коммуникации с волонтерами: Ключевые моменты</h4>
-                <ul class="list-group volunteer-comms-list">
-                  <li class="list-group-item"><strong>Четкие ожидания:</strong> <div class="details">С самого начала объясните задачи, объем работы, требуемое время и стандарты.</div></li>
-                  <li class="list-group-item"><strong>Регулярная обратная связь:</strong> <div class="details">Благодарите за вклад, отмечайте успехи, конструктивно обсуждайте зоны роста.</div></li>
-                  <li class="list-group-item"><strong>Каналы связи:</strong> <div class="details">Определите удобные и доступные каналы для общения (чат, email, встречи).</div></li>
-                  <li class="list-group-item"><strong>Вовлечение и признание:</strong> <div class="details">Приглашайте волонтеров на общие встречи, делитесь новостями НКО, отмечайте их вклад публично (с их согласия).</div></li>
-                   <li class="list-group-item"><strong>Обучение и поддержка:</strong> <div class="details">Предоставляйте необходимые инструкции, материалы и поддержку по возникающим вопросам.</div></li>
+                <ul class="volunteer-comms-list-modern">
+                  <li class="volunteer-comms-item">
+                    <div class="comms-main"><strong>Четкие ожидания:</strong></div>
+                    <div class="comms-details">С самого начала объясните задачи, объем работы, требуемое время и стандарты.</div>
+                  </li>
+                  <li class="volunteer-comms-item">
+                    <div class="comms-main"><strong>Регулярная обратная связь:</strong></div>
+                    <div class="comms-details">Благодарите за вклад, отмечайте успехи, конструктивно обсуждайте зоны роста.</div>
+                  </li>
+                  <li class="volunteer-comms-item">
+                    <div class="comms-main"><strong>Каналы связи:</strong></div>
+                    <div class="comms-details">Определите удобные и доступные каналы для общения (чат, email, встречи).</div>
+                  </li>
+                  <li class="volunteer-comms-item">
+                    <div class="comms-main"><strong>Вовлечение и признание:</strong></div>
+                    <div class="comms-details">Приглашайте волонтеров на общие встречи, делитесь новостями НКО, отмечайте их вклад публично (с их согласия).</div>
+                  </li>
+                  <li class="volunteer-comms-item">
+                    <div class="comms-main"><strong>Обучение и поддержка:</strong></div>
+                    <div class="comms-details">Предоставляйте необходимые инструкции, материалы и поддержку по возникающим вопросам.</div>
+                  </li>
                 </ul>
             </section>
             
@@ -231,56 +672,84 @@
             </div>
 
 
-            <!-- 2.3. Инструменты Внутренних Коммуникаций -->
+            <!-- Инструменты Внутренних Коммуникаций -->
             <section class="content-section" id="s2-3">
                 <h3>
                     <img src="../assets/icons/low_budget.svg" alt="Инструменты" class="section-icon">
-                    2.2. Инструменты Внутренних Коммуникаций
+                    Инструменты Внутренних Коммуникаций
                 </h3>
                 <p>Подбор правильных инструментов облегчает общение и координацию в команде. Вот несколько малобюджетных вариантов:</p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="tool-category-card" data-tool-details="signal_element">
-                            <h5><img src="../assets/icons/safety.svg" alt="" class="me-2">Мессенджеры</h5>
-                            <p class="text-muted small">Для быстрого обмена информацией, групповых чатов.</p>
-                            <div class="tool-examples">
-                                <p><strong>Signal:</strong> Высокий уровень приватности, сквозное шифрование.</p>
-                                <p><strong>Element (Matrix):</strong> Децентрализованный, безопасный, можно свой сервер.</p>
-                                <p><strong>Telegram:</strong> Популярен, есть каналы и чаты (обычные чаты не e2e по умолчанию).</p>
+                <div class="row comms-tools-row">
+                    <div class="col-md-6 mb-4">
+                        <div class="comms-flip-card comms-flip-messengers">
+                            <div class="comms-flip-inner">
+                                <div class="comms-flip-front">
+                                    <h5><img src="../assets/icons/safety.svg" alt="" class="me-2">Мессенджеры</h5>
+                                    <p class="text-light small">Для быстрого обмена информацией, групповых чатов.</p>
+                                </div>
+                                <div class="comms-flip-back">
+                                    <h6 class="mb-2">Рекомендуемые инструменты:</h6>
+                                    <ul>
+                                        <li><strong>Signal</strong> — приватность, e2e-шифрование</li>
+                                        <li><strong>Element (Matrix)</strong> — децентрализованный, можно свой сервер</li>
+                                        <li><strong>Telegram</strong> — популярный, каналы и чаты</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                     <div class="col-md-6">
-                        <div class="tool-category-card" data-tool-details="trello_asana">
-                            <h5><img src="../assets/icons/cases.svg" alt="" class="me-2">Таск-трекеры</h5>
-                            <p class="text-muted small">Для управления задачами, проектами, отслеживания прогресса.</p>
-                             <div class="tool-examples">
-                                <p><strong>Trello/Kanban-доски:</strong> Визуальное управление задачами (бесплатные тарифы).</p>
-                                <p><strong>Asana (бесплатная версия):</strong> Более продвинутое управление проектами для небольших команд.</p>
-                                <p><strong>Notion/Airtable:</strong> Могут быть настроены как таск-трекеры.</p>
+                    <div class="col-md-6 mb-4">
+                        <div class="comms-flip-card comms-flip-tasks">
+                            <div class="comms-flip-inner">
+                                <div class="comms-flip-front">
+                                    <h5><img src="../assets/icons/cases.svg" alt="" class="me-2">Таск-трекеры</h5>
+                                    <p class="text-light small">Для управления задачами, проектами, отслеживания прогресса.</p>
+                                </div>
+                                <div class="comms-flip-back">
+                                    <h6 class="mb-2">Рекомендуемые инструменты:</h6>
+                                    <ul>
+                                        <li><strong>Trello</strong> — визуальное управление задачами</li>
+                                        <li><strong>Asana</strong> — продвинутое управление проектами</li>
+                                        <li><strong>Notion</strong> — гибкий таск-трекер и база знаний</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                     <div class="col-md-6">
-                        <div class="tool-category-card" data-tool-details="clouds_video">
-                            <h5><img src="../assets/icons/Infrastructure.svg" alt="" class="me-2">Облака и Видеовстречи</h5>
-                            <p class="text-muted small">Для совместной работы над документами и онлайн-совещаний.</p>
-                             <div class="tool-examples">
-                                <p><strong>Nextcloud/CryptPad:</strong> Безопасное облако (Nextcloud можно на своем сервере). CryptPad - e2e шифрование документов.</p>
-                                <p><strong>Jitsi Meet:</strong> Бесплатные видеовстречи без ограничений по времени (для небольших-средних групп).</p>
-                                <p><strong>Google Docs/Workspace (для НКО):</strong> Бесплатные или льготные тарифы, удобная совместная работа (учитывайте приватность).</p>
+                    <div class="col-md-6 mb-4">
+                        <div class="comms-flip-card comms-flip-clouds">
+                            <div class="comms-flip-inner">
+                                <div class="comms-flip-front">
+                                    <h5><img src="../assets/icons/Infrastructure.svg" alt="" class="me-2">Облака и Видеовстречи</h5>
+                                    <p class="text-light small">Для совместной работы над документами и онлайн-совещаний.</p>
+                                </div>
+                                <div class="comms-flip-back">
+                                    <h6 class="mb-2">Рекомендуемые инструменты:</h6>
+                                    <ul>
+                                        <li><strong>Nextcloud</strong> — безопасное облако</li>
+                                        <li><strong>CryptPad</strong> — e2e-шифрование документов</li>
+                                        <li><strong>Jitsi Meet</strong> — бесплатные видеовстречи</li>
+                                        <li><strong>Google Docs</strong> — совместная работа</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                     <div class="col-md-6">
-                        <div class="tool-category-card" data-tool-details="knowledge_base">
-                            <h5><img src="../assets/icons/efficiency.svg" alt="" class="me-2">База Знаний</h5>
-                            <p class="text-muted small">Централизованное хранилище инструкций, регламентов, контактов.</p>
-                             <div class="tool-examples">
-                                <p><strong>Google Docs/Sheets:</strong> Просто и доступно.</p>
-                                <p><strong>Nextcloud (с плагинами):</strong> Можно создать структурированную базу.</p>
-                                <p><strong>Notion:</strong> Очень гибкий инструмент для создания баз знаний.</p>
-                                <p><strong>Протоколы встреч:</strong> Регулярное ведение и рассылка протоколов встреч (шаблон: дата, участники, повестка, принятые решения, ответственные, сроки).</p>
+                    <div class="col-md-6 mb-4">
+                        <div class="comms-flip-card comms-flip-knowledge">
+                            <div class="comms-flip-inner">
+                                <div class="comms-flip-front">
+                                    <h5><img src="../assets/icons/efficiency.svg" alt="" class="me-2">База Знаний</h5>
+                                    <p class="text-light small">Централизованное хранилище инструкций, регламентов, контактов.</p>
+                                </div>
+                                <div class="comms-flip-back">
+                                    <h6 class="mb-2">Рекомендуемые инструменты:</h6>
+                                    <ul>
+                                        <li><strong>Notion</strong> — гибкая база знаний</li>
+                                        <li><strong>Google Docs</strong> — просто и доступно</li>
+                                        <li><strong>Confluence</strong> — корпоративная база знаний</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -291,47 +760,97 @@
             <section class="content-section" id="s2-4">
                  <h3>
                     <img src="../assets/icons/interactivity.svg" alt="Диагностика" class="section-icon">
-                    2.3. Диагностика Проблем и Поиск Решений
+                    Диагностика Проблем и Поиск Решений
                 </h3>
                 <p>Эффективные коммуникации требуют постоянной диагностики. Кликните на карточку проблемы, чтобы увидеть возможное решение:</p>
-                <div class="row">
-                    <div class="col-md-6 problem-solution-card">
-                        <div class="flipper">
-                            <div class="problem-card"><h5>Проблема: Информационная перегрузка</h5><p class="small">(Слишком много чатов, писем, уведомлений)</p></div>
-                            <div class="solution-card"><h5>Решение:</h5><ul><li>Четкий регламент использования каналов (что и где обсуждаем).</li><li>Фильтрация информации, выделение главного.</li><li>Регулярные дайджесты новостей.</li></ul></div>
+                <div class="row diagnosis-tools-row">
+                    <div class="col-md-6 diagnosis-flip-card">
+                        <div class="diagnosis-flip-inner">
+                            <div class="diagnosis-flip-front">
+                                <h5>Проблема: Информационная перегрузка</h5>
+                                <p class="small">Слишком много чатов, писем, уведомлений</p>
+                            </div>
+                            <div class="diagnosis-flip-back">
+                                <h6>Решение:</h6>
+                                <ul>
+                                    <li>Четкий регламент использования каналов (что и где обсуждаем).</li>
+                                    <li>Фильтрация информации, выделение главного.</li>
+                                    <li>Регулярные дайджесты новостей.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                     <div class="col-md-6 problem-solution-card">
-                        <div class="flipper">
-                            <div class="problem-card"><h5>Проблема: Искажение информации</h5><p class="small">("Сломанный телефон", слухи)</p></div>
-                            <div class="solution-card"><h5>Решение:</h5><ul><li>Использование официальных каналов для важной информации.</li><li>Проверка информации перед распространением.</li><li>Протоколирование ключевых решений.</li></ul></div>
+                    <div class="col-md-6 diagnosis-flip-card">
+                        <div class="diagnosis-flip-inner">
+                            <div class="diagnosis-flip-front">
+                                <h5>Проблема: Искажение информации</h5>
+                                <p class="small">"Сломанный телефон", слухи</p>
+                            </div>
+                            <div class="diagnosis-flip-back">
+                                <h6>Решение:</h6>
+                                <ul>
+                                    <li>Использование официальных каналов для важной информации.</li>
+                                    <li>Проверка информации перед распространением.</li>
+                                    <li>Протоколирование ключевых решений.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                     <div class="col-md-6 problem-solution-card">
-                        <div class="flipper">
-                            <div class="problem-card"><h5>Проблема: Отсутствие обратной связи</h5><p class="small">(Люди не знают, как их работа оценена)</p></div>
-                            <div class="solution-card"><h5>Решение:</h5><ul><li>Внедрение культуры конструктивной обратной связи.</li><li>Регулярные встречи 1-на-1 (если применимо).</li><li>Анонимные опросы для сбора мнений.</li></ul></div>
+                    <div class="col-md-6 diagnosis-flip-card">
+                        <div class="diagnosis-flip-inner">
+                            <div class="diagnosis-flip-front">
+                                <h5>Проблема: Отсутствие обратной связи</h5>
+                                <p class="small">Люди не знают, как их работа оценена</p>
+                            </div>
+                            <div class="diagnosis-flip-back">
+                                <h6>Решение:</h6>
+                                <ul>
+                                    <li>Внедрение культуры конструктивной обратной связи.</li>
+                                    <li>Регулярные встречи 1-на-1 (если применимо).</li>
+                                    <li>Анонимные опросы для сбора мнений.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                     <div class="col-md-6 problem-solution-card">
-                        <div class="flipper">
-                            <div class="problem-card"><h5>Проблема: Низкая вовлеченность волонтеров</h5><p class="small">(Не чувствуют себя частью команды)</p></div>
-                            <div class="solution-card"><h5>Решение:</h5><ul><li>Четкие задачи и инструкции.</li><li>Регулярное информирование о достижениях НКО.</li><li>Приглашение на неформальные встречи. Признание их вклада.</li></ul></div>
+                    <div class="col-md-6 diagnosis-flip-card">
+                        <div class="diagnosis-flip-inner">
+                            <div class="diagnosis-flip-front">
+                                <h5>Проблема: Низкая вовлеченность волонтеров</h5>
+                                <p class="small">Не чувствуют себя частью команды</p>
+                            </div>
+                            <div class="diagnosis-flip-back">
+                                <h6>Решение:</h6>
+                                <ul>
+                                    <li>Четкие задачи и инструкции.</li>
+                                    <li>Регулярное информирование о достижениях НКО.</li>
+                                    <li>Приглашение на неформальные встречи. Признание их вклада.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <h4 class="mt-4"><img src="../assets/icons/practical.svg" alt="Обратная связь" class="section-icon">Принципы конструктивной обратной связи:</h4>
-                 <ul class="list-group">
-                    <li class="list-group-item"><strong>Конкретность:</strong> Говорите о фактах и поведении, а не о личности.</li>
-                    <li class="list-group-item"><strong>Своевременность:</strong> Предоставляйте обратную связь как можно скорее после события.</li>
-                    <li class="list-group-item"><strong>Сбалансированность:</strong> Отмечайте как сильные стороны, так и зоны для роста.</li>
-                    <li class="list-group-item"><strong>Фокус на поведении:</strong> Обсуждайте то, что человек может изменить.</li>
-                    <li class="list-group-item"><strong>Предложение решений/поддержки:</strong> Совместно ищите пути улучшения.</li>
-                </ul>
+                <h3 class="mt-4"><img src="../assets/icons/practical.svg" alt="Обратная связь" class="section-icon">Принципы конструктивной обратной связи</h3>
+<div class="feedback-principles-grid mb-4">
+  <div class="feedback-principle-card" data-anim-text>Конкретность
+    <span class="principle-desc">Говорите о фактах и поведении, а не о личности.</span>
+  </div>
+  <div class="feedback-principle-card" data-anim-text>Своевременность
+    <span class="principle-desc">Предоставляйте обратную связь как можно скорее после события.</span>
+  </div>
+  <div class="feedback-principle-card" data-anim-text>Сбалансированность
+    <span class="principle-desc">Отмечайте как сильные стороны, так и зоны для роста.</span>
+  </div>
+  <div class="feedback-principle-card" data-anim-text>Фокус на поведении
+    <span class="principle-desc">Обсуждайте то, что человек может изменить.</span>
+  </div>
+  <div class="feedback-principle-card" data-anim-text>Предложение решений/поддержки
+    <span class="principle-desc">Совместно ищите пути улучшения.</span>
+  </div>
+</div>
 
                 <div id="toolsImprovementInteractive" class="mt-5 shadow-sm">
-                    <h4 class="text-center mb-3">Ваш вклад: Улучшаем коммуникации!</h4>
+                    <h3 class="text-center mt-4"><img src="../assets/icons/support.svg" alt="ИИ" class="section-icon"> Ваш вклад: Улучшаем коммуникации!</h3>
                     <p>Какие <strong>3 инструмента или практики</strong> внутренних коммуникаций вы бы внедрили/улучшили в своей НКО в первую очередь и почему? Поделитесь своим опытом или идеями.</p>
                     <div class="mb-3">
                         <label for="tool1_name" class="form-label">1. Инструмент/Практика:</label>
@@ -367,8 +886,8 @@
     <footer class="py-4 bg-dark text-white-50 mt-5">
         <!-- ... (Подвал) ... -->
          <div class="container text-center">
-             <small>Материалы семинара © 2024.</small> <br>
-             <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+             <small>Материалы семинара Школы прав человека им. Елены Боннэр © 2025</small> <br>
+             <small><em>Информация на сайте носит ознакомительный характер и была разработана для интерактивной части семинара</em></small>
          </div>
     </footer>
 
@@ -377,6 +896,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/EasePack.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
     
     <script>
     // --- Добавляем константы Gemini/Gemma API в начало скрипта ---
@@ -641,6 +1161,53 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
             });
         });
 
+        // GSAP flip-анимация для карточек инструментов
+const flipCards = document.querySelectorAll('.comms-flip-card');
+flipCards.forEach(card => {
+  const inner = card.querySelector('.comms-flip-inner');
+  let flipped = false;
+  gsap.set(inner, {rotateY: 0});
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') return;
+    flipped = !flipped;
+    gsap.to(inner, {
+      rotateY: flipped ? 180 : 0,
+      duration: 0.7,
+      ease: 'power3.inOut',
+      onStart: () => {
+        card.classList.add('flipping');
+      },
+      onComplete: () => {
+        card.classList.toggle('flipped', flipped);
+        card.classList.remove('flipping');
+      }
+    });
+  });
+});
+// GSAP flip-анимация для карточек диагностики проблем
+const diagnosisCards = document.querySelectorAll('.diagnosis-flip-card');
+diagnosisCards.forEach(card => {
+  const inner = card.querySelector('.diagnosis-flip-inner');
+  let flipped = false;
+  gsap.set(inner, {rotateY: 0});
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') return;
+    flipped = !flipped;
+    gsap.to(inner, {
+      rotateY: flipped ? 180 : 0,
+      duration: 0.7,
+      ease: 'power3.inOut',
+      onStart: () => {
+        card.classList.add('flipping');
+      },
+      onComplete: () => {
+        card.classList.toggle('flipped', flipped);
+        card.classList.remove('flipping');
+      }
+    });
+  });
+});
+
         // Интерактив "3 инструмента" с ИИ
         const getToolsAiAdviceBtn = document.getElementById('getToolsAiAdviceBtn');
         const aiToolsFeedbackContainer = document.getElementById('aiToolsFeedbackContainer');
@@ -694,14 +1261,15 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                     }
                     aiMessage = aiMessage.replace(/\n/g, '<br>');
 
-                    gsap.to(aiToolsFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                    gsap.to(aiToolsFeedbackResultEl, {opacity:0, y:-5, duration: 0.2, onComplete: () => {
                         aiToolsFeedbackResultEl.innerHTML = aiMessage;
                         gsap.to(aiToolsFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
                     }});
 
                 } catch (error) {
+
                     console.error('AI Tools Advice Error:', error);
-                    gsap.to(aiToolsFeedbackResultEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                    gsap.to(aiToolsFeedbackResultEl, {opacity:0, y:-5, duration: 0.2, onComplete: () => {
                         aiToolsFeedbackResultEl.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
                         gsap.to(aiToolsFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
                     }});
@@ -759,6 +1327,10 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                             text = Array.from(el.children).map(li => '- ' + li.innerText).join('\n');
                         }
                         if (text) {
+
+
+
+
                             const split = doc.splitTextToSize(text, pageWidth-80);
                             doc.text(split, 40, y);
                             y += split.length * 15 + 5;
@@ -782,6 +1354,88 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                 doc.save('internal_communications_results.pdf');
             });
         }
+
+        // === КАРУСЕЛЬ "Как коммуникации влияют на НКО?" теперь статична, без стрелок и прокрутки ===
+(function() {
+  const carousel = document.querySelector('.nko-carousel-container');
+  if (!carousel) return;
+  // Удаляем стрелки и пагинацию, если есть
+  const arrows = carousel.querySelectorAll('.nko-carousel-arrow');
+  arrows.forEach(el => el.remove());
+  const pagination = carousel.querySelector('.nko-carousel-pagination');
+  if (pagination) pagination.remove();
+  // Убираем все js-управление, просто выравниваем карточки и цепочки
+  let track = carousel.querySelector('.nko-carousel-track');
+  if (!track) {
+    track = document.createElement('div');
+    track.className = 'nko-carousel-track';
+    while (carousel.firstChild) track.appendChild(carousel.firstChild);
+    carousel.appendChild(track);
+  }
+  const slides = Array.from(track.children).filter(el => el.classList.contains('nko-carousel-slide'));
+  // Добавляем стрелки-цепочки между слайдами (если их нет)
+  slides.forEach((slide, i) => {
+    let arrow = slide.querySelector('.nko-chain-arrow');
+    if (i < slides.length - 1 && !arrow) {
+      arrow = document.createElement('div');
+      arrow.className = 'nko-chain-arrow';
+      arrow.innerHTML = '<svg width="36" height="24" viewBox="0 0 36 24"><path d="M2 12h32m0 0l-6-6m6 6l-6 6" stroke="#1bb86c" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
+      slide.appendChild(arrow);
+    }
+    if (i === slides.length - 1 && arrow) arrow.remove();
+  });
+  // GSAP появление с ScrollTrigger
+  gsap.fromTo(carousel, {opacity:0, y:40}, {
+    opacity:1, y:0, duration:0.8, ease:'power2.out',
+    scrollTrigger: {trigger:carousel, start:'top 80%', once:true}
+  });
+  slides.forEach((slide, i) => {
+    gsap.fromTo(slide, {opacity:0, y:30}, {
+      opacity:1, y:0, duration:0.7, delay:0.12*i,
+      scrollTrigger: {trigger:carousel, start:'top 85%', once:true}
+    });
+  });
+})();
+
+// === АККОРДЕОН "Признаки здоровой оргкультуры" (мультиоткрытие) ===
+(function() {
+  const acc = document.querySelector('.culture-cards-accordion');
+  if (!acc) return;
+  const cards = Array.from(acc.querySelectorAll('.culture-card-accordion'));
+  cards.forEach((card) => {
+    const header = card.querySelector('.culture-card-header');
+    const body = card.querySelector('.culture-card-body');
+    header.style.cursor = 'pointer';
+    header.addEventListener('click', () => {
+      const isOpen = card.classList.contains('open');
+      if (isOpen) {
+        gsap.to(body, {height:0, opacity:0, duration:0.35, onComplete:()=>{
+          card.classList.remove('open');
+          body.style.display = 'none';
+        }});
+      } else {
+        body.style.display = 'block';
+        body.style.height = 'auto';
+        const h = body.offsetHeight;
+        body.style.height = '0px';
+        gsap.to(body, {height:h, opacity:1, duration:0.4, ease:'power2.out', onStart:()=>{
+          card.classList.add('open');
+        }, onComplete:()=>{
+          body.style.height = 'auto';
+        }});
+      }
+    });
+    // Изначально скрываем body
+    body.style.display = 'none';
+    body.style.height = '0px';
+    body.style.opacity = 0;
+  });
+  // GSAP появление аккордеона
+  gsap.fromTo(acc, {opacity:0, y:40}, {
+    opacity:1, y:0, duration:0.8, ease:'power2.out',
+    scrollTrigger: {trigger:acc, start:'top 85%', once:true}
+  });
+})();
 
         ScrollTrigger.refresh();
     });

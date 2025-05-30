@@ -129,6 +129,53 @@
         .case-study-card p { font-size: 0.95rem; line-height: 1.6; }
         .case-study-card a { font-weight: 500; }
 
+        /* НАВИГАЦИЯ ПО РАЗДЕЛАМ */
+        .section-nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 2px 8px rgba(50,201,115,0.10); /* зеленый акцент */
+            padding: 0.5rem 0;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+            transition: top 0.35s cubic-bezier(.4,1.6,.4,1), box-shadow 0.25s;
+        }
+        .section-nav-bar.section-nav-hidden {
+            top: -70px;
+            box-shadow: none;
+        }
+        .section-nav-btn {
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .section-nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        .section-nav-btn.btn-success {
+            background-color: #667eea;
+            color: white;
+        }
+        .section-nav-btn.btn-success:hover {
+            background-color: #667eea;
+        }
+        .section-nav-btn.btn-outline-success {
+            color: #667eea;
+            border-color: #667eea;
+        }
+        .section-nav-btn.btn-outline-success:hover {
+            background-color: #667eea;
+            color: white;
+        }
+        @media (max-width: 900px) {
+            .section-nav-bar { top: 56px; }
+        }
+
     </style>
 </head>
 
@@ -180,6 +227,21 @@
         </ul>
     </div>
 
+
+    <!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
+    <nav class="section-nav-bar">
+      <a href="0_introduction.html" class="btn btn-outline-success section-nav-btn">Введение</a>
+      <a href="1_community_building.html" class="btn btn-success section-nav-btn">1. Сообщество</a>
+      <a href="2_internal_communications.html" class="btn btn-outline-success section-nav-btn">2. Коммуникации</a>
+      <a href="3_infrastructure.html" class="btn btn-outline-success section-nav-btn">3. Инфраструктура</a>
+      <a href="4_legal_and_security.html" class="btn btn-outline-success section-nav-btn">4. Право и безопасность</a>
+      <a href="5_effectiveness_and_development.html" class="btn btn-outline-success section-nav-btn">5. Эффективность</a>
+      <a href="6_crisis_management.html" class="btn btn-outline-success section-nav-btn">6. Кризисы</a>
+      <a href="7_fundraising.html" class="btn btn-outline-success section-nav-btn">7. Фандрайзинг</a>
+      <a href="8_cases_and_practice.html" class="btn btn-outline-success section-nav-btn">8. Кейсы</a>
+      <a href="useful_resources.html" class="btn btn-outline-secondary section-nav-btn">Ресурсы</a>
+    </nav>
+    <!-- /НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
 
     <main>
         <div class="page-header-section">
@@ -816,5 +878,30 @@
         }
     });
     </script>
+
+    <script>
+(function() {
+  const nav = document.querySelector('.section-nav-bar');
+  if (!nav) return;
+  let lastScroll = window.scrollY;
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const current = window.scrollY;
+        if (current > lastScroll && current > 120) {
+          nav.classList.add('section-nav-hidden');
+        } else {
+          nav.classList.remove('section-nav-hidden');
+        }
+        lastScroll = current;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+})();
+</script>
 </body>
 </html>

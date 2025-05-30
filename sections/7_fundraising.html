@@ -57,6 +57,28 @@
         .nav-pills .nav-link { color: #007bff; }
         .nav-pills .nav-link.active { background-color: #28a745; color:white; }
         .tab-pane { padding-top:1rem; }
+
+        /* --- Стилизация навигационной панели по разделам --- */
+        .section-nav-bar {
+  position: sticky;
+  top: 64px; /* чуть ниже шапки */
+  z-index: 1050;
+  background: rgba(255,255,255,0.97);
+  box-shadow: 0 2px 8px rgba(32,201,151,0.07);
+  padding: 0.5rem 0 0.5rem 0;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  transition: top 0.35s cubic-bezier(.4,1.6,.4,1), box-shadow 0.25s;
+}
+.section-nav-bar.section-nav-hidden {
+  top: -70px;
+  box-shadow: none;
+}
+@media (max-width: 900px) {
+  .section-nav-bar { top: 56px; }
+}
     </style>
 </head>
 <body>
@@ -488,6 +510,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     ScrollTrigger.refresh(); 
 });
+</script>
+<script>
+(function() {
+  const nav = document.querySelector('.section-nav-bar');
+  if (!nav) return;
+  let lastScroll = window.scrollY;
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const current = window.scrollY;
+        if (current > lastScroll && current > 120) {
+          nav.classList.add('section-nav-hidden');
+        } else {
+          nav.classList.remove('section-nav-hidden');
+        }
+        lastScroll = current;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+})();
 </script>
 </body>
 </html>

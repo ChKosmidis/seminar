@@ -111,6 +111,41 @@
             font-style: italic;
             color: #555;
         }
+
+        /* НАВИГАЦИЯ ПО РАЗДЕЛАМ */
+        .section-nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 2px 8px rgba(32, 201, 151, 0.07);
+            padding: 0.5rem 0;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .section-nav-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.7rem 1.2rem;
+            font-size: 0.95rem;
+            border-radius: 0.5rem;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .section-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .section-nav-btn.btn-success {
+            background-color: #32cd32;
+            color: #fff;
+            border: none;
+        }
+        .section-nav-btn.btn-success:hover {
+            background-color: #28a745;
+        }
+        /* Конец навигации по разделам */
     </style>
 </head>
 <body>
@@ -152,6 +187,22 @@
         <li class="nav-item fs-menu-item"><a class="nav-link" href="useful_resources.html">Полезные ресурсы</a></li>
     </ul>
 </div>
+
+<!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
+<nav class="section-nav-bar" style="position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 8px rgba(32,201,151,0.07);padding:0.5rem 0 0.5rem 0;display:flex;gap:0.5rem;justify-content:center;align-items:center;">
+  <a href="0_introduction.html" class="btn btn-outline-success section-nav-btn">Введение</a>
+  <a href="1_community_building.html" class="btn btn-outline-success section-nav-btn">1. Сообщество</a>
+  <a href="2_internal_communications.html" class="btn btn-outline-success section-nav-btn">2. Коммуникации</a>
+  <a href="3_infrastructure.html" class="btn btn-outline-success section-nav-btn">3. Инфраструктура</a>
+  <a href="4_legal_and_security.html" class="btn btn-outline-success section-nav-btn">4. Право и безопасность</a>
+  <a href="5_effectiveness_and_development.html" class="btn btn-outline-success section-nav-btn">5. Эффективность</a>
+  <a href="6_crisis_management.html" class="btn btn-success section-nav-btn">6. Кризисы</a>
+  <a href="7_fundraising.html" class="btn btn-outline-success section-nav-btn">7. Фандрайзинг</a>
+  <a href="8_cases_and_practice.html" class="btn btn-outline-success section-nav-btn">8. Кейсы</a>
+  <a href="useful_resources.html" class="btn btn-outline-secondary section-nav-btn">Ресурсы</a>
+</nav>
+<!-- /НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
+
 <main>
     <div class="page-header-section">
         <img src="../assets/icons/crisis.svg" alt="Антикризисное управление" class="header-icon">
