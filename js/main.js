@@ -1,6 +1,7 @@
 // js/main.js
 document.addEventListener('DOMContentLoaded', () => {
-    gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin, Flip, Observer, EasePack, ScrollToPlugin);
+    // Добавлен TextPlugin
+    gsap.registerPlugin(ScrollTrigger, TextPlugin, Draggable, InertiaPlugin, Flip, Observer, EasePack, ScrollToPlugin);
 
     const heroSection = document.querySelector('.hero-section');
     const aboutSeminarSection = document.getElementById('about-seminar');
@@ -9,35 +10,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Общая функция для анимированного перехода ---
     function animatePageTransition(targetUrl) {
-        // 1. Плавная прокрутка вверх
         gsap.to(window, {
-            duration: 0.6, // Можно попробовать чуть быстрее
+            duration: 0.6, 
             scrollTo: { y: 0, autoKill: false },
-            ease: "power2.easeInOut", // Чуть изменил ease
+            ease: "power2.easeInOut", 
             onStart: () => {
                 ScrollTrigger.getAll().forEach(st => st.disable(false));
-                document.body.style.pointerEvents = 'none'; // Предотвращаем случайные клики во время анимации
+                document.body.style.pointerEvents = 'none'; 
             },
             onComplete: () => {
-                // 2. Анимация исчезновения контента после прокрутки
                 const elementsToFadeOut = [
                     heroSection,
                     aboutSeminarSection,
                     sectionsOverviewSection,
                     footerElement,
-                    document.querySelector('header nav') // Также скрываем навигацию
+                    document.querySelector('header nav') 
                 ].filter(el => el);
 
                 gsap.to(elementsToFadeOut, {
-                    duration: 0.35, // Уменьшаем длительность, чтобы было быстрее
+                    duration: 0.35, 
                     opacity: 0,
-                    // y: -10, // Небольшой сдвиг вверх при исчезновении (опционально)
                     ease: "power1.in",
-                    stagger: 0.05, // Небольшой stagger для более "мягкого" ухода, если много элементов
-                    force3D: true, // Попробуем форсировать аппаратное ускорение
+                    stagger: 0.05, 
+                    force3D: true, 
                     onComplete: () => {
                         window.location.href = targetUrl;
-                        // pointerEvents вернется в auto при перезагрузке страницы
                     }
                 });
             }
@@ -50,11 +47,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroButton = document.querySelector('.hero-button');
     const startLearningBtn = document.getElementById('startLearningBtn');
 
+    // Устанавливаем начальные состояния через GSAP для надежности,
+    // если они не определены в CSS (opacity:0, y:20px)
+    gsap.set([heroTitle, heroSubtitle, heroButton], { opacity: 0, y: 20 });
+
+
     if (heroTitle && heroSubtitle && heroButton) {
-        gsap.timeline({ defaults: { duration: 0.8, ease: 'power2.out' } })
-            .to(heroTitle, { opacity: 1, y: 0, delay: 0.2 })
-            .to(heroSubtitle, { opacity: 1, y: 0 }, "-=0.5")
-            .to(heroButton, { opacity: 1, y: 0 }, "-=0.5");
+        const heroTitleText = heroTitle.textContent; 
+        heroTitle.textContent = ''; // Очищаем для анимации печати
+
+        const heroTimeline = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+        heroTimeline
+            .to(heroTitle, { 
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                delay: 0.2
+            })
+            .to(heroTitle, { 
+                text: {
+                    value: heroTitleText,
+                    delimiter: "" // По буквам
+                },
+                duration: heroTitleText.length * 0.04, 
+                ease: 'none' 
+            }, "-=0.2") 
+            .to(heroSubtitle, { opacity: 1, y: 0, duration: 0.8 }, "-=0.5") 
+            .to(heroButton, { opacity: 1, y: 0, duration: 0.8 }, "-=0.3");
     }
 
     if (startLearningBtn) {
@@ -70,16 +90,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetAudience = document.querySelector('#about-seminar .target-audience');
 
     if (aboutSectionTitle) {
-        gsap.to(aboutSectionTitle, {
-            opacity: 1, y: 0, duration: 0.8,
-            scrollTrigger: { trigger: aboutSectionTitle, start: "top 85%" }
+        const titleText = aboutSectionTitle.textContent;
+        aboutSectionTitle.textContent = ''; 
+        gsap.set(aboutSectionTitle, { opacity: 0, y: 20 }); // Явное начальное состояние
+
+        const aboutTitleTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: aboutSectionTitle,
+                start: "top 85%", 
+                toggleActions: "play none none none" 
+            }
         });
+
+        aboutTitleTimeline
+            .to(aboutSectionTitle, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power2.out"
+            })
+            .to(aboutSectionTitle, {
+                text: {
+                    value: titleText,
+                    delimiter: ""
+                },
+                duration: titleText.length * 0.05, 
+                ease: "none"
+            }, "+=0.1"); 
     }
+
     if (principleCards.length > 0) {
         principleCards.forEach((card, index) => {
+             gsap.set(card, { opacity: 0, y: 20 }); // Явное начальное состояние
             gsap.to(card, {
                 opacity: 1, y: 0, duration: 0.6, delay: index * 0.15,
-                scrollTrigger: { trigger: card, start: "top 90%" }
+                scrollTrigger: { trigger: card, start: "top 90%",  toggleActions: "play none none none" }
             });
             const icon = card.querySelector('.principle-icon');
             if (icon) {
@@ -93,9 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     if (targetAudience) {
+        gsap.set(targetAudience, { opacity: 0, y: 20 }); // Явное начальное состояние
         gsap.to(targetAudience, {
             opacity: 1, y: 0, duration: 0.8,
-            scrollTrigger: { trigger: targetAudience, start: "top 85%" }
+            scrollTrigger: { trigger: targetAudience, start: "top 85%", toggleActions: "play none none none" }
         });
     }
     
@@ -104,10 +150,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const overviewCardsWrappers = gsap.utils.toArray('#sections-overview .overview-card');
 
     if (overviewSectionTitle) {
-        gsap.to(overviewSectionTitle, {
-            opacity: 1, y: 0, duration: 0.8,
-            scrollTrigger: { trigger: overviewSectionTitle, start: "top 85%" }
+        const titleText = overviewSectionTitle.textContent;
+        overviewSectionTitle.textContent = ''; 
+        gsap.set(overviewSectionTitle, { opacity: 0, y: 20 }); // Явное начальное состояние
+
+        const overviewTitleTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: overviewSectionTitle,
+                start: "top 85%",
+                toggleActions: "play none none none"
+            }
         });
+        overviewTitleTimeline
+            .to(overviewSectionTitle, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power2.out"
+            })
+            .to(overviewSectionTitle, {
+                text: {
+                    value: titleText,
+                    delimiter: ""
+                },
+                duration: titleText.length * 0.05,
+                ease: "none"
+            }, "+=0.1");
     }
 
     if (overviewCardsWrappers.length > 0) {
@@ -115,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = cardWrapper.querySelector('.card');
             const linkButton = cardWrapper.querySelector('.section-link-btn');
 
+            gsap.set(cardWrapper, { opacity: 0, y: 20, scale: 0.95 }); // Явное начальное состояние
             gsap.to(cardWrapper, { 
                 opacity: 1, y: 0, scale: 1, duration: 0.5, delay: index * 0.1,
                 scrollTrigger: { trigger: cardWrapper, start: "top 90%", once: true }
@@ -149,8 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 4. Кастомное полноэкранное меню с SVG-бургером ---
-    // (код меню остается таким же, как в предыдущем ответе, я его здесь не дублирую для краткости)
-    // ... (вставьте сюда полный код для секции 4 из предыдущего ответа) ...
+    // Код для меню остается таким же, как вы предоставили
     const customMenuToggler = document.getElementById('customMenuToggler');
     const fullscreenMenu = document.getElementById('fullscreenMenu');
     const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
@@ -276,5 +344,4 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn("Custom menu toggler or fullscreen menu not found. Fullscreen menu functionality disabled.");
     }
-
 });

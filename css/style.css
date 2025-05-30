@@ -38,7 +38,7 @@ body {
 }
 
 .overview-card {
-    transform: scale(0.85) translateY(25px);
+    transform: translateY(20px) scale(0.95);
 }
 
 

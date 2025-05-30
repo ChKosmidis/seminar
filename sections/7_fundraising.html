@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Фандрайзинг для НКО - Семинар НКО</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css"> <!-- Main shared style -->
+    <link rel="stylesheet" href="../css/animations.css"> <!-- Shared animations -->
+    <style>
+        body { padding-top: 70px; overflow-x: hidden; }
+        .page-header-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%); /* Greenish gradient for fundraising */
+            color: #fff; /* White text for better contrast on green */
+            padding: 4rem 1.5rem; margin-bottom: 2rem; border-radius: .3rem; text-align: center;
+        }
+        .page-header-section img.header-icon { width: 80px; height: 80px; margin-bottom: 1rem; filter: brightness(0) invert(1); }
+        .content-section { margin-bottom: 3rem; opacity: 0; transform: translateY(40px); }
+        .content-section h3, .content-section h4 {
+            margin-bottom: 1.5rem; display: flex; align-items: center;
+            font-weight: 600; color: #343a40;
+        }
+        .content-section h3 img.section-icon, .content-section h4 img.section-icon {
+            width: 32px; height: 32px; margin-right: 0.8rem; opacity: 0.8;
+        }
+        
+        .fundraising-form-container {
+            background: #f8f9fa; border-radius: .7rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07); padding: 2rem 1.5rem;
+        }
+        .fundraising-form-container label { font-weight: 500; margin-bottom: 0.3rem; display: block; }
+        .fundraising-form-container .form-control, .fundraising-form-container .form-select { margin-bottom: 1.2rem; }
+        .fundraising-form-container textarea.form-control { min-height: 100px; }
+        .btn-success-custom { background-color: #28a745; border-color: #28a745; color: #fff; }
+        .btn-success-custom:hover { background-color: #218838; border-color: #1e7e34; }
+
+        #aiFundraisingFeedbackContainer { margin-top: 2.5rem; opacity: 0; transform: translateY(20px); }
+        .ai-feedback-card {
+            background-color: #e9f7ef; border-radius: .8rem; padding: 2rem;
+            box-shadow: 0 6px 25px rgba(40,167,69,0.1); border-left: 7px solid #28a745;
+        }
+        .ai-feedback-card h5 { color: #1e7e34; margin-bottom: 1rem; }
+        #aiFundraisingFeedbackResult { color: #212529; }
+        #aiFundraisingFeedbackResult strong { color: #155724; }
+        #aiFundraisingFeedbackResult ul { padding-left: 1.2rem; margin-top: 0.5rem; }
+        #aiFundraisingFeedbackResult li { margin-bottom: 0.4rem; }
+
+        .info-card {
+            background: #fff; border-radius: .7rem; box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            padding: 1.5rem; margin-bottom: 1.5rem; border-left: 5px solid #20c997; /* Accent color */
+        }
+        .info-card h4 { font-size: 1.25rem; color: #28a745; margin-bottom: 0.75rem; }
+        .info-card ul { padding-left: 1.1rem; margin-bottom: 0; }
+        .info-card li { margin-bottom: 0.5rem; }
+        .info-card p:last-child { margin-bottom: 0; }
+
+        .nav-pills .nav-link { color: #007bff; }
+        .nav-pills .nav-link.active { background-color: #28a745; color:white; }
+        .tab-pane { padding-top:1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.html">
+                <img src="../assets/images/logo.svg" alt="Лого НКО">
+                Семинар НКО
+            </a>
+            <button class="navbar-custom-toggler ms-auto" aria-label="Открыть меню" id="customMenuToggler" aria-expanded="false">
+                <svg viewBox="0 0 100 80" width="30" height="30" id="actualBurgerIcon" fill="currentColor">
+                    <rect class="line line1" x="0" y="10" width="100" height="10" rx="5"></rect>
+                    <rect class="line line2" x="0" y="35" width="100" height="10" rx="5"></rect>
+                    <rect class="line line3" x="0" y="60" width="100" height="10" rx="5"></rect>
+                </svg>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<div class="fullscreen-menu" id="fullscreenMenu">
+    <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
+    <ul class="navbar-nav-fullscreen">
+        <li class="nav-item fs-menu-item"><a class="nav-link" href="../index.html">Главная</a></li>
+        <li class="nav-item fs-menu-item custom-dropdown">
+            <a class="nav-link dropdown-toggle-custom active" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">Разделы</a>
+            <ul class="dropdown-menu-custom">
+                <li><a class="dropdown-item" href="0_introduction.html">0. Введение</a></li>
+                <li><a class="dropdown-item" href="1_community_building.html">1. Сообщество</a></li>
+                <li><a class="dropdown-item" href="2_internal_communications.html">2. Коммуникации</a></li>
+                <li><a class="dropdown-item" href="3_infrastructure.html">3. Инфраструктура</a></li>
+                <li><a class="dropdown-item" href="4_legal_and_security.html">4. Безопасность</a></li>
+                <li><a class="dropdown-item" href="5_effectiveness_and_development.html">5. Эффективность</a></li>
+                <li><a class="dropdown-item" href="6_crisis_management.html">6. Антикризис</a></li>
+                <li><a class="dropdown-item active" href="7_fundraising.html">7. Фандрайзинг</a></li>
+                <li><a class="dropdown-item" href="8_cases_and_practice.html">8. Практика и кейсы</a></li>
+            </ul>
+        </li>
+        <li class="nav-item fs-menu-item"><a class="nav-link" href="useful_resources.html">Полезные ресурсы</a></li>
+    </ul>
+</div>
+
+<main>
+    <div class="page-header-section">
+        <img src="../assets/icons/fundraising.svg" alt="Фандрайзинг НКО" class="header-icon">
+        <h1 class="display-5 fw-bold">Раздел 7: Фандрайзинг для НКО</h1>
+        <p class="lead">Ищем ресурсы: стратегии привлечения средств, работа с донорами и оценка реалистичности ваших финансовых целей с помощью ИИ.</p>
+    </div>
+
+    <div class="container py-4">
+        <!-- 7.1. Форма для анализа фандрайзинговой идеи (остается как есть) -->
+        <section class="content-section" id="s7-1">
+            <h3><img src="../assets/icons/paid.svg" alt="Анализ идеи" class="section-icon">7.1. Анализ вашей фандрайзинговой идеи с ИИ</h3>
+            <p>Опишите вашу идею, команду и цели, а Искусственный Интеллект поможет оценить реалистичность привлечения средств и даст полезные советы.</p>
+            
+            <div class="fundraising-form-container mt-4">
+                <form id="fundraisingIdeaForm">
+                    <div class="mb-3">
+                        <label for="projectIdea">Опишите вашу проектную идею/потребность в финансировании:</label>
+                        <textarea class="form-control" id="projectIdea" name="projectIdea" rows="4" placeholder="Например, 'Запуск образовательной программы для подростков из уязвимых групп в регионе X...'"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="teamSize">Количество ключевых сотрудников/волонтеров в команде проекта:</label>
+                            <input type="number" class="form-control" id="teamSize" name="teamSize" min="1" placeholder="Например, 3">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="fundraisingMethod">Основной планируемый метод фандрайзинга:</label>
+                            <select class="form-select" id="fundraisingMethod" name="fundraisingMethod">
+                                <option selected disabled value="">Выберите метод...</option>
+                                <option value="grants_international">Международные гранты</option>
+                                <option value="grants_local">Местные/Российские гранты (если применимо)</option>
+                                <option value="corporate_international">Корпоративное спонсорство (международное)</option>
+                                <option value="corporate_local">Корпоративное спонсорство (локальное)</option>
+                                <option value="crowdfunding_global">Краудфандинг (глобальные платформы)</option>
+                                <option value="crowdfunding_local">Краудфандинг (локальные платформы)</option>
+                                <option value="diaspora_donations">Пожертвования от диаспоры</option>
+                                <option value="individual_donations_global">Частные пожертвования (международные)</option>
+                                <option value="individual_donations_local">Частные пожертвования (локальные)</option>
+                                <option value="major_donors">Крупные частные доноры</option>
+                                <option value="events">Благотворительные мероприятия (онлайн/офлайн)</option>
+                                <option value="social_entrepreneurship">Социальное предпринимательство/Платные услуги</option>
+                                <option value="other">Другое (укажите в описании идеи)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="targetAmount">Желаемая сумма сбора (USD):</label>
+                        <input type="number" class="form-control" id="targetAmount" name="targetAmount" min="100" step="100" placeholder="Например, 5000">
+                    </div>
+                    <button type="button" class="btn btn-success-custom btn-lg w-100" id="getFundraisingAiAdviceBtn">
+                        <img src="../assets/icons/support.svg" alt="AI" style="width: 20px; height: 20px; margin-right: 8px; filter: brightness(0) invert(1);">
+                        Получить совет от ИИ
+                    </button>
+                </form>
+            </div>
+
+            <div id="aiFundraisingFeedbackContainer" style="display:none;">
+                <div class="ai-feedback-card">
+                    <h5><img src="../assets/icons/ai_icon.svg" alt="AI" style="width: 24px; height: 24px; margin-right: 8px;">Комментарий от ИИ по вашей фандрайзинговой идее:</h5>
+                    <div id="aiFundraisingFeedbackResult"><em>Заполните форму выше и нажмите кнопку для получения анализа...</em></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7.2. Общие стратегии фандрайзинга -->
+        <section class="content-section" id="s7-2">
+            <h3><img src="../assets/icons/strategy.svg" alt="Стратегии" class="section-icon">7.2. Ключевые стратегии фандрайзинга для НКО</h3>
+            <p>Эффективный фандрайзинг требует комплексного подхода. Рассмотрим основные направления, актуальные в различных контекстах:</p>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="info-card">
+                        <h4>Диверсификация источников</h4>
+                        <p>Не полагайтесь на один источник финансирования. Сочетание грантов, частных пожертвований, корпоративной поддержки и других методов повышает устойчивость.</p>
+                        <ul>
+                            <li><strong>Для НКО в РФ:</strong> Акцент на разрешенные источники, развитие локального фандрайзинга, поиск российских грантодателей и бизнеса.</li>
+                            <li><strong>Для НКО в изгнании:</strong> Международные гранты, диаспора, глобальный краудфандинг, международные частные фонды.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="info-card">
+                        <h4>Грантовый фандрайзинг</h4>
+                        <p>Систематический поиск и подача заявок на гранты от фондов (частных, государственных, международных).</p>
+                        <ul>
+                            <li>Изучайте приоритеты фондов, требования к заявкам.</li>
+                            <li>Развивайте навыки написания сильных проектных предложений.</li>
+                            <li>Соблюдайте отчетность и стройте отношения с грантодателями.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="info-card">
+                        <h4>Краудфандинг</h4>
+                        <p>Привлечение множества небольших пожертвований от широкой аудитории через онлайн-платформы.</p>
+                        <ul>
+                            <li>Важна сильная история, четкая цель, активное продвижение кампании.</li>
+                            <li><strong>Платформы:</strong> Глобальные (GoFundMe, Patreon, Kickstarter), локальные (Planeta.ru, Boomstarter – для РФ с учетом специфики).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="info-card">
+                        <h4>Частные пожертвования</h4>
+                        <p>Формирование базы лояльных сторонников, готовых регулярно или разово поддерживать вашу деятельность.</p>
+                        <ul>
+                            <li>Развивайте систему онлайн-пожертвований на своем сайте.</li>
+                            <li>Проводите email-рассылки, обращайтесь лично.</li>
+                            <li>Благодарите доноров и рассказывайте о результатах.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7.3. Особенности фандрайзинга в сложных условиях -->
+        <section class="content-section" id="s7-3">
+            <h3><img src="../assets/icons/warning.svg" alt="Особенности" class="section-icon">7.3. Фандрайзинг в сложных условиях: Россия и изгнание</h3>
+            <ul class="nav nav-pills mb-3" id="pills-tab-fundraising" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-russia-tab" data-bs-toggle="pill" data-bs-target="#pills-russia" type="button" role="tab" aria-controls="pills-russia" aria-selected="true">НКО в России</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-exile-tab" data-bs-toggle="pill" data-bs-target="#pills-exile" type="button" role="tab" aria-controls="pills-exile" aria-selected="false">НКО в изгнании</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent-fundraising">
+                <div class="tab-pane fade show active" id="pills-russia" role="tabpanel" aria-labelledby="pills-russia-tab">
+                    <h4>Вызовы и решения для НКО, работающих в России:</h4>
+                    <ul>
+                        <li><strong>Законодательные ограничения:</strong> Тщательно изучайте законодательство (о "иностранных агентах", "нежелательных организациях", финансировании из-за рубежа). При необходимости консультируйтесь с юристами.</li>
+                        <li><strong>Прозрачность и подотчетность:</strong> Максимальная открытость в финансовой деятельности для повышения доверия со стороны российских доноров и контролирующих органов.</li>
+                        <li><strong>Акцент на локальные ресурсы:</strong> Развитие фандрайзинга среди граждан РФ, малого и среднего бизнеса, поиск российских грантов (Фонд президентских грантов, региональные конкурсы).</li>
+                        <li><strong>Безопасность доноров:</strong> Рассмотрите анонимные способы пожертвований (если это допустимо и безопасно для НКО), обеспечьте защиту данных доноров.</li>
+                        <li><strong>Альтернативные фандрайзинговые модели:</strong> Социальное предпринимательство, оказание платных услуг (если соответствует уставной деятельности), членские взносы.</li>
+                        <li><strong>Нематериальная поддержка:</strong> Волонтерство, pro bono услуги, информационная поддержка – также важные ресурсы.</li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="pills-exile" role="tabpanel" aria-labelledby="pills-exile-tab">
+                    <h4>Стратегии для НКО, работающих в изгнании:</h4>
+                    <ul>
+                        <li><strong>Международные гранты и фонды:</strong> Активный поиск грантов от международных организаций, частных фондов, правительственных программ поддержки демократии и прав человека.</li>
+                        <li><strong>Работа с диаспорой:</strong> Мобилизация поддержки соотечественников, проживающих за рубежом, через культурные мероприятия, информационные кампании, целевые сборы.</li>
+                        <li><strong>Глобальные краудфандинговые платформы:</strong> Использование Patreon, GoFundMe и других платформ для сбора пожертвований со всего мира.</li>
+                        <li><strong>Цифровой фандрайзинг:</strong> Сильный онлайн-присутствие, использование соцсетей, таргетированной рекламы (где применимо), email-маркетинга.</li>
+                        <li><strong>Построение доверия на расстоянии:</strong> Регулярная и прозрачная отчетность, демонстрация результатов, сильные истории успеха, видео-контент.</li>
+                        <li><strong>Партнерства и сети:</strong> Сотрудничество с международными НКО, участие в коалициях и сетях для обмена опытом и совместного фандрайзинга.</li>
+                        <li><strong>Безопасные финансовые каналы:</strong> Использование надежных международных платежных систем, криптовалют (с осторожностью и учетом рисков/регулирования) для получения и распределения средств.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7.4. Практические инструменты и ресурсы -->
+        <section class="content-section" id="s7-4">
+            <h3><img src="../assets/icons/cases.svg" alt="Инструменты" class="section-icon">7.4. Полезные инструменты и ресурсы для фандрайзинга</h3>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="info-card">
+                        <h4>Платформы для поиска грантов:</h4>
+                        <ul>
+                            <li><strong>FundsforNGOs (fundsforngos.org):</strong> База международных грантов.</li>
+                            <li><strong>Devex (devex.com):</strong> Информация о тендерах и грантах в сфере международного развития.</li>
+                            <li><strong>European Foundation Centre (efc.be):</strong> Ресурсы европейских фондов.</li>
+                            <li><strong>Фонд президентских грантов (президентскиегранты.рф):</strong> Для НКО в России.</li>
+                            <li>Региональные и муниципальные порталы субсидий (для НКО в России).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="info-card">
+                        <h4>Краудфандинговые платформы:</h4>
+                        <ul>
+                            <li><strong>Global:</strong> Patreon, GoFundMe, Kickstarter, Indiegogo.</li>
+                            <li><strong>Для РФ (с осторожностью):</strong> Planeta.ru, Boomstarter.</li>
+                            <li><strong>Специализированные:</strong> Например, для поддержки журналистов или правозащитников.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="info-card">
+                        <h4>Инструменты для НКО:</h4>
+                        <ul>
+                            <li><strong>CRM-системы:</strong> Для управления базой доноров и коммуникаций (например, CiviCRM, Bitrix24 - с учетом локализации и безопасности данных).</li>
+                            <li><strong>Платежные системы:</strong> Stripe, PayPal (для международных), ЮKassa, Robokassa (для РФ). Для НКО в изгнании могут быть актуальны сервисы вроде Wise или крипто-кошельки для определенных ситуаций.</li>
+                            <li><strong>Инструменты для email-маркетинга:</strong> Mailchimp, Sendinblue, Unisender.</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="col-md-6 mb-3">
+                    <div class="info-card">
+                        <h4>Ресурсы и организации поддержки:</h4>
+                        <ul>
+                            <li><strong>Для НКО в изгнании/правозащитных:</strong> Access Now, Front Line Defenders, various diaspora foundations, Human Rights Houses.</li>
+                            <li><strong>Общие ресурсы по фандрайзингу:</strong> Philanthropy News Digest, The Chronicle of Philanthropy, семинары и курсы от ресурсных центров НКО.</li>
+                            <li><strong>Юридическая поддержка:</strong> Консультации с юристами, специализирующимися на НКО, особенно по вопросам финансирования.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<footer class="py-4 bg-dark text-white-50 mt-5">
+    <div class="container text-center">
+        <small>Материалы семинара © 2024-2025.</small> <br>
+        <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией или финансовым советом. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+
+<script>
+// --- Ключ и URL для Google AI API (используйте свой действительный ключ) ---
+const GOOGLE_AI_API_KEY = "YOUR_GOOGLE_AI_API_KEY"; // ЗАМЕНИТЕ НА ВАШ КЛЮЧ
+const GOOGLE_AI_API_URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
+const GOOGLE_AI_MODEL = "gemma-3n-e4b-it"; 
+const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateContent?key=${GOOGLE_AI_API_KEY}`;
+
+document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- Меню (код идентичен предыдущему ответу, здесь не повторяю для краткости) ---
+    const customMenuToggler = document.getElementById('customMenuToggler');
+    const fullscreenMenu = document.getElementById('fullscreenMenu');
+    const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
+    if (customMenuToggler && fullscreenMenu) {
+        const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
+        const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
+        const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
+        const actualBurgerIcon = customMenuToggler.querySelector('svg');
+        const burgerLine1 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line1') : null;
+        const burgerLine2 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line2') : null;
+        const burgerLine3 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line3') : null;
+        let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
+        if (burgerLine1 && burgerLine2 && burgerLine3) {
+            const line1YInitial = parseFloat(burgerLine1.getAttribute('y')); const line2YInitial = parseFloat(burgerLine2.getAttribute('y')); const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
+            if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) { burgerTimeline.to(burgerLine1,{duration:0.25,attr:{y:line2YInitial},ease:"power2.inOut"},"cross").to(burgerLine3,{duration:0.25,attr:{y:line2YInitial},ease:"power2.inOut"},"cross").to(burgerLine2,{duration:0.2,scaleX:0,transformOrigin:"50% 50%",ease:"power2.in"},"cross").to(burgerLine1,{duration:0.25,rotation:45,transformOrigin:"50% 50%",ease:"power2.out"},"crossEnd").to(burgerLine3,{duration:0.25,rotation:-45,transformOrigin:"50% 50%",ease:"power2.out"},"crossEnd"); } 
+            else { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});} } 
+        else if (actualBurgerIcon) { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
+        let fsMenuIsOpen = false; gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
+        if (fsMenuItems.length > 0) gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
+        if (fsSubMenuItemsContainer) gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+        const openFullscreenMenu = () => { if (fsMenuIsOpen) return; fsMenuIsOpen = true; fullscreenMenu.style.display = 'flex'; burgerTimeline.play(); customMenuToggler.classList.add('open'); customMenuToggler.setAttribute('aria-expanded', 'true'); const tlOpen = gsap.timeline(); tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' }); if (fsMenuItems.length > 0) tlOpen.to(fsMenuItems, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, "-=0.2"); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) { const isExpanded = sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null); if (isExpanded) {gsap.set(fsSubMenuItemsContainer, {height:'auto', autoAlpha:1, marginTop:'0.5rem', marginBottom:'0.5rem'}); tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out' }, "-=0.1");}}};
+        const closeFullscreenMenu = () => { if (!fsMenuIsOpen) return; fsMenuIsOpen = false; burgerTimeline.reverse(); customMenuToggler.classList.remove('open'); customMenuToggler.setAttribute('aria-expanded', 'false'); const tlClose = gsap.timeline({onComplete: () => { fullscreenMenu.style.display = 'none'; if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0}); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');}}}); if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in' });} if (fsMenuItems.length > 0) tlClose.to(fsMenuItems, { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, fsSubMenuItemsContainer && fsSubMenuItemsContainer.style.height !== '0px' ? "-=0.1" : 0); tlClose.to(fullscreenMenu, { autoAlpha: 0, duration: 0.25, ease: 'power1.in' }, fsMenuItems.length > 0 ? "-=0.1" : 0); };
+        customMenuToggler.addEventListener('click', () => { fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); });
+        if (closeFullscreenMenuBtn) closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); });
+        const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+        if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {
+            const isActiveDropdown = sectionsDropdownCustomFs.classList.contains('active');
+            gsap.set(fsSubMenuItemsContainer, { height: isActiveDropdown ? 'auto':0, autoAlpha: isActiveDropdown ? 1:0, marginTop:isActiveDropdown ? '0.5rem':0, marginBottom:isActiveDropdown ? '0.5rem':0 }); 
+            gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:isActiveDropdown ? 1:0, y:isActiveDropdown ? 0:10});
+            let subMenuFsIsOpen = isActiveDropdown;
+            if(isActiveDropdown) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'true');
+            
+            sectionsDropdownCustomFs.addEventListener('click', (e) => { e.preventDefault(); subMenuFsIsOpen = !subMenuFsIsOpen; sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
+                if (subMenuFsIsOpen) { gsap.timeline().to(fsSubMenuItemsContainer, { height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', duration: 0.3, ease: 'power1.out' }).to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out' }, "-=0.2"); } 
+                else { gsap.timeline().to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in' }).to(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, duration: 0.3, ease: 'power1.in' }, "-=0.1");}
+            });
+            const fsSubMenuLinks = fsSubMenuItemsContainer ? gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
+            fsSubMenuLinks.forEach(link => { link.addEventListener('mouseenter', () => gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 })); link.addEventListener('mouseleave', () => gsap.to(link, { color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), x: 0, duration: 0.2 }));});
+        }
+        const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
+        if (activeFsDropdownItem) { activeFsDropdownItem.style.color = '#0d6efd'; activeFsDropdownItem.style.fontWeight = '500';}
+        if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer && !fsMenuIsOpen) { // Special handling for active dropdown on page load
+             gsap.set(fullscreenMenu, { display: 'flex', autoAlpha: 0 }); // Temporarily show to get height
+             gsap.set(fsSubMenuItemsContainer, { height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem'});
+             gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0 });
+             gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); // Hide again
+        }
+    }
+
+
+    // --- GSAP анимации появления секций ---
+    gsap.utils.toArray('.content-section').forEach((section, i) => {
+        gsap.to(section, {
+            opacity: 1, y: 0, duration: 0.7, delay: i * 0.1, // Slightly increased delay between sections
+            scrollTrigger: { trigger: section, start: 'top 88%', once: true }
+        });
+    });
+     gsap.utils.toArray('.info-card').forEach((card, i) => {
+        gsap.from(card, {
+            opacity: 0, y: 30, scale:0.95, duration: 0.5, delay: i * 0.1,
+            scrollTrigger: { trigger: card, start: 'top 90%', once: true, stagger:0.1}
+        });
+    });
+
+
+    // --- AI Feedback for Fundraising Idea (код идентичен предыдущему ответу, здесь не повторяю) ---
+    const getFundraisingAiAdviceBtn = document.getElementById('getFundraisingAiAdviceBtn');
+    const aiFundraisingFeedbackContainer = document.getElementById('aiFundraisingFeedbackContainer');
+    const aiFundraisingFeedbackResult = document.getElementById('aiFundraisingFeedbackResult');
+    const fundraisingIdeaForm = document.getElementById('fundraisingIdeaForm');
+
+    if (getFundraisingAiAdviceBtn && aiFundraisingFeedbackContainer && aiFundraisingFeedbackResult && fundraisingIdeaForm) {
+        gsap.set(aiFundraisingFeedbackContainer, {display: 'none', autoAlpha:0});
+
+        getFundraisingAiAdviceBtn.addEventListener('click', async () => {
+            const projectIdea = fundraisingIdeaForm.projectIdea.value.trim();
+            const teamSize = fundraisingIdeaForm.teamSize.value;
+            const fundraisingMethod = fundraisingIdeaForm.fundraisingMethod.value;
+            const targetAmount = fundraisingIdeaForm.targetAmount.value;
+
+            if (!projectIdea || !teamSize || !fundraisingMethod || !targetAmount) {
+                alert('Пожалуйста, заполните все поля формы для получения анализа.');
+                return;
+            }
+            if (GOOGLE_AI_API_KEY === "AIzaSyDl6bLHj4tFonVVBnKDhgIpdrTQuZXmhqo") {
+                alert("Пожалуйста, укажите ваш действительный Google AI API ключ в JavaScript коде.");
+                aiFundraisingFeedbackResult.innerHTML = "<em>Ошибка: API ключ не настроен. Обратитесь к администратору.</em>";
+                gsap.timeline().set(aiFundraisingFeedbackContainer, {display: 'block'}).to(aiFundraisingFeedbackContainer, {autoAlpha:1, y:0, duration:0.4, ease: 'power2.out'});
+                return;
+            }
+
+            gsap.timeline().set(aiFundraisingFeedbackContainer, {display: 'block'}).to(aiFundraisingFeedbackContainer, {autoAlpha:1, y:0, duration:0.4, ease: 'power2.out'});
+            aiFundraisingFeedbackResult.innerHTML = '<em>🤖 ИИ анализирует вашу идею... Пожалуйста, подождите...</em>';
+            gsap.fromTo(aiFundraisingFeedbackResult, {opacity:0.5, y:5}, {opacity:1, y:0, duration:0.3});
+            getFundraisingAiAdviceBtn.disabled = true;
+            getFundraisingAiAdviceBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Анализ...`;
+
+
+            try {
+                const systemPromptText = `Ты — опытный ИИ-консультант по фандрайзингу для некоммерческих организаций (НКО). Твоя задача — проанализировать представленную фандрайзинговую идею и дать конструктивную обратную связь.
+Учитывай, что НКО может работать как внутри России (со всеми сопутствующими ограничениями и рисками), так и в изгнании, ориентируясь на международную аудиторию и доноров. Если из контекста идеи пользователя это явно не следует, старайся давать универсальные советы или упомяни обе перспективы, если это критично.
+
+В своем ответе:
+1.  Кратко оцени реалистичность сбора указанной суммы ($${targetAmount} USD) для проекта с описанной идеей "${projectIdea}", командой из ${teamSize} человек/волонтера и выбранным методом фандрайзинга "${fundraisingIdeaForm.querySelector('#fundraisingMethod option:checked').textContent}".
+2.  Дай 3-5 конкретных, действенных советов по улучшению фандрайзинговой стратегии или подготовке к привлечению средств для этого проекта. Советы должны быть релевантны указанным данным и учитывать возможный контекст работы НКО (в РФ / в изгнании).
+3.  Будь краток, дружелюбен и профессионален. Формулируй советы как список.
+Ответ должен быть на русском языке.`;
+
+                const userDataText = `Описание проектной идеи НКО: ${projectIdea}\n` +
+                    `Размер команды (ключевые сотрудники/волонтеры): ${teamSize}\n` +
+                    `Основной планируемый метод фандрайзинга: ${fundraisingMethod} (${fundraisingIdeaForm.querySelector('#fundraisingMethod option:checked').textContent})\n` + // Добавил текстовое название метода
+                    `Желаемая сумма сбора: $${targetAmount} USD`;
+                
+                const requestPayload = {
+                    contents: [{ role: "user", parts: [{ "text": systemPromptText + "\n\n### Детали запроса от пользователя:\n" + userDataText }] }],
+                    generationConfig: {
+                        temperature: 0.7, 
+                        maxOutputTokens: 1000, // Увеличил для более подробных советов
+                    }
+                };
+                
+                const response = await fetch(GOOGLE_AI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestPayload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: { message: 'Unknown API error format' } }));
+                    console.error("Google AI API Error (Fundraising):", errorData);
+                    throw new Error(`Ошибка сети: ${response.status} - ${errorData.error?.message || response.statusText}`);
+                }
+
+                const data = await response.json();
+                let aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "Не удалось получить комментарий от ИИ. Попробуйте еще раз.";
+                
+                aiMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); 
+                aiMessage = aiMessage.replace(/\*(.*?)\*/g, '<em>$1</em>');     
+                aiMessage = aiMessage.replace(/^\s*(\d+\.|-|\*)\s+(.*)/gm, '<li>$2</li>');
+                if (aiMessage.includes('<li>')) {
+                     aiMessage = aiMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`);
+                     aiMessage = aiMessage.replace(/<\/ul>\s*<ul>/g, ''); 
+                }
+                aiMessage = aiMessage.replace(/\n/g, '<br>');
+
+
+                gsap.to(aiFundraisingFeedbackResult, {opacity:0, y:-5, duration: 0.2, onComplete: () => {
+                    aiFundraisingFeedbackResult.innerHTML = aiMessage;
+                    gsap.to(aiFundraisingFeedbackResult, {opacity:1, y:0, duration: 0.4, ease: 'power2.out'});
+                }});
+
+            } catch (error) {
+                console.error('AI Fundraising Advice Error:', error);
+                gsap.to(aiFundraisingFeedbackResult, {opacity:0, y:-5, duration: 0.2, onComplete: () => {
+                    aiFundraisingFeedbackResult.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>. Убедитесь, что API ключ действителен и модель (${GOOGLE_AI_MODEL}) доступна.`;
+                    gsap.to(aiFundraisingFeedbackResult, {opacity:1, y:0, duration: 0.4, ease: 'power2.out'});
+                }});
+            } finally {
+                getFundraisingAiAdviceBtn.disabled = false;
+                getFundraisingAiAdviceBtn.innerHTML = `<img src="../assets/icons/ai_icon.svg" alt="AI" style="width: 20px; height: 20px; margin-right: 8px; filter: brightness(0) invert(1);"> Получить совет от ИИ`;
+            }
+        });
+    }
+    ScrollTrigger.refresh(); 
+});
+</script>
+</body>
+</html>
