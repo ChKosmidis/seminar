@@ -108,11 +108,10 @@
     </div>
 
     <div class="container py-4">
-        <!-- 7.1. Форма для анализа фандрайзинговой идеи (остается как есть) -->
+        <!-- AI Форма для анализа фандрайзинговой идеи -->
         <section class="content-section" id="s7-1">
             <h3><img src="../assets/icons/paid.svg" alt="Анализ идеи" class="section-icon">7.1. Анализ вашей фандрайзинговой идеи с ИИ</h3>
             <p>Опишите вашу идею, команду и цели, а Искусственный Интеллект поможет оценить реалистичность привлечения средств и даст полезные советы.</p>
-            
             <div class="fundraising-form-container mt-4">
                 <form id="fundraisingIdeaForm">
                     <div class="mb-3">
@@ -154,7 +153,6 @@
                     </button>
                 </form>
             </div>
-
             <div id="aiFundraisingFeedbackContainer" style="display:none;">
                 <div class="ai-feedback-card">
                     <h5><img src="../assets/icons/ai_icon.svg" alt="AI" style="width: 24px; height: 24px; margin-right: 8px;">Комментарий от ИИ по вашей фандрайзинговой идее:</h5>
@@ -409,7 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Пожалуйста, заполните все поля формы для получения анализа.');
                 return;
             }
-            if (GOOGLE_AI_API_KEY === "AIzaSyDl6bLHj4tFonVVBnKDhgIpdrTQuZXmhqo") {
+            if (!GOOGLE_AI_API_KEY || GOOGLE_AI_API_KEY === "YOUR_API_KEY") {
                 alert("Пожалуйста, укажите ваш действительный Google AI API ключ в JavaScript коде.");
                 aiFundraisingFeedbackResult.innerHTML = "<em>Ошибка: API ключ не настроен. Обратитесь к администратору.</em>";
                 gsap.timeline().set(aiFundraisingFeedbackContainer, {display: 'block'}).to(aiFundraisingFeedbackContainer, {autoAlpha:1, y:0, duration:0.4, ease: 'power2.out'});
