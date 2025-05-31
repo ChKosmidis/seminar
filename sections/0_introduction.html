@@ -215,7 +215,7 @@
         /* НАВИГАЦИЯ ПО РАЗДЕЛАМ (как в 2_internal_communications) */
         .section-nav-bar {
             position: sticky;
-            top: 0;
+            top: 0; /* This will stick below the 70px fixed header due to body padding-top */
             z-index: 1000;
             background: rgba(255,255,255,0.97);
             box-shadow: 0 2px 8px rgba(32,201,151,0.07);
@@ -293,7 +293,7 @@
     </div>
 
     <!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
-    <nav class="section-nav-bar" style="position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 8px rgba(32,201,151,0.07);padding:0.5rem 0 0.5rem 0;display:flex;gap:0.5rem;justify-content:center;align-items:center;">
+    <nav class="section-nav-bar"> <!-- Removed inline styles, relying on CSS block above -->
       <a href="0_introduction.html" class="btn btn-success section-nav-btn">Введение</a>
       <a href="1_community_building.html" class="btn btn-outline-success section-nav-btn">1. Сообщество</a>
       <a href="2_internal_communications.html" class="btn btn-outline-success section-nav-btn">2. Коммуникации</a>
@@ -307,35 +307,9 @@
     </nav>
     <!-- /НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
 
-    <div class="fullscreen-menu" id="fullscreenMenu">
-        <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
-        <ul class="navbar-nav-fullscreen">
-            <li class="nav-item fs-menu-item">
-                <a class="nav-link" href="../index.html">Главная</a>
-            </li>
-            <li class="nav-item fs-menu-item custom-dropdown">
-                <a class="nav-link dropdown-toggle-custom active" aria-current="page" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">
-                    Разделы
-                </a>
-                <ul class="dropdown-menu-custom">
-                    <li><a class="dropdown-item active" href="0_introduction.html">0. Введение</a></li>
-                    <li><a class="dropdown-item" href="1_community_building.html">1. Сообщество</a></li>
-                    <li><a class="dropdown-item" href="2_internal_communications.html">2. Коммуникации</a></li>
-                    <li><a class="dropdown-item" href="3_infrastructure.html">3. Инфраструктура</a></li>
-                    <li><a class="dropdown-item" href="4_legal_and_security.html">4. Безопасность</a></li>
-                    <li><a class="dropdown-item" href="5_effectiveness_and_development.html">5. Эффективность</a></li>
-                    <li><a class="dropdown-item" href="6_crisis_management.html">6. Антикризис</a></li>
-                    <li><a class="dropdown-item" href="7_fundraising.html">7. Фандрайзинг</a></li>
-                    <li><a class="dropdown-item" href="8_cases_and_practice.html">8. Практика и кейсы</a></li>
-                </ul>
-            </li>
-            <li class="nav-item fs-menu-item">
-                <a class="nav-link" href="useful_resources.html">Полезные ресурсы</a>
-            </li>
-        </ul>
-    </div>
+    <!-- Intentionally removed the duplicate fullscreen-menu div that was here -->
 
-    <main class="container py-4">
+    <main> <!-- Removed class="container py-4" from main -->
         <!-- Блок заголовка раздела (как в 2_internal_communications) -->
         <div class="page-header-section">
             <img src="../assets/icons/introngo.svg" alt="Введение Иконка" class="header-icon" id="introHeaderIcon">
@@ -343,136 +317,137 @@
             <p class="lead">Фокус на правозащитную деятельность: ландшафт, специфика, нетворкинг и первые шаги.</p>
         </div>
 
-        <section class="info-section" id="s0-1-new">
-            <div class="section-header">
-                <div class="section-icon-new">
-                    <img src="../assets/icons/community.svg" alt="Ландшафт НКО">
+        <div class="container py-4"> <!-- Added container with padding for the content sections -->
+            <section class="info-section" id="s0-1-new">
+                <div class="section-header">
+                    <div class="section-icon-new">
+                        <img src="../assets/icons/community.svg" alt="Ландшафт НКО">
+                    </div>
+                    <h2>0.1. Ландшафт НКО: Краткий обзор</h2>
                 </div>
-                <h2>0.1. Ландшафт НКО: Краткий обзор</h2>
-            </div>
-            <p>Некоммерческие организации (НКО) играют ключевую роль в развитии гражданского общества. Они охватывают множество форм и направлений деятельности: от благотворительности и социальной поддержки до экологии, культуры и защиты прав человека.</p>
-            <ul>
-                <li><strong>Многообразие форм:</strong> Общественные организации, фонды, автономные некоммерческие организации, ассоциации (союзы) и др.</li>
-                <li><strong>Направления деятельности:</strong> Социальное обслуживание, поддержка уязвимых групп, образование и просвещение, здравоохранение, охрана окружающей среды, развитие культуры и искусства, защита прав и свобод человека и гражданина.</li>
-            </ul>
-            <p>Общая миссия некоммерческого сектора — решение общественно значимых проблем и удовлетворение нематериальных потребностей граждан, действуя не ради извлечения прибыли, а во имя общественных благ.</p>
-        </section>
+                <p>Некоммерческие организации (НКО) играют ключевую роль в развитии гражданского общества. Они охватывают множество форм и направлений деятельности: от благотворительности и социальной поддержки до экологии, культуры и защиты прав человека.</p>
+                <ul>
+                    <li><strong>Многообразие форм:</strong> Общественные организации, фонды, автономные некоммерческие организации, ассоциации (союзы) и др.</li>
+                    <li><strong>Направления деятельности:</strong> Социальное обслуживание, поддержка уязвимых групп, образование и просвещение, здравоохранение, охрана окружающей среды, развитие культуры и искусства, защита прав и свобод человека и гражданина.</li>
+                </ul>
+                <p>Общая миссия некоммерческого сектора — решение общественно значимых проблем и удовлетворение нематериальных потребностей граждан, действуя не ради извлечения прибыли, а во имя общественных благ.</p>
+            </section>
 
-        <section class="info-section" id="s0-2-new">
-            <div class="section-header">
-                <div class="section-icon-new">
-                     <img src="../assets/icons/rights.svg" alt="Правозащитные НКО">
+            <section class="info-section" id="s0-2-new">
+                <div class="section-header">
+                    <div class="section-icon-new">
+                         <img src="../assets/icons/rights.svg" alt="Правозащитные НКО">
+                    </div>
+                    <h2>0.2. Правозащитные НКО: Миссия и специфика</h2>
                 </div>
-                <h2>0.2. Правозащитные НКО: Миссия и специфика</h2>
-            </div>
-            <p>Правозащитная деятельность направлена на утверждение и защиту прав и свобод человека, гарантированных международными нормами и национальным законодательством. Ключевые направления работы правозащитных НКО включают:</p>
-            <ul>
-                <li><strong>Мониторинг и документирование:</strong> Сбор и анализ информации о нарушениях прав человека.</li>
-                <li><strong>Просвещение:</strong> Повышение правовой грамотности населения, информирование о правах и способах их защиты.</li>
-                <li><strong>Адвокация:</strong> Представление интересов отдельных лиц или групп, продвижение законодательных изменений.</li>
-                <li><strong>Юридическая помощь:</strong> Бесплатные консультации и представительство в суде.</li>
-                <li><strong>Поддержка жертв нарушений:</strong> Психологическая, социальная и иная помощь пострадавшим.</li>
-            </ul>
-            <p>Правозащитные НКО часто сталкиваются с особыми вызовами, рисками и этическими дилеммами, требующими высокой компетентности, осторожности и приверженности принципам.</p>
-        </section>
+                <p>Правозащитная деятельность направлена на утверждение и защиту прав и свобод человека, гарантированных международными нормами и национальным законодательством. Ключевые направления работы правозащитных НКО включают:</p>
+                <ul>
+                    <li><strong>Мониторинг и документирование:</strong> Сбор и анализ информации о нарушениях прав человека.</li>
+                    <li><strong>Просвещение:</strong> Повышение правовой грамотности населения, информирование о правах и способах их защиты.</li>
+                    <li><strong>Адвокация:</strong> Представление интересов отдельных лиц или групп, продвижение законодательных изменений.</li>
+                    <li><strong>Юридическая помощь:</strong> Бесплатные консультации и представительство в суде.</li>
+                    <li><strong>Поддержка жертв нарушений:</strong> Психологическая, социальная и иная помощь пострадавшим.</li>
+                </ul>
+                <p>Правозащитные НКО часто сталкиваются с особыми вызовами, рисками и этическими дилеммами, требующими высокой компетентности, осторожности и приверженности принципам.</p>
+            </section>
 
-        <section class="info-section" id="s0-3-new">
-            <div class="section-header">
-                <div class="section-icon-new">
-                    <img src="../assets/icons/communication.svg" alt="Нетворкинг НКО">
+            <section class="info-section" id="s0-3-new">
+                <div class="section-header">
+                    <div class="section-icon-new">
+                        <img src="../assets/icons/communication.svg" alt="Нетворкинг НКО">
+                    </div>
+                    <h2>0.3. Нетворкинг-НКО (Ресурсные центры, коалиции)</h2>
                 </div>
-                <h2>0.3. Нетворкинг-НКО (Ресурсные центры, коалиции)</h2>
-            </div>
-            <p>Сетевое взаимодействие и объединение усилий критически важны для эффективности правозащитной деятельности. Нетворкинг-НКО, такие как ресурсные центры и коалиции, выполняют следующие задачи:</p>
-            <ul>
-                <li>Обмен информацией, опытом и лучшими практиками.</li>
-                <li>Координация совместных кампаний и акций.</li>
-                <li>Адвокация на системном уровне по общим проблемам.</li>
-                <li>Предоставление ресурсов, экспертизы и обучения для других НКО и активистов.</li>
-                <li>Повышение устойчивости и безопасности всего правозащитного сообщества.</li>
-            </ul>
-            <p>Примеры успешных нетворкинг-инициатив показывают, как солидарность и сотрудничество помогают достигать значимых результатов даже в сложных условиях.</p>
-        </section>
-        
-        <section class="info-section" id="s0-4-new">
-            <div class="section-header">
-                <div class="section-icon-new">
-                    <img src="../assets/icons/practical.svg" alt="Выбор направления НКО">
+                <p>Сетевое взаимодействие и объединение усилий критически важны для эффективности правозащитной деятельности. Нетворкинг-НКО, такие как ресурсные центры и коалиции, выполняют следующие задачи:</p>
+                <ul>
+                    <li>Обмен информацией, опытом и лучшими практиками.</li>
+                    <li>Координация совместных кампаний и акций.</li>
+                    <li>Адвокация на системном уровне по общим проблемам.</li>
+                    <li>Предоставление ресурсов, экспертизы и обучения для других НКО и активистов.</li>
+                    <li>Повышение устойчивости и безопасности всего правозащитного сообщества.</li>
+                </ul>
+                <p>Примеры успешных нетворкинг-инициатив показывают, как солидарность и сотрудничество помогают достигать значимых результатов даже в сложных условиях.</p>
+            </section>
+            
+            <section class="info-section" id="s0-4-new">
+                <div class="section-header">
+                    <div class="section-icon-new">
+                        <img src="../assets/icons/practical.svg" alt="Выбор направления НКО">
+                    </div>
+                    <h2>0.4. Выбор направления и формы для вашей будущей НКО</h2>
                 </div>
-                <h2>0.4. Выбор направления и формы для вашей будущей НКО</h2>
-            </div>
-            <p>Прежде чем создавать НКО, важно тщательно проанализировать проблемное поле и определить свою нишу:</p>
-            <ul>
-                <li><strong>Анализ проблемного поля:</strong> Какая проблема наиболее актуальна? Кто уже работает над ней? Какие аспекты не охвачены?</li>
-                <li><strong>Определение целевой аудитории:</strong> Кому конкретно вы хотите помогать? Каковы их потребности?</li>
-                <li><strong>Формулирование миссии и видения:</strong> Какова долгосрочная цель вашей организации (видение)? Каким образом вы планируете ее достигать (миссия)?</li>
-            </ul>
-            <p>Ответив на эти вопросы, вы сможете более осознанно подойти к выбору организационно-правовой формы и разработке стратегии вашей будущей НКО.</p>
-        </section>
-        
-        <!-- Интерактив: Выбор проблемы и типа НКО (сохранена логика) -->
-        <section class="content-section" id="nkoChoiceInteractive">
-            <h4 class="text-center mb-4">Интерактив: Ваша будущая НКО</h4>
-            <p class="text-center text-muted mb-4">Подумайте и ответьте на вопросы ниже. Это поможет вам сформулировать первоначальную концепцию и получить совет от ИИ.</p>
-            <div class="mb-3">
-                <label for="humanRightsProblem" class="form-label">Какую проблему в области прав человека вы хотели бы решать?</label>
-                <textarea class="form-control" id="humanRightsProblem" rows="3" placeholder="Например: Защита прав заключенных, борьба с дискриминацией по признаку X, помощь беженцам..."></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="nkoTypeChoice" class="form-label">Какой тип НКО (прямого действия или нетворкинг/ресурсный центр) кажется вам наиболее подходящим для этого?</label>
-                <select class="form-select" id="nkoTypeChoice">
-                    <option selected disabled value="">Выберите тип...</option>
-                    <option value="direct_action">Прямого действия (непосредственная помощь, мониторинг)</option>
-                    <option value="networking">Нетворкинг/Ресурсный центр (объединение, поддержка других НКО)</option>
-                    <option value="hybrid">Гибридный (сочетание элементов)</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="nkoJustification" class="form-label">Обоснуйте свой выбор типа НКО:</label>
-                <textarea class="form-control" id="nkoJustification" rows="4" placeholder="Почему вы считаете, что именно этот тип НКО будет эффективен для решения выбранной проблемы? Какие у вас есть для этого ресурсы или идеи?"></textarea>
-            </div>
-            <div class="text-center">
-                <button type="button" class="btn btn-success btn-lg" id="showNkoConceptBtn">Получить концепцию и совет ИИ</button>
-            </div>
-            <div id="nkoConceptResult" class="mt-4 p-3 border rounded bg-white">
-                <h5>Ваша предварительная концепция:</h5>
-                <p><strong>Проблема:</strong> <span id="resultProblem"></span></p>
-                <p><strong>Тип НКО:</strong> <span id="resultNkoType"></span></p>
-                <p><strong>Обоснование:</strong> <span id="resultJustification"></span></p>
-                <button class="btn btn-sm btn-outline-secondary mt-2" id="copyConceptBtn">Копировать концепцию</button>
-            </div>
-            <div id="aiFeedbackContainer" class="mt-4">
-                <h5 class="text-primary">Комментарий от ИИ-помощника:</h5>
-                <div id="aiFeedbackResult" class="p-3 border rounded text-muted">
-                    <em>Нажмите кнопку выше, чтобы получить совет...</em>
+                <p>Прежде чем создавать НКО, важно тщательно проанализировать проблемное поле и определить свою нишу:</p>
+                <ul>
+                    <li><strong>Анализ проблемного поля:</strong> Какая проблема наиболее актуальна? Кто уже работает над ней? Какие аспекты не охвачены?</li>
+                    <li><strong>Определение целевой аудитории:</strong> Кому конкретно вы хотите помогать? Каковы их потребности?</li>
+                    <li><strong>Формулирование миссии и видения:</strong> Какова долгосрочная цель вашей организации (видение)? Каким образом вы планируете ее достигать (миссия)?</li>
+                </ul>
+                <p>Ответив на эти вопросы, вы сможете более осознанно подойти к выбору организационно-правовой формы и разработке стратегии вашей будущей НКО.</p>
+            </section>
+            
+            <!-- Интерактив: Выбор проблемы и типа НКО (сохранена логика) -->
+            <section class="content-section" id="nkoChoiceInteractive">
+                <h4 class="text-center mb-4">Интерактив: Ваша будущая НКО</h4>
+                <p class="text-center text-muted mb-4">Подумайте и ответьте на вопросы ниже. Это поможет вам сформулировать первоначальную концепцию и получить совет от ИИ.</p>
+                <div class="mb-3">
+                    <label for="humanRightsProblem" class="form-label">Какую проблему в области прав человека вы хотели бы решать?</label>
+                    <textarea class="form-control" id="humanRightsProblem" rows="3" placeholder="Например: Защита прав заключенных, борьба с дискриминацией по признаку X, помощь беженцам..."></textarea>
                 </div>
-            </div>
-        </section>
+                <div class="mb-3">
+                    <label for="nkoTypeChoice" class="form-label">Какой тип НКО (прямого действия или нетворкинг/ресурсный центр) кажется вам наиболее подходящим для этого?</label>
+                    <select class="form-select" id="nkoTypeChoice">
+                        <option selected disabled value="">Выберите тип...</option>
+                        <option value="direct_action">Прямого действия (непосредственная помощь, мониторинг)</option>
+                        <option value="networking">Нетворкинг/Ресурсный центр (объединение, поддержка других НКО)</option>
+                        <option value="hybrid">Гибридный (сочетание элементов)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="nkoJustification" class="form-label">Обоснуйте свой выбор типа НКО:</label>
+                    <textarea class="form-control" id="nkoJustification" rows="4" placeholder="Почему вы считаете, что именно этот тип НКО будет эффективен для решения выбранной проблемы? Какие у вас есть для этого ресурсы или идеи?"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-success btn-lg" id="showNkoConceptBtn">Получить концепцию и совет ИИ</button>
+                </div>
+                <div id="nkoConceptResult" class="mt-4 p-3 border rounded bg-white">
+                    <h5>Ваша предварительная концепция:</h5>
+                    <p><strong>Проблема:</strong> <span id="resultProblem"></span></p>
+                    <p><strong>Тип НКО:</strong> <span id="resultNkoType"></span></p>
+                    <p><strong>Обоснование:</strong> <span id="resultJustification"></span></p>
+                    <button class="btn btn-sm btn-outline-secondary mt-2" id="copyConceptBtn">Копировать концепцию</button>
+                </div>
+                <div id="aiFeedbackContainer" class="mt-4">
+                    <h5 class="text-primary">Комментарий от ИИ-помощника:</h5>
+                    <div id="aiFeedbackResult" class="p-3 border rounded text-muted">
+                        <em>Нажмите кнопку выше, чтобы получить совет...</em>
+                    </div>
+                </div>
+            </section>
 
-        <!-- Квиз по основам НКО (сохранена логика) -->
-        <section class="content-section" id="nkoQuizSection">
-            <h4 class="text-center mb-4">Проверьте себя: Основы НКО</h4>
-            <div id="quizContainer">
-                <!-- Вопросы будут добавлены через JS -->
-            </div>
-            <div class="text-center mt-4">
-                <button type="button" class="btn btn-primary btn-lg" id="submitQuizBtn" style="display: none;">Показать результат</button>
-            </div>
-            <div id="quizResultText" class="mt-3 text-center" style="display:none;">
-                <p id="quizScore"></p>
-            </div>
-            <div id="quizResultChartContainer" style="display:none;">
-                <canvas id="quizResultChart"></canvas>
-            </div>
-        </section>
-
+            <!-- Квиз по основам НКО (сохранена логика) -->
+            <section class="content-section" id="nkoQuizSection">
+                <h4 class="text-center mb-4">Проверьте себя: Основы НКО</h4>
+                <div id="quizContainer">
+                    <!-- Вопросы будут добавлены через JS -->
+                </div>
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-primary btn-lg" id="submitQuizBtn" style="display: none;">Показать результат</button>
+                </div>
+                <div id="quizResultText" class="mt-3 text-center" style="display:none;">
+                    <p id="quizScore"></p>
+                </div>
+                <div id="quizResultChartContainer" style="display:none;">
+                    <canvas id="quizResultChart"></canvas>
+                </div>
+            </section>
+        </div> <!-- Closing the new .container.py-4 div -->
     </main>
 
     <footer class="py-4 bg-dark text-white-50 mt-5">
         <div class="container text-center">
-             <small>Материалы семинара © 2024.</small>
+            <small>Материалы семинара Школы прав человека им. Елены Боннэр © 2025</small>
             <br>
-            <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+            <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
         </div>
     </footer>
 
@@ -494,13 +469,28 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
             // --- Скрытие/появление навигационной панели при прокрутке (как в 2_internal_communications) ---
             let lastScrollTop = window.scrollY;
             const navBar = document.querySelector('.section-nav-bar');
+            const mainFixedNavbar = document.querySelector('header > .navbar.fixed-top');
+            let mainNavbarHeight = 70; // default height
+            if (mainFixedNavbar) {
+                mainNavbarHeight = mainFixedNavbar.offsetHeight;
+            }
+             // Correct sticky top position for section-nav-bar
+            if (navBar) {
+                // navBar.style.top = mainNavbarHeight + 'px'; // This would make it stick *below* the fixed header.
+                                                            // However, the body padding-top already pushes content down.
+                                                            // So top: 0 for the sticky bar (relative to the padded body) is correct.
+            }
+
             let ticking = false;
             window.addEventListener('scroll', function() {
                 if (!navBar) return;
                 if (!ticking) {
                     window.requestAnimationFrame(function() {
                         const st = window.scrollY;
-                        if (st > lastScrollTop + 10 && st > 80) {
+                        // The threshold for hiding could be based on the top of the page-header-section
+                        // For now, using a fixed value like 80 (or mainNavbarHeight + some_offset)
+                        const hideThreshold = mainNavbarHeight > 0 ? mainNavbarHeight + 10 : 80; 
+                        if (st > lastScrollTop + 10 && st > hideThreshold) { 
                             navBar.classList.add('section-nav-hidden');
                         } else if (st < lastScrollTop - 10 || st <= 0) {
                             navBar.classList.remove('section-nav-hidden');
@@ -511,6 +501,18 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                     ticking = true;
                 }
             });
+            // Style for section-nav-hidden if not present in style.css
+            if (!document.querySelector('style#sectionNavHiddenStyle')) {
+                const style = document.createElement('style');
+                style.id = 'sectionNavHiddenStyle';
+                style.innerHTML = `.section-nav-hidden { transform: translateY(-100%); opacity: 0.7; pointer-events: none; }`;
+                document.head.appendChild(style);
+                // Also ensure .section-nav-bar has transition for transform and opacity
+                if(navBar) {
+                    navBar.style.transition = navBar.style.transition ? navBar.style.transition + ', transform 0.3s ease, opacity 0.3s ease' : 'transform 0.3s ease, opacity 0.3s ease';
+                }
+            }
+
 
             // --- Меню (как в 2_internal_communications) ---
             const customMenuToggler = document.getElementById('customMenuToggler');
@@ -549,29 +551,29 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
             }
 
             // --- Анимации для нового дизайна ---
-            // Анимация заголовка страницы
-            gsap.from(".page-hero-section", {
+            // Анимация заголовка страницы (page-header-section, не page-hero-section)
+            gsap.from(".page-header-section", { // Changed from page-hero-section
                 duration: 1, 
                 opacity: 0, 
                 y: -50, 
                 ease: "power3.out",
                 delay: 0.2
             });
-            gsap.from(".page-hero-section .hero-icon", {
+            gsap.from(".page-header-section .header-icon", { // Changed from page-hero-section .hero-icon
                 duration: 0.8,
                 scale: 0.5,
                 opacity: 0,
                 delay: 0.5,
                 ease: "back.out(1.7)"
             });
-            gsap.from(".page-hero-section h1", {
+            gsap.from(".page-header-section h1", {
                 duration: 0.8,
                 y: 30,
                 opacity: 0,
                 delay: 0.7,
                 ease: "power3.out"
             });
-            gsap.from(".page-hero-section .lead", {
+            gsap.from(".page-header-section .lead", {
                 duration: 0.8,
                 y: 20,
                 opacity: 0,
@@ -579,10 +581,10 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                 ease: "power3.out"
             });
 
-            // --- Анимация заголовка раздела (SVG) ---
-            gsap.from(".page-header-section h1", {duration: 0.8, y: -50, opacity: 0, ease: "power2.out", delay: 0.2});
-            gsap.from(".page-header-section p.lead", {duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4});
-            gsap.from("#introHeaderIcon", {duration: 1, scale: 0.5, opacity: 0, rotate: 30, ease: "back.out(1.7)", delay: 0.1});
+            // --- Анимация заголовка раздела (SVG) --- // This might be redundant now due to above block
+            // gsap.from(".page-header-section h1", {duration: 0.8, y: -50, opacity: 0, ease: "power2.out", delay: 0.2});
+            // gsap.from(".page-header-section p.lead", {duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4});
+            // gsap.from("#introHeaderIcon", {duration: 1, scale: 0.5, opacity: 0, rotate: 30, ease: "back.out(1.7)", delay: 0.1});
 
             // Анимация информационных секций (0.1 - 0.4)
             const infoSections = gsap.utils.toArray('.info-section');
@@ -594,15 +596,14 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: section,
-                        start: "top 85%", // Анимация начнется, когда 85% секции видно
+                        start: "top 85%", 
                         once: true,
-                        // markers: true, // для отладки
                     }
                 });
             });
             
-            // Анимация для блоков "Интерактив с ИИ" и "Квиз" (бывшие content-section)
-             const interactiveBlocks = gsap.utils.toArray('#nkoChoiceInteractive, #nkoQuizSection');
+            // Анимация для блоков "Интерактив с ИИ" и "Квиз" (бывшие content-section, now also check current class)
+             const interactiveBlocks = gsap.utils.toArray('#nkoChoiceInteractive, #nkoQuizSection'); // These are .content-section in HTML but have specific IDs
              interactiveBlocks.forEach((block, index) => {
                 gsap.to(block, {
                     opacity: 1,
@@ -613,7 +614,6 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                         trigger: block,
                         start: "top 85%",
                         once: true,
-                        // markers: true, // для отладки
                     }
                 });
             });
@@ -659,7 +659,6 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                     } else { return; }
 
                     try {
-                        // Gemini/Gemma API: только role: "user" и "model" разрешены
                         const userPromptContent = `Ты — дружелюбный ИИ-помощник для начинающих НКО. Твоя задача — дать содержательный и краткий комментарий на предложенную концепцию НКО. Подчеркни сильные стороны. Ответ должен быть на русском языке.\n\nПроблема: ${problem || "не указана"}\nТип НКО: ${nkoTypeValue === '' ? "не выбран" : nkoType}\nОбоснование: ${justification || "не указано"}\n\nТвои мысли:`;
                         const response = await fetch(GOOGLE_AI_API_URL, {
                             method: 'POST',
@@ -728,20 +727,19 @@ const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateC
                     currentQuestion.options.forEach(option => { 
                         answers.push( `<div class="form-check"><input class="form-check-input" type="radio" name="question${questionNumber}" id="q${questionNumber}option${option.replace(/\s+/g, '')}" value="${option}"><label class="form-check-label" for="q${questionNumber}option${option.replace(/\s+/g, '')}">${option}</label></div>` ); 
                     }); 
-                    output.push( `<div class="quiz-question mb-4"><p class="fw-semibold">${questionNumber + 1}. ${currentQuestion.question}</p>${answers.join('')}</div>` ); // Removed some classes from here, added in CSS
+                    output.push( `<div class="quiz-question mb-4"><p class="fw-semibold">${questionNumber + 1}. ${currentQuestion.question}</p>${answers.join('')}</div>` );
                 }); 
                 quizContainer.innerHTML = output.join(''); 
                 if(submitQuizBtn) submitQuizBtn.style.display = 'block';
 
-                // Анимация появления вопросов квиза
                 const quizQuestionElements = gsap.utils.toArray('.quiz-question');
                 quizQuestionElements.forEach((q_el, index) => {
                     gsap.to(q_el, {
                         opacity: 1, x: 0, duration: 0.6, delay: index * 0.2, 
                         ease: "power2.out",
                         scrollTrigger: { 
-                            trigger: quizContainer, // Trigger based on the whole quiz container
-                            start: "top 80%", // Start when quiz container is mostly in view
+                            trigger: quizContainer,
+                            start: "top 80%", 
                             once: true 
                         }
                     });

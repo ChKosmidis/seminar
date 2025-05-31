@@ -59,26 +59,51 @@
         .tab-pane { padding-top:1rem; }
 
         /* --- Стилизация навигационной панели по разделам --- */
+        /* НАВИГАЦИЯ ПО РАЗДЕЛАМ */
         .section-nav-bar {
-  position: sticky;
-  top: 64px; /* чуть ниже шапки */
-  z-index: 1050;
-  background: rgba(255,255,255,0.97);
-  box-shadow: 0 2px 8px rgba(32,201,151,0.07);
-  padding: 0.5rem 0 0.5rem 0;
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  align-items: center;
-  transition: top 0.35s cubic-bezier(.4,1.6,.4,1), box-shadow 0.25s;
-}
-.section-nav-bar.section-nav-hidden {
-  top: -70px;
-  box-shadow: none;
-}
-@media (max-width: 900px) {
-  .section-nav-bar { top: 56px; }
-}
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 2px 8px rgba(6, 22, 13, 0.1); /* зеленый акцент */
+            padding: 0.5rem 0;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+            transition: top 0.35s cubic-bezier(.4,1.6,.4,1), box-shadow 0.25s;
+        }
+        .section-nav-bar.section-nav-hidden {
+            top: -70px;
+            box-shadow: none;
+        }
+        .section-nav-btn {
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .section-nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        .section-nav-btn.btn-success {
+            background-color: #b30000;
+            color: white;
+            border-color: #b30000
+        }
+        .section-nav-btn.btn-success:hover {
+            background-color: #b30000;
+            border-color: #b30000
+        }
+        .section-nav-btn.btn-outline-success {
+            color: #b30000;
+            border-color: #b30000;
+        }
+        .section-nav-btn.btn-outline-success:hover {
+            background-color: #b30000;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -125,14 +150,14 @@
 <main>
     <div class="page-header-section">
         <img src="../assets/icons/fundraising.svg" alt="Фандрайзинг НКО" class="header-icon">
-        <h1 class="display-5 fw-bold">Раздел 7: Фандрайзинг для НКО</h1>
+        <h1 class="display-5 fw-bold">Фандрайзинг для НКО</h1>
         <p class="lead">Ищем ресурсы: стратегии привлечения средств, работа с донорами и оценка реалистичности ваших финансовых целей с помощью ИИ.</p>
     </div>
 
     <div class="container py-4">
         <!-- AI Форма для анализа фандрайзинговой идеи -->
         <section class="content-section" id="s7-1">
-            <h3><img src="../assets/icons/paid.svg" alt="Анализ идеи" class="section-icon">7.1. Анализ вашей фандрайзинговой идеи с ИИ</h3>
+            <h3><img src="../assets/icons/paid.svg" alt="Анализ идеи" class="section-icon">Анализ вашей фандрайзинговой идеи с ИИ</h3>
             <p>Опишите вашу идею, команду и цели, а Искусственный Интеллект поможет оценить реалистичность привлечения средств и даст полезные советы.</p>
             <div class="fundraising-form-container mt-4">
                 <form id="fundraisingIdeaForm">
@@ -185,7 +210,7 @@
 
         <!-- 7.2. Общие стратегии фандрайзинга -->
         <section class="content-section" id="s7-2">
-            <h3><img src="../assets/icons/strategy.svg" alt="Стратегии" class="section-icon">7.2. Ключевые стратегии фандрайзинга для НКО</h3>
+            <h3><img src="../assets/icons/strategy.svg" alt="Стратегии" class="section-icon">Ключевые стратегии фандрайзинга для НКО</h3>
             <p>Эффективный фандрайзинг требует комплексного подхода. Рассмотрим основные направления, актуальные в различных контекстах:</p>
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -235,7 +260,7 @@
 
         <!-- 7.3. Особенности фандрайзинга в сложных условиях -->
         <section class="content-section" id="s7-3">
-            <h3><img src="../assets/icons/warning.svg" alt="Особенности" class="section-icon">7.3. Фандрайзинг в сложных условиях: Россия и изгнание</h3>
+            <h3><img src="../assets/icons/warning.svg" alt="Особенности" class="section-icon">Фандрайзинг в сложных условиях: Россия и изгнание</h3>
             <ul class="nav nav-pills mb-3" id="pills-tab-fundraising" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-russia-tab" data-bs-toggle="pill" data-bs-target="#pills-russia" type="button" role="tab" aria-controls="pills-russia" aria-selected="true">НКО в России</button>
@@ -273,15 +298,15 @@
 
         <!-- 7.4. Практические инструменты и ресурсы -->
         <section class="content-section" id="s7-4">
-            <h3><img src="../assets/icons/cases.svg" alt="Инструменты" class="section-icon">7.4. Полезные инструменты и ресурсы для фандрайзинга</h3>
+            <h3><img src="../assets/icons/cases.svg" alt="Инструменты" class="section-icon">Полезные инструменты и ресурсы для фандрайзинга</h3>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <div class="info-card">
                         <h4>Платформы для поиска грантов:</h4>
                         <ul>
                             <li><strong>FundsforNGOs (fundsforngos.org):</strong> База международных грантов.</li>
-                            <li><strong>Devex (devex.com):</strong> Информация о тендерах и грантах в сфере международного развития.</li>
-                            <li><strong>European Foundation Centre (efc.be):</strong> Ресурсы европейских фондов.</li>
+                            <li><strong>GrantWatch (grantwatch.com):</strong> Гранты для НКО в США и других странах.</li>
+                            <li><strong>Гранты Европейского союза:</strong> Ресурсы напрямую из целевых программ</li>
                             <li><strong>Фонд президентских грантов (президентскиегранты.рф):</strong> Для НКО в России.</li>
                             <li>Региональные и муниципальные порталы субсидий (для НКО в России).</li>
                         </ul>
@@ -291,9 +316,11 @@
                     <div class="info-card">
                         <h4>Краудфандинговые платформы:</h4>
                         <ul>
-                            <li><strong>Global:</strong> Patreon, GoFundMe, Kickstarter, Indiegogo.</li>
+                            <li><strong>Глобальные:</strong> GoFundMe, Kickstarter, Indiegogo.</li>
                             <li><strong>Для РФ (с осторожностью):</strong> Planeta.ru, Boomstarter.</li>
                             <li><strong>Специализированные:</strong> Например, для поддержки журналистов или правозащитников.</li>
+                            <li><strong>Крипто-краудфандинг:</strong> Gitcoin, Giveth.</li>
+                            <li><strong>Платформы для рекурентных пожертвований</strong> Patreon, Boosty.</li>
                         </ul>
                     </div>
                 </div>
@@ -311,9 +338,10 @@
                     <div class="info-card">
                         <h4>Ресурсы и организации поддержки:</h4>
                         <ul>
-                            <li><strong>Для НКО в изгнании/правозащитных:</strong> Access Now, Front Line Defenders, various diaspora foundations, Human Rights Houses.</li>
+                            <li><strong>Для НКО в изгнании/правозащитных:</strong> Access Now, Front Line Defenders, Human Rights Houses.</li>
                             <li><strong>Общие ресурсы по фандрайзингу:</strong> Philanthropy News Digest, The Chronicle of Philanthropy, семинары и курсы от ресурсных центров НКО.</li>
                             <li><strong>Юридическая поддержка:</strong> Консультации с юристами, специализирующимися на НКО, особенно по вопросам финансирования.</li>
+                            <li><strong>European Endowment for Democracy</strong> Помогает как правило СМИ, но можно пробовать.</li>
                         </ul>
                     </div>
                 </div>
@@ -324,8 +352,8 @@
 
 <footer class="py-4 bg-dark text-white-50 mt-5">
     <div class="container text-center">
-        <small>Материалы семинара © 2024-2025.</small> <br>
-        <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией или финансовым советом. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+        <small>Материалы семинара Школаы прав человека им. Елены Боннэр © 2025</small> <br>
+        <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
     </div>
 </footer>
 

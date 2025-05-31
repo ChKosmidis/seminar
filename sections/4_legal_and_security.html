@@ -166,28 +166,44 @@
             top: 0;
             z-index: 1000;
             background: rgba(255,255,255,0.97);
-            box-shadow: 0 2px 8px rgba(32,201,151,0.07);
+            box-shadow: 0 2px 8px rgba(6, 22, 13, 0.1); /* зеленый акцент */
             padding: 0.5rem 0;
             display: flex;
             gap: 0.5rem;
             justify-content: center;
             align-items: center;
+            transition: top 0.35s cubic-bezier(.4,1.6,.4,1), box-shadow 0.25s;
+        }
+        .section-nav-bar.section-nav-hidden {
+            top: -70px;
+            box-shadow: none;
         }
         .section-nav-btn {
             padding: 0.4rem 1rem;
             font-size: 0.9rem;
+            font-weight: 500;
             border-radius: 0.5rem;
-            transition: background 0.3s, color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
         .section-nav-btn:hover {
-            background: rgba(32,201,151,0.1);
+            transform: translateY(-2px);
         }
         .section-nav-btn.btn-success {
-            background: #28a745;
+            background-color: #b30000;
             color: white;
+            border-color: #b30000
         }
         .section-nav-btn.btn-success:hover {
-            background: #218838;
+            background-color: #b30000;
+            border-color: #b30000
+        }
+        .section-nav-btn.btn-outline-success {
+            color: #b30000;
+            border-color: #b30000;
+        }
+        .section-nav-btn.btn-outline-success:hover {
+            background-color: #b30000;
+            color: white;
         }
     </style>
 </head>
@@ -412,8 +428,8 @@
 
     <footer class="py-4 bg-dark text-white-50 mt-5">
          <div class="container text-center">
-             <small>Материалы семинара © 2024.</small> <br>
-             <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+             <small>Материалы семинара Школы прав человека им. Елены Боннэр © 2025</small> <br>
+             <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
              <div class="mt-4">
                  <button class="btn btn-success" id="exportSectionResultsBtn">Выгрузить результаты раздела</button>
              </div>

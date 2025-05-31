@@ -63,26 +63,50 @@
             color: #6c757d; /* text-muted */
         }
 
-        /* Стили для навигации по разделам */
+        /* НАВИГАЦИЯ ПО РАЗДЕЛАМ */
         .section-nav-bar {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.97);
-            box-shadow: 0 2px 8px rgba(32, 201, 151, 0.07);
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 2px 8px rgba(6, 22, 13, 0.1); /* зеленый акцент */
             padding: 0.5rem 0;
             display: flex;
             gap: 0.5rem;
             justify-content: center;
             align-items: center;
+            transition: top 0.35s cubic-bezier(.4,1.6,.4,1), box-shadow 0.25s;
+        }
+        .section-nav-bar.section-nav-hidden {
+            top: -70px;
+            box-shadow: none;
         }
         .section-nav-btn {
-            flex: 1;
-            text-align: center;
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .section-nav-btn:hover {
+            transform: translateY(-2px);
         }
         .section-nav-btn.btn-success {
-            background-color: #198754;
-            border-color: #198754;
+            background-color: #b30000;
+            color: white;
+            border-color: #b30000
+        }
+        .section-nav-btn.btn-success:hover {
+            background-color: #b30000;
+            border-color: #b30000
+        }
+        .section-nav-btn.btn-outline-success {
+            color: #b30000;
+            border-color: #b30000;
+        }
+        .section-nav-btn.btn-outline-success:hover {
+            background-color: #b30000;
+            color: white;
         }
     </style>
 </head>
@@ -151,7 +175,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item list-group-item-resource">
                         <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
-                        <a href="https://ngo.rosminjust.ru/" target="_blank" rel="noopener noreferrer">Портал Минюста РФ для НКО</a>
+                        <a href="https://nco.minjust.gov.ru/" target="_blank" rel="noopener noreferrer">Портал Минюста РФ для НКО</a>
                         <p class="resource-description mb-0">Официальная информация, реестры, отчетность.</p>
                     </li>
                     <li class="list-group-item list-group-item-resource">
@@ -209,19 +233,18 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item list-group-item-resource">
                         <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
-                        <a href="https://dobro.mail.ru/charity/" target="_blank" rel="noopener noreferrer">Добро Mail.ru</a>
-                        <p class="resource-description mb-0">Платформа для сбора пожертвований для верифицированных НКО.</p>
+                        <a href="https://www.donorsforum.ru/" target="_blank" rel="noopener noreferrer">Форум доноров</a>
+                        <p class="resource-description mb-0">Платформа для обмена опытом и ресурсами между донорами и НКО.</p>
                     </li>
                     <li class="list-group-item list-group-item-resource">
                         <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
-                        <a href="https://www.givingtuesday.ru/" target="_blank" rel="noopener noreferrer">#ЩедрыйВторник</a>
-                        <p class="resource-description mb-0">Глобальная инициатива по развитию благотворительности, полезные материалы.</p>
+                        <a href="https://fondpotanin.ru/competitions/" target="_blank" rel="noopener noreferrer">Фонд Потанина</a>
+                        <p class="resource-description mb-0">Гранты для тех, кому не очень противно.</p>
                     </li>
                     <li class="list-group-item list-group-item-resource">
                         <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
-                        <a href="https://philanthropy.ru/" target="_blank" rel="noopener noreferrer">Филантроп.ру</a>
-                        <p class="resource-description mb-0">Издание о благотворительности, фандрайзинге, социальных проектах.</p>
-                    </li>
+                        <a href="https://www.globalgiving.org/" target="_blank" rel="noopener noreferrer">GlobalGiving</a>
+                        <p class="resource-description mb-0">Платформа для международного фандрайзинга, включая обучение и поддержку.</p>
                 </ul>
             </section>
 
@@ -235,11 +258,6 @@
                     </li>
                     <li class="list-group-item list-group-item-resource">
                         <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
-                        <a href="https://nko.economy.gov.ru/" target="_blank" rel="noopener noreferrer">Портал "НКО и государство" Минэкономразвития</a>
-                        <p class="resource-description mb-0">Информация о мерах поддержки СО НКО, методические материалы.</p>
-                    </li>
-                    <li class="list-group-item list-group-item-resource">
-                        <img src="../assets/icons/check.svg" alt="check" class="icon-check loaded-svg">
                         <a href="https://Trello.com" target="_blank" rel="noopener noreferrer">Trello / Asana / Notion</a>
                         <p class="resource-description mb-0">Инструменты для управления проектами и задачами (есть бесплатные тарифы).</p>
                     </li>
@@ -250,9 +268,9 @@
 
     <footer class="py-4 bg-dark text-white-50">
         <div class="container text-center">
-             <small>Материалы семинара © 2024.</small>
+             <small>Материалы семинара Школы прав человека им. Елены Боннэр © 2025</small>
             <br>
-            <small><em>Информация на сайте носит ознакомительный характер и не является юридической консультацией. Для принятия решений всегда обращайтесь к квалифицированным специалистам.</em></small>
+            <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
         </div>
     </footer>
 
