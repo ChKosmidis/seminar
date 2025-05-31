@@ -3,146 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Инфраструктура НКО — Интерактивный гид</title>
+    <title>3. Инфраструктура НКО - Семинар НКО</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        body { background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%); min-height: 100vh; }
+        body { 
+            padding-top: 70px; 
+            overflow-x: hidden; 
+            background: linear-gradient(120deg, #f0f4ff 0%, #e6e9f0 100%);
+        }
         .page-header-section {
             background: linear-gradient(135deg, #2563eb 0%, #1e293b 100%);
-            color: #fff;
-            padding: 3.5rem 1.5rem 2.5rem 1.5rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 32px rgba(30,41,59,0.18);
-            text-align: center;
+            color: white;
+            padding: 4rem 1.5rem;
             margin-bottom: 2.5rem;
+            border-radius: .5rem;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
         .page-header-section .header-icon {
-            width: 90px; height: 90px; margin-bottom: 1.2rem; filter: brightness(0) invert(1);
+            width: 80px; 
+            height: 80px; 
+            margin-bottom: 1rem; 
+            filter: brightness(0) invert(1);
             transition: transform 0.5s cubic-bezier(.68,-0.55,.27,1.55);
         }
         .page-header-section:hover .header-icon { transform: rotate(-12deg) scale(1.08); }
-        .page-header-section h1 { font-weight: 800; letter-spacing: -1px; }
-        .page-header-section .lead { font-size: 1.3rem; opacity: 0.93; }
-        .section-title {
-            font-size: 2rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center;
+        .page-header-section h1 { font-weight: 700; } 
+        .page-header-section .lead { opacity: 0.93; }
+
+        .content-section { 
+            margin-bottom: 3rem; 
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
         }
-        .section-title img { width: 38px; height: 38px; margin-right: 1rem; opacity: 0.85; }
-        .infra-card {
-            background: #fff; border-radius: 1.1rem; box-shadow: 0 4px 24px rgba(37,99,235,0.07);
-            padding: 2rem 1.5rem; margin-bottom: 2rem; transition: box-shadow 0.3s;
-            position: relative; overflow: hidden;
+        .content-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .infra-card:hover { box-shadow: 0 8px 32px rgba(37,99,235,0.13); }
-        .infra-card .card-title { font-size: 1.25rem; font-weight: 600; color: #2563eb; display: flex; align-items: center; }
-        .infra-card .card-title img { width: 28px; height: 28px; margin-right: 0.7rem; }
-        .infra-card .card-details { margin-top: 1rem; }
-        .infra-card .card-details p { color: #475569; margin-bottom: 0.7rem; }
-        .infra-card .card-details ul { margin-bottom: 0.7rem; }
-        .infra-card .card-details .more-btn { color: #2563eb; cursor: pointer; font-weight: 500; }
-        .infra-card .card-details .more-content { display: none; margin-top: 0.5rem; }
-        .progress-section { margin-bottom: 2.5rem; }
-        .progress-title { font-weight: 600; color: #334155; margin-bottom: 0.7rem; }
+
+        .content-section h3, .content-section h4 { 
+            margin-bottom: 1.8rem; display: flex; align-items: center; 
+            font-weight: 600; color: #1e3a8a; 
+        }
+        .content-section h3 img.section-icon, .content-section h4 img.section-icon { 
+            width: 45px; height: 45px; margin-right: 0.8rem; opacity: 0.8;
+        }
+        .content-section p, .content-section li { line-height: 1.7; color: #334155; }
+
+        .audit-category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e3a8a; 
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dbeafe; 
+            display: flex;
+            align-items: center;
+        }
+        .audit-category-title img {
+            width: 30px;
+            height: 30px;
+            margin-right: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .audit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem; /* было 40px, но 2.5rem (~40px) стандартнее */
+        }
+        .audit-item {
+            background: linear-gradient(135deg, #e9efff 0%, #dbeafe 100%); 
+            border-left: 5px solid #3b82f6; 
+            border-radius: .7rem;
+            box-shadow: 0 3px 12px rgba(59, 130, 246, 0.08);
+            padding: 1.2rem 1.4rem;
+            color: #1e293b; 
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            min-height: 120px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out, background 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out;
+            transition-delay: var(--stagger-delay, 0s); /* Задержка для "лесенки" */
+        }
+        .audit-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .audit-item:hover {
+            transform: translateY(-4px) scale(1.03) !important; /* !important чтобы перекрыть is-visible transform */
+            box-shadow: 0 7px 20px rgba(59, 130, 246, 0.15);
+        }
+        .audit-item.selected {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); 
+            color: #fff;
+            border-left-color: #1d4ed8; 
+            box-shadow: 0 7px 20px rgba(37,99,235,0.25);
+        }
+        .audit-item-icon-wrapper { 
+            margin-bottom: 0.5rem;
+        }
+        .audit-item.selected .audit-item-icon-wrapper { }
+        .audit-item-text {
+            font-size: 0.98rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .audit-item::before { 
+            content: "✔";
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            font-size: 1.3rem;
+            color: #fff;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .audit-item.selected::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #showAuditResultBtn {
+            font-weight: 500;
+            padding: 0.75rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+            background-color: #1e40af; 
+            border-color: #1e40af;
+            color: white;
+        }
+        #showAuditResultBtn:hover {
+            background-color: #1d359f; 
+            border-color: #1d359f;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+        }
+        #showAuditResultBtn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(30, 64, 175, 0.15);
+        }
+
+        #auditResultBlock { display:none; } 
+        .audit-progress-visual { margin-bottom: 1.5rem; }
+        .progress-section { margin-bottom: 1.5rem; }
+        .progress-title { font-weight: 600; color: #1e3a8a; margin-bottom: 0.7rem; }
         .progress-bar-outer {
-            background: #e0e7ff; border-radius: 1rem; height: 22px; width: 100%; margin-bottom: 1.2rem; overflow: hidden;
+            background: #dbeafe; 
+            border-radius: 1rem; height: 24px; width: 100%; margin-bottom: 0.5rem; overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.07);
         }
         .progress-bar-inner {
-            background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
-            height: 100%; border-radius: 1rem; width: 0%; color: #fff; font-weight: 500; display: flex; align-items: center; justify-content: flex-end; padding-right: 1rem; font-size: 1rem;
+            background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%); 
+            height: 100%; border-radius: 1rem; width: 0%; color: #fff; font-weight: 500; 
+            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
             box-shadow: 0 2px 8px rgba(37,99,235,0.13);
+            transition: width 1.1s cubic-bezier(.4,0,.2,1);
         }
-        .roadmap {
-            display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2.5rem;
+        #auditResultText {
+            background-color: #eef2ff; 
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            color: #1e293b;
         }
-        .roadmap-step {
-            background: #fff; border-radius: 1rem; box-shadow: 0 2px 12px rgba(16,185,129,0.08);
-            padding: 1.5rem 1.2rem; flex: 1 1 220px; min-width: 220px; position: relative;
-            border-left: 6px solid #38bdf8;
-            transition: border-color 0.3s;
-        }
-        .roadmap-step.active { border-color: #2563eb; }
-        .roadmap-step .step-title { font-weight: 600; color: #2563eb; margin-bottom: 0.5rem; }
-        .roadmap-step .step-desc { color: #64748b; font-size: 0.98rem; }
+        #auditResultText .audit-result-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: #1e3a8a; }
+        #auditResultText .audit-result-comment { font-size: 1rem; }
+        
         .ai-block {
-            background: linear-gradient(120deg, #f1f5f9 60%, #e0e7ff 100%);
-            border-radius: 1.2rem; box-shadow: 0 2px 16px rgba(37,99,235,0.09);
-            padding: 2rem 1.5rem; margin-bottom: 2.5rem;
+            background: #f0f4ff; 
+            border-radius: .7rem; 
+            box-shadow: 0 4px 18px rgba(30,58,138,0.09); 
+            padding: 2rem 1.8rem; 
+            margin-top: 2.5rem;
         }
-        .ai-block .ai-title { font-weight: 700; color: #2563eb; margin-bottom: 1rem; display: flex; align-items: center; }
-        .ai-block .ai-title img { width: 32px; height: 32px; margin-right: 0.7rem; }
-        .ai-block .ai-form label { font-weight: 500; color: #334155; }
-        .ai-block .ai-form input, .ai-block .ai-form textarea { margin-bottom: 1rem; }
-        .ai-block .ai-response { background: #fff; border-radius: 0.7rem; padding: 1rem 1.2rem; margin-top: 1.2rem; min-height: 60px; color: #475569; font-size: 1.05rem; box-shadow: 0 1px 6px rgba(37,99,235,0.06); }
+        .ai-block .ai-title { 
+            font-weight: 600; color: #1e3a8a; margin-bottom: 1.5rem; display: flex; align-items: center; font-size: 1.6rem;
+        }
+        .ai-block .ai-title img { width: 36px; height: 36px; margin-right: 0.8rem; opacity: 0.85; }
+        .ai-block .ai-form label { font-weight: 500; color: #334155; margin-bottom: 0.3rem; }
+        .ai-block .ai-form input, .ai-block .ai-form textarea { margin-bottom: 1rem; border-radius: 0.4rem; border: 1px solid #cbd5e1;}
+        .ai-block .ai-form input:focus, .ai-block .ai-form textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 0.2rem rgba(59,130,246,.25);}
+        .ai-block .ai-btn { 
+            background: linear-gradient(95deg, #3b82f6 0%, #2563eb 100%); 
+            color: #fff; font-weight: 500; border: none; border-radius: 0.5rem; 
+            padding: 0.7rem 2rem; transition: all 0.3s; font-size: 1rem;
+        }
+        .ai-block .ai-btn:hover { 
+            background: linear-gradient(95deg, #2563eb 0%, #1d4ed8 100%); 
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(37,99,235,0.2);
+        }
+        .ai-block .ai-response { 
+            background: #fff; border-radius: 0.5rem; padding: 1.2rem 1.5rem; margin-top: 1.5rem; 
+            min-height: 60px; color: #334155; font-size: 1rem; 
+            box-shadow: 0 2px 8px rgba(30,58,138,0.07); 
+            border: 1px solid #e2e8f0;
+        }
         .ai-block .ai-response.typing { font-style: italic; color: #64748b; }
-        .ai-block .ai-btn { background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%); color: #fff; font-weight: 600; border: none; border-radius: 0.5rem; padding: 0.7rem 2.2rem; transition: background 0.2s; }
-        .ai-block .ai-btn:hover { background: linear-gradient(90deg, #38bdf8 0%, #2563eb 100%); }
-        @media (max-width: 768px) {
-            .roadmap { flex-direction: column; gap: 1.2rem; }
-            .page-header-section { padding: 2.2rem 0.7rem 1.5rem 0.7rem; }
-        }
+
+        /* НАВИГАЦИЯ ПО РАЗДЕЛАМ */
         .section-nav-bar {
             position: sticky;
-            top: 0;
-            z-index: 1000;
+            /* top будет установлен JS */
+            z-index: 999; 
             background: rgba(255,255,255,0.97);
-            box-shadow: 0 2px 8px rgba(50,201,115,0.10); /* зеленый акцент */
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.07); 
             padding: 0.5rem 0;
             display: flex;
             gap: 0.5rem;
             justify-content: center;
             align-items: center;
-            transition: top 0.35s cubic-bezier(.4,1.6,.4,1), box-shadow 0.25s;
+            flex-wrap: wrap; 
+            transform: translateY(0); 
+            transition: transform 0.3s ease-in-out, top 0.3s ease-in-out;
         }
         .section-nav-bar.section-nav-hidden {
-            top: -70px;
-            box-shadow: none;
+            transform: translateY(calc(-100% - 1px)); 
         }
         .section-nav-btn {
             padding: 0.4rem 1rem;
             font-size: 0.9rem;
             font-weight: 500;
             border-radius: 0.5rem;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: background-color 0.3s, transform 0.3s, color 0.3s, border-color 0.3s;
         }
         .section-nav-btn:hover {
             transform: translateY(-2px);
         }
-        .section-nav-btn.btn-success {
-            background-color: #2563eb;
+        .section-nav-btn.btn-custom-active {
+            background-color: #2563eb; 
             color: white;
-            border-color: #2563eb
-        }
-        .section-nav-btn.btn-success:hover {
-            background-color: #2563eb;
-        }
-        .section-nav-btn.btn-outline-success {
-            color: #2563eb;
             border-color: #2563eb;
         }
-        .section-nav-btn.btn-outline-success:hover {
+        .section-nav-btn.btn-custom-active:hover {
+            background-color: #1d4ed8; 
+            border-color: #1d4ed8;
+        }
+        .section-nav-btn.btn-outline-custom {
+            color: #2563eb;
+            border-color: #2563eb;
+            background-color: transparent;
+        }
+        .section-nav-btn.btn-outline-custom:hover {
             background-color: #2563eb;
             color: white;
+        }
+        .section-nav-btn.btn-outline-secondary {
+             color: #6c757d; border-color: #6c757d;
+        }
+        .section-nav-btn.btn-outline-secondary:hover {
+            background-color: #6c757d; color:white;
         }
     </style>
 </head>
 <body>
-    <!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
-<nav class="section-nav-bar" style="position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 8px rgba(32,201,151,0.07);padding:0.5rem 0 0.5rem 0;display:flex;gap:0.5rem;justify-content:center;align-items:center;">
-  <a href="0_introduction.html" class="btn btn-outline-success section-nav-btn">Введение</a>
-  <a href="1_community_building.html" class="btn btn-outline-success section-nav-btn">1. Сообщество</a>
-  <a href="2_internal_communications.html" class="btn btn-outline-success section-nav-btn">2. Коммуникации</a>
-  <a href="3_infrastructure.html" class="btn btn-success section-nav-btn">3. Инфраструктура</a>
-  <a href="4_legal_and_security.html" class="btn btn-outline-success section-nav-btn">4. Право и безопасность</a>
-  <a href="5_effectiveness_and_development.html" class="btn btn-outline-success section-nav-btn">5. Эффективность</a>
-  <a href="6_crisis_management.html" class="btn btn-outline-success section-nav-btn">6. Кризисы</a>
-  <a href="7_fundraising.html" class="btn btn-outline-success section-nav-btn">7. Фандрайзинг</a>
-  <a href="8_cases_and_practice.html" class="btn btn-outline-success section-nav-btn">8. Кейсы</a>
-  <a href="useful_resources.html" class="btn btn-outline-secondary section-nav-btn">Ресурсы</a>
-</nav>
-<!-- /НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
     <header>
+        <!-- ... (Шапка без изменений) ... -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
             <div class="container">
                 <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.html">
@@ -159,8 +285,9 @@
             </div>
         </nav>
     </header>
-    <!-- Полноэкранное меню (управляется JS) -->
+
     <div class="fullscreen-menu" id="fullscreenMenu">
+        <!-- ... (Полноэкранное меню без изменений) ... -->
         <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
         <ul class="navbar-nav-fullscreen">
             <li class="nav-item fs-menu-item">
@@ -187,678 +314,652 @@
             </li>
         </ul>
     </div>
+
+    <!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
+    <nav class="section-nav-bar">
+      <!-- ... (Кнопки навигации без изменений) ... -->
+      <a href="0_introduction.html" class="btn btn-outline-custom section-nav-btn">Введение</a>
+      <a href="1_community_building.html" class="btn btn-outline-custom section-nav-btn">1. Сообщество</a>
+      <a href="2_internal_communications.html" class="btn btn-outline-custom section-nav-btn">2. Коммуникации</a>
+      <a href="3_infrastructure.html" class="btn btn-custom-active section-nav-btn">3. Инфраструктура</a>
+      <a href="4_legal_and_security.html" class="btn btn-outline-custom section-nav-btn">4. Право и безопасность</a>
+      <a href="5_effectiveness_and_development.html" class="btn btn-outline-custom section-nav-btn">5. Эффективность</a>
+      <a href="6_crisis_management.html" class="btn btn-outline-custom section-nav-btn">6. Кризисы</a>
+      <a href="7_fundraising.html" class="btn btn-outline-custom section-nav-btn">7. Фандрайзинг</a>
+      <a href="8_cases_and_practice.html" class="btn btn-outline-custom section-nav-btn">8. Кейсы</a>
+      <a href="useful_resources.html" class="btn btn-outline-secondary section-nav-btn">Ресурсы</a>
+    </nav>
+    <!-- /НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
+
     <main>
+        <!-- ... (page-header-section без изменений) ... -->
         <div class="page-header-section">
             <img src="../assets/icons/Infrastructure.svg" alt="Инфраструктура" class="header-icon">
             <h1 class="display-5 fw-bold">Инфраструктура НКО</h1>
             <p class="lead">Создайте свой аудит инфраструктуры — отметьте, что уже реализовано, и получите персональный результат!</p>
         </div>
+
         <div class="container py-4">
-            <!-- Интерактивные чек-листы -->
             <form id="infraAuditForm">
                 <section class="content-section" id="s3-1">
-                    <h3><img src="../assets/icons/low_budget.svg" class="section-icon">Техническая база НКО</h3>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/cases.svg">Сайт НКО</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="site_sections">
-                                <label class="form-check-label" for="site_sections">Есть все обязательные разделы (О нас, Проекты, Новости, Отчеты, Контакты, Как помочь)</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="site_security">
-                                <label class="form-check-label" for="site_security">Обеспечена безопасность CMS (обновления, сложные пароли, 2FA, ограничение попыток входа)</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="site_ddos">
-                                <label class="form-check-label" for="site_ddos">Есть защита от DDoS (CDN, файрвол, мониторинг трафика)</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="site_mobile">
-                                <label class="form-check-label" for="site_mobile">Сайт адаптирован под мобильные устройства</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="site_accessibility">
-                                <label class="form-check-label" for="site_accessibility">Сайт соответствует базовым стандартам доступности (WCAG)</label>
-                            </div>
+                    <h4 class="audit-category-title">
+                        <img src="../assets/icons/low_budget.svg" alt="">Техническая база НКО
+                    </h4>
+                    <div class="audit-grid">
+                        <!-- ... (все audit-item плитки без изменений) ... -->
+                        <div class="audit-item" data-audit-id="site_sections" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Есть все обязательные разделы сайта (О нас, Проекты, Новости, Отчеты, Контакты, Как помочь)</span>
                         </div>
-                    </div>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/communication.svg">CRM для НКО</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="crm_has">
-                                <label class="form-check-label" for="crm_has">Используется CRM для учета доноров, волонтеров, бенефициаров</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="crm_integration">
-                                <label class="form-check-label" for="crm_integration">CRM интегрирована с рассылками и сайтом</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="crm_roles">
-                                <label class="form-check-label" for="crm_roles">В CRM настроены разные уровни доступа для сотрудников</label>
-                            </div>
+                        <div class="audit-item" data-audit-id="site_security" tabindex="0" role="button" aria-pressed="false">
+                           <span class="audit-item-text">Обеспечена безопасность CMS (обновления, сложные пароли, 2FA, ограничение попыток входа)</span>
                         </div>
-                    </div>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/interactivity.svg">Онлайн-мероприятия</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="online_platforms">
-                                <label class="form-check-label" for="online_platforms">Используются современные платформы для онлайн-мероприятий (Jitsi, Zoom, OBS и др.)</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="online_recordings">
-                                <label class="form-check-label" for="online_recordings">Ведётся запись и хранение видео/материалов мероприятий</label>
-                            </div>
+                        <div class="audit-item" data-audit-id="site_ddos" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Есть защита от DDoS (CDN, файрвол, мониторинг трафика)</span>
                         </div>
-                    </div>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/safety.svg">Облачные хранилища</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="cloud_secure">
-                                <label class="form-check-label" for="cloud_secure">Используются облачные хранилища с e2ee и безопасной юрисдикцией</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="cloud_access">
-                                <label class="form-check-label" for="cloud_access">Доступ к облачным хранилищам разграничен по ролям</label>
-                            </div>
+                        <div class="audit-item" data-audit-id="site_mobile" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Сайт адаптирован под мобильные устройства</span>
+                        </div>
+                         <div class="audit-item" data-audit-id="site_accessibility" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Сайт соответствует базовым стандартам доступности (WCAG)</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="crm_has" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Используется CRM для учета доноров, волонтеров, бенефициаров</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="crm_integration" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">CRM интегрирована с рассылками и сайтом</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="crm_roles" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">В CRM настроены разные уровни доступа для сотрудников</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="online_platforms" tabindex="0" role="button" aria-pressed="false">
+                           <span class="audit-item-text">Используются современные платформы для онлайн-мероприятий (Jitsi, Zoom, OBS и др.)</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="online_recordings" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Ведётся запись и хранение видео/материалов мероприятий</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="cloud_secure" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Используются облачные хранилища с e2ee и безопасной юрисдикцией</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="cloud_access" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Доступ к облачным хранилищам разграничен по ролям</span>
                         </div>
                     </div>
                 </section>
+
                 <section class="content-section" id="s3-2">
-                    <h3><img src="../assets/icons/rights.svg" class="section-icon">Финансово-юридическая инфраструктура</h3>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/efficiency.svg">Банковский счет</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="bank_account">
-                                <label class="form-check-label" for="bank_account">Есть банковский счет с льготным тарифом и удобным интернет-банком</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="bank_multisig">
-                                <label class="form-check-label" for="bank_multisig">Используется двухфакторная авторизация или мультиподпись для платежей</label>
-                            </div>
+                     <!-- ... (аналогично для других секций) ... -->
+                    <h4 class="audit-category-title">
+                        <img src="../assets/icons/rights.svg" alt="">Финансово-юридическая инфраструктура
+                    </h4>
+                    <div class="audit-grid">
+                        <div class="audit-item" data-audit-id="bank_account" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Есть банковский счет с льготным тарифом и удобным интернет-банком</span>
                         </div>
-                    </div>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/paid.svg">Платежные системы</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="donation_systems">
-                                <label class="form-check-label" for="donation_systems">Подключены современные платежные системы для пожертвований</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="donation_recurring">
-                                <label class="form-check-label" for="donation_recurring">Возможна настройка регулярных пожертвований</label>
-                            </div>
+                        <div class="audit-item" data-audit-id="bank_multisig" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Используется двухфакторная авторизация или мультиподпись для платежей</span>
                         </div>
-                    </div>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/community.svg">Финансовая прозрачность</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="finance_transparency">
-                                <label class="form-check-label" for="finance_transparency">Ведется регулярная отчетность и публикация информации о финансах</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="finance_audit">
-                                <label class="form-check-label" for="finance_audit">Проводится внешний или внутренний аудит финансов</label>
-                            </div>
+                        <div class="audit-item" data-audit-id="donation_systems" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Подключены современные платежные системы для пожертвований</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="donation_recurring" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Возможна настройка регулярных пожертвований</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="finance_transparency" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Ведется регулярная отчетность и публикация информации о финансах</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="finance_audit" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Проводится внешний или внутренний аудит финансов</span>
                         </div>
                     </div>
                 </section>
+
                 <section class="content-section" id="s3-3">
-                    <h3><img src="../assets/icons/safety.svg" class="section-icon">Кибергигиена</h3>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/safety.svg">Парольная политика</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="password_policy">
-                                <label class="form-check-label" for="password_policy">Используются сложные пароли, менеджеры паролей, 2FA</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="password_rotation">
-                                <label class="form-check-label" for="password_rotation">Регулярная смена паролей и отзыв доступа у бывших сотрудников</label>
-                            </div>
+                     <h4 class="audit-category-title">
+                        <img src="../assets/icons/safety.svg" alt="">Кибергигиена
+                    </h4>
+                    <div class="audit-grid">
+                        <div class="audit-item" data-audit-id="password_policy" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Используются сложные пароли, менеджеры паролей, 2FA</span>
                         </div>
-                    </div>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/warning.svg">Распознавание фишинга</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="phishing_awareness">
-                                <label class="form-check-label" for="phishing_awareness">Проводится обучение по фишингу и проверка подозрительных писем</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="phishing_simulation">
-                                <label class="form-check-label" for="phishing_simulation">Проводятся симуляции фишинговых атак для сотрудников</label>
-                            </div>
+                        <div class="audit-item" data-audit-id="password_rotation" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Регулярная смена паролей и отзыв доступа у бывших сотрудников</span>
                         </div>
-                    </div>
-                    <div class="infra-card">
-                        <div class="card-title"><img src="../assets/icons/safety.svg">Резервное копирование</div>
-                        <div class="card-details">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="backup_policy">
-                                <label class="form-check-label" for="backup_policy">Регулярно делаются резервные копии и тестируется восстановление</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="backup_geo">
-                                <label class="form-check-label" for="backup_geo">Резервные копии хранятся в разных географических локациях</label>
-                            </div>
+                        <div class="audit-item" data-audit-id="phishing_awareness" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Проводится обучение по фишингу и проверка подозрительных писем</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="phishing_simulation" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Проводятся симуляции фишинговых атак для сотрудников</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="backup_policy" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Регулярно делаются резервные копии и тестируется восстановление</span>
+                        </div>
+                        <div class="audit-item" data-audit-id="backup_geo" tabindex="0" role="button" aria-pressed="false">
+                            <span class="audit-item-text">Резервные копии хранятся в разных географических локациях</span>
                         </div>
                     </div>
                 </section>
-                <div class="text-center my-4">
-                    <button type="button" class="btn btn-success btn-lg px-5" id="showAuditResultBtn">Показать результат аудита</button>
+
+                <div class="text-center my-5">
+                    <button type="button" class="btn btn-lg" id="showAuditResultBtn">Показать результат аудита</button>
                 </div>
             </form>
-            <div id="auditResultBlock" style="display:none;">
-                <div class="ai-block mt-4">
-                    <div class="ai-title"><img src="../assets/icons/interactivity.svg">Результат аудита инфраструктуры</div>
+
+             <!-- ... (Блок результатов и AI блок без изменений) ... -->
+            <div id="auditResultBlock"> 
+                <div class="ai-block mt-4"> 
+                    <div class="ai-title"><img src="../assets/icons/interactivity.svg" alt="" class="me-2">Результат аудита инфраструктуры</div>
                     <div class="audit-progress-visual">
                         <div class="progress-section">
                             <div class="progress-title">Техническая база</div>
-                            <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressTech"></div></div>
+                            <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressTech">0%</div></div>
                         </div>
                         <div class="progress-section">
                             <div class="progress-title">Финансы и юр.инфраструктура</div>
-                            <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressFinance"></div></div>
+                            <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressFinance">0%</div></div>
                         </div>
                         <div class="progress-section">
                             <div class="progress-title">Кибергигиена</div>
-                            <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressCyber"></div></div>
+                            <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressCyber">0%</div></div>
                         </div>
                         <div class="progress-section">
                             <div class="progress-title">Общий уровень</div>
-                            <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressTotal"></div></div>
+                            <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressTotal">0%</div></div>
                         </div>
                     </div>
-                    <div class="ai-response" id="auditResultText"></div>
+                    <div id="auditResultText" class="mt-3"></div>
                 </div>
             </div>
+
             <div class="ai-block mt-5">
-                <div class="ai-title"><img src="../assets/icons/interactivity.svg">Мозговой штурм: как улучшить инфраструктуру?</div>
+                <div class="ai-title"><img src="../assets/icons/support.svg" alt="ИИ-помощник" class="me-2">Мозговой штурм: как улучшить инфраструктуру?</div>
                 <form class="ai-form" id="aiForm">
-                    <label for="aiAspect1">Аспект 1</label>
-                    <input type="text" class="form-control" id="aiAspect1" placeholder="Например: безопасность сайта">
-                    <label for="aiAction1">Ваши идеи/действия</label>
-                    <textarea class="form-control" id="aiAction1" rows="2" placeholder="Что можно сделать?"></textarea>
-                    <label for="aiAspect2">Аспект 2</label>
-                    <input type="text" class="form-control" id="aiAspect2" placeholder="Например: резервное копирование">
-                    <label for="aiAction2">Ваши идеи/действия</label>
-                    <textarea class="form-control" id="aiAction2" rows="2" placeholder="Что можно сделать?"></textarea>
-                    <label for="aiAspect3">Аспект 3</label>
-                    <input type="text" class="form-control" id="aiAspect3" placeholder="Например: облачные сервисы">
-                    <label for="aiAction3">Ваши идеи/действия</label>
-                    <textarea class="form-control" id="aiAction3" rows="2" placeholder="Что можно сделать?"></textarea>
+                    <div class="mb-3">
+                        <label for="aiAspect1" class="form-label">Аспект 1 для улучшения:</label>
+                        <input type="text" class="form-control" id="aiAspect1" placeholder="Например: безопасность сайта">
+                    </div>
+                    <div class="mb-3">
+                        <label for="aiAction1" class="form-label">Ваши идеи/действия по аспекту 1:</label>
+                        <textarea class="form-control" id="aiAction1" rows="2" placeholder="Что можно сделать?"></textarea>
+                    </div>
+                     <div class="mb-3">
+                        <label for="aiAspect2" class="form-label">Аспект 2 для улучшения:</label>
+                        <input type="text" class="form-control" id="aiAspect2" placeholder="Например: резервное копирование">
+                    </div>
+                    <div class="mb-3">
+                        <label for="aiAction2" class="form-label">Ваши идеи/действия по аспекту 2:</label>
+                        <textarea class="form-control" id="aiAction2" rows="2" placeholder="Что можно сделать?"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="aiAspect3" class="form-label">Аспект 3 для улучшения:</label>
+                        <input type="text" class="form-control" id="aiAspect3" placeholder="Например: облачные сервисы">
+                    </div>
+                    <div class="mb-3">
+                        <label for="aiAction3" class="form-label">Ваши идеи/действия по аспекту 3:</label>
+                        <textarea class="form-control" id="aiAction3" rows="2" placeholder="Что можно сделать?"></textarea>
+                    </div>
                     <button type="submit" class="ai-btn">Получить совет от ИИ</button>
                 </form>
-                <div class="ai-response" id="aiResponse"></div>
+                <div class="ai-response" id="aiResponse">
+                    <em>Заполните поля и нажмите кнопку, чтобы получить совет...</em>
+                </div>
             </div>
         </div>
     </main>
-    <footer class="bg-light text-center py-4">
-        <div class="container">
-            <p class="text-muted mb-0">Материалы семинара Школы прав человека им. Елены Боннэр © 2025</p>
-            <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
-        </div>
+
+    <footer class="py-4 bg-dark text-white-50 mt-5">
+         <!-- ... (Подвал без изменений) ... -->
+         <div class="container text-center">
+             <small>Материалы семинара Школы прав человека им. Елены Боннэр © 2025</small> <br>
+             <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
+         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <script>
-// --- Кастомное полноэкранное меню с SVG-бургером ---
-const customMenuToggler = document.getElementById('customMenuToggler');
-const fullscreenMenu = document.getElementById('fullscreenMenu');
-const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
+    // --- Добавляем константы Gemini/Gemma API в начало скрипта ---
+    const GOOGLE_AI_API_KEY = "AIzaSyDl6bLHj4tFonVVBnKDhgIpdrTQuZXmhqo"; 
+    const GOOGLE_AI_API_URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
+    const GOOGLE_AI_MODEL = "gemma-2b-it"; 
+    const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateContent?key=${GOOGLE_AI_API_KEY}`;
 
-if (customMenuToggler && fullscreenMenu && window.gsap) {
-    const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
-    const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
-    const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.registerPlugin(ScrollTrigger);
 
-    const actualBurgerIcon = customMenuToggler.querySelector('svg');
-    const burgerLine1 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line1') : null;
-    const burgerLine2 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line2') : null;
-    const burgerLine3 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line3') : null;
-    
-    let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
-
-    if (burgerLine1 && burgerLine2 && burgerLine3) {
-        const line1YInitial = parseFloat(burgerLine1.getAttribute('y')); 
-        const line2YInitial = parseFloat(burgerLine2.getAttribute('y')); 
-        const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
+        // --- Код для полноэкранного меню (оставлен без изменений) ---
+        // ...
+        const customMenuToggler = document.getElementById('customMenuToggler');
+        const fullscreenMenu = document.getElementById('fullscreenMenu');
+        const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
         
-        if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) {
-            burgerTimeline
-                .to(burgerLine1, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
-                .to(burgerLine3, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
-                .to(burgerLine2, { duration: 0.2, scaleX: 0, transformOrigin: "50% 50%", ease: "power2.in" }, "cross") 
-                .to(burgerLine1, { duration: 0.25, rotation: 45,  transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd")
-                .to(burgerLine3, { duration: 0.25, rotation: -45, transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd");
-        } else {
-             console.warn("SVG burger lines y attributes not found or not numbers. Falling back to simple rotation for burger icon on 3_infrastructure.html.");
-             burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
-        }
-    } else if (actualBurgerIcon) {
-        // Fallback for simple icon if lines are not defined
-        burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
-    }
+        if (customMenuToggler && fullscreenMenu) {
+            const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
+            const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
+            const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
 
-    let fsMenuIsOpen = false;
-    gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
-    if (fsMenuItems.length > 0) {
-        gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
-    }
-     if (fsSubMenuItemsContainer) { // Убедимся, что контейнер существует
-        gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
-    }
-
-
-    const openFullscreenMenu = () => { 
-        if (fsMenuIsOpen) return;
-        fsMenuIsOpen = true;
-        
-        fullscreenMenu.style.display = 'flex'; // Ensure menu is displayed before animation
-        burgerTimeline.play();
-        customMenuToggler.classList.add('open');
-        customMenuToggler.setAttribute('aria-expanded', 'true');
-
-        const tlOpen = gsap.timeline();
-        tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' });
-        
-        if (fsMenuItems.length > 0) {
-            tlOpen.to(fsMenuItems, 
-                { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, 
-                "-=0.2" // Start this animation slightly before the previous one ends
-            );
-        }
-        
-        // If "Разделы" is active and its submenu should be open by default
-        const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
-        if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) {
-            // Check if submenu is already expanded or set to auto height (meaning it was open)
-            if (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto') {
-                // Ensure sub-items are visible if the parent is active and expanded
-                tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), 
-                    { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out' },
-                    "-=0.1" // Overlap slightly
-                );
-            }
-        }
-    };
-    
-    const closeFullscreenMenu = () => {
-        if (!fsMenuIsOpen) return;
-        fsMenuIsOpen = false;
-
-        burgerTimeline.reverse();
-        customMenuToggler.classList.remove('open');
-        customMenuToggler.setAttribute('aria-expanded', 'false');
-        
-        const tlClose = gsap.timeline({
-            onComplete: () => {
-                fullscreenMenu.style.display = 'none'; // Hide menu after animation
-                // Reset submenu if it was open
-                if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { // Check if it was actually open
-                    gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); // Reset sub-items
-                    gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0});
-                    const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
-                    if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');
-               }
-            }
-        });
-        
-        // Animate submenu items out first if open
-        if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
-             tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), 
-                { autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in' });
-        }
-        
-        if (fsMenuItems.length > 0) {
-            tlClose.to(fsMenuItems, 
-                { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, 
-                fsSubMenuItemsContainer ? "-=0.1" : 0 // Adjust timing if submenu was present
-            );
-        }
-        
-        tlClose.to(fullscreenMenu, { 
-            autoAlpha: 0, 
-            duration: 0.25, 
-            ease: 'power1.in'
-        }, fsMenuItems.length > 0 ? "-=0.1" : 0); // Adjust timing
-    };
-
-    customMenuToggler.addEventListener('click', () => { 
-        fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); 
-    });
-    
-    if (closeFullscreenMenuBtn) {
-        closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
-    }
-    
-    document.addEventListener('keydown', (e) => { 
-        if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); 
-    });
-    
-    // Logic for custom dropdown within fullscreen menu
-    const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
-    
-    if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {
-        // Initialize submenu as closed
-        gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 }); 
-        gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
-        
-        let subMenuFsIsOpen = false; // State for the submenu
-
-        sectionsDropdownCustomFs.addEventListener('click', (e) => {
-            e.preventDefault();
-            subMenuFsIsOpen = !subMenuFsIsOpen;
-            sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
+            const actualBurgerIcon = customMenuToggler.querySelector('svg');
+            const burgerLine1 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line1') : null;
+            const burgerLine2 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line2') : null;
+            const burgerLine3 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line3') : null;
             
-            if (subMenuFsIsOpen) {
-                // Animate open
-                gsap.timeline()
-                    .to(fsSubMenuItemsContainer, { 
-                        height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', 
-                        duration: 0.3, ease: 'power1.out' 
-                    })
-                    .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { 
-                        autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out' 
-                    }, "-=0.2");
-            } else {
-                // Animate close
-                gsap.timeline()
-                    .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { 
-                        autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in' 
-                    })
-                    .to(fsSubMenuItemsContainer, { 
-                        height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, 
-                        duration: 0.3, ease: 'power1.in' 
-                    }, "-=0.1");
-            }
-        });
-        
-        // Hover effects for submenu items (optional, if not handled by CSS)
-        const fsSubMenuLinks = fsSubMenuItemsContainer ? 
-            gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
-        
-        fsSubMenuLinks.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 });
-            });
-            link.addEventListener('mouseleave', () => {
-                gsap.to(link, { 
-                    color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), // Keep active color or return to default
-                    x: 0, duration: 0.2 
-                });
-            });
-        });
-    }
-    
-    // Ensure active dropdown item is styled correctly if menu is opened directly
-    const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
-    if (activeFsDropdownItem) {
-        activeFsDropdownItem.style.color = '#0d6efd';
-        activeFsDropdownItem.style.fontWeight = '500';
-    }
+            let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
 
-} else {
-    console.warn("GSAP, Custom menu toggler or fullscreen menu not found. Fullscreen menu functionality disabled for 3_infrastructure.html.");
-}
-// GSAP: Анимация появления секций
-if (window.gsap && window.ScrollTrigger) {
-    gsap.utils.toArray('.page-header-section, .content-section, .infra-card, .ai-block').forEach((el, i) => {
-        gsap.from(el, {
-            opacity: 0,
-            y: 40,
-            duration: 0.7,
-            delay: 0.1 + i * 0.08,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: el, start: 'top 90%', once: true }
-        });
-    });
-}
-// Карточки: раскрытие подробностей (если есть)
-document.querySelectorAll('.infra-card .more-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const content = this.nextElementSibling;
-        if (!content) return;
-        const isOpen = content.style.display === 'block';
-        gsap.to(content, {
-            height: isOpen ? 0 : 'auto',
-            opacity: isOpen ? 0 : 1,
-            duration: 0.4,
-            onStart: () => { if (!isOpen) content.style.display = 'block'; },
-            onComplete: () => { if (isOpen) content.style.display = 'none'; }
-        });
-        this.textContent = isOpen ? 'Подробнее...' : 'Скрыть';
-    });
-});
-// Кнопка аудита и расчет результата с анимированными прогресс-барами
-const auditBtn = document.getElementById('showAuditResultBtn');
-if (auditBtn) {
-    auditBtn.addEventListener('click', function() {
-        // Группы чекбоксов
-        const tech = ['site_sections','site_security','site_ddos','crm_has','crm_integration','online_platforms','cloud_secure'];
-        const finance = ['bank_account','donation_systems','finance_transparency'];
-        const cyber = ['password_policy','phishing_awareness','backup_policy'];
-        const all = tech.concat(finance, cyber);
-        function countChecked(arr) {
-            return arr.filter(id => document.getElementById(id)?.checked).length;
-        }
-        const percentTech = Math.round((countChecked(tech)/tech.length)*100);
-        const percentFinance = Math.round((countChecked(finance)/finance.length)*100);
-        const percentCyber = Math.round((countChecked(cyber)/cyber.length)*100);
-        const percentTotal = Math.round((countChecked(all)/all.length)*100);
-        let level, comment;
-        if (percentTotal >= 90) {
-            level = 'Отлично!';
-            comment = 'Ваша инфраструктура соответствует лучшим практикам. Продолжайте поддерживать высокий уровень!';
-        } else if (percentTotal >= 70) {
-            level = 'Хорошо';
-            comment = 'Большинство ключевых элементов реализовано. Рекомендуем обратить внимание на оставшиеся пункты.';
-        } else if (percentTotal >= 40) {
-            level = 'Средний уровень';
-            comment = 'Есть важные пробелы. Рекомендуем поэтапно внедрять недостающие элементы.';
-        } else {
-            level = 'Низкий уровень';
-            comment = 'Инфраструктура требует серьезного внимания. Начните с базовых пунктов из чек-листа.';
-        }
-        // Анимация прогресс-баров
-        function animateBar(id, percent) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.style.width = '0%';
-            el.textContent = '';
-            gsap.to(el, {
-                width: percent + '%',
-                duration: 1.1,
-                ease: 'power2.out',
-                onUpdate: function() {
-                    const val = Math.round(parseFloat(el.style.width));
-                    el.textContent = val > 10 ? val + '%' : '';
+            if (burgerLine1 && burgerLine2 && burgerLine3) {
+                const line1YInitial = parseFloat(burgerLine1.getAttribute('y'));
+                const line2YInitial = parseFloat(burgerLine2.getAttribute('y'));
+                const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
+                
+                if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) {
+                    burgerTimeline
+                        .to(burgerLine1, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
+                        .to(burgerLine3, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
+                        .to(burgerLine2, { duration: 0.2, scaleX: 0, transformOrigin: "50% 50%", ease: "power2.in" }, "cross") 
+                        .to(burgerLine1, { duration: 0.25, rotation: 45,  transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd")
+                        .to(burgerLine3, { duration: 0.25, rotation: -45, transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd");
+                } else {
+                     burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
                 }
-            });
-        }
-        animateBar('progressTech', percentTech);
-        animateBar('progressFinance', percentFinance);
-        animateBar('progressCyber', percentCyber);
-        animateBar('progressTotal', percentTotal);
-        // Текстовый результат
-        const resultText = `<div class='audit-result-title'><strong>Ваш результат: ${percentTotal}% (${level})</strong></div><div class='audit-result-comment'>${comment}</div>`;
-        const block = document.getElementById('auditResultBlock');
-        const text = document.getElementById('auditResultText');
-        text.innerHTML = '';
-        block.style.display = 'block';
-        let i = 0;
-        function typeWriter() {
-            if (i < resultText.length) {
-                // Вставляем как HTML, чтобы работала разметка
-text.innerHTML = resultText.slice(0, i + 1);
-                i++;
-                setTimeout(typeWriter, 14);
+            } else if (actualBurgerIcon) {
+                burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
             }
-        }
-        typeWriter();
-        window.scrollTo({top: block.offsetTop-80, behavior:'smooth'});
-    });
-}
-// --- Добавляем константы Gemini/Gemma API в начало скрипта ---
-const GOOGLE_AI_API_KEY = "AIzaSyDl6bLHj4tFonVVBnKDhgIpdrTQuZXmhqo";
-const GOOGLE_AI_API_URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
-const GOOGLE_AI_MODEL = "gemma-3n-e4b-it";
-const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateContent?key=${GOOGLE_AI_API_KEY}`;
-// Подключаем marked.js для обработки markdown-ответов от ИИ
-if (typeof window.marked === 'undefined') {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-    script.onload = () => { window.markedReady = true; };
-    document.head.appendChild(script);
-} else {
-    window.markedReady = true;
-}
-// AI-интерактив: только если форма есть на странице
-const aiForm = document.getElementById('aiForm');
-if (aiForm) {
-    aiForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const aspect1 = document.getElementById('aiAspect1').value;
-        const action1 = document.getElementById('aiAction1').value;
-        const aspect2 = document.getElementById('aiAspect2').value;
-        const action2 = document.getElementById('aiAction2').value;
-        const aspect3 = document.getElementById('aiAspect3').value;
-        const action3 = document.getElementById('aiAction3').value;
-        const aiResponse = document.getElementById('aiResponse');
-        aiResponse.classList.add('typing');
-        aiResponse.innerHTML = '<em>ИИ думает...</em>';
-        try {
-            // Сохраняем системный промпт, но используем Gemini/Gemma API (только role: 'user')
-            const systemPrompt = "Ты — ИИ-консультант по развитию НКО. Твоя задача — дать конструктивный и краткий фидбэк на предложения пользователя по улучшению инфраструктуры. Будь краток и по существу. Ответ на русском.";
-            const userPrompt = `Пользователь НКО провел мозговой штурм по улучшению инфраструктуры. Вот его идеи:\nАспект 1: ${aspect1 || "Не указан"}\nДействия 1: ${action1 || "Не указаны"}\nАспект 2: ${aspect2 || "Не указан"}\nДействия 2: ${action2 || "Не указаны"}\nАспект 3: ${aspect3 || "Не указан"}\nДействия 3: ${action3 || "Не указаны"}\nПрокомментируй эти предложения. Дай краткий и конструктивный фидбэк. Можешь предложить дополнительные мысли или альтернативы, если это уместно. Ответ на русском. Кратко.`;
-            const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
-            const response = await fetch(GOOGLE_AI_API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [
-                        { role: "user", parts: [{ text: fullPrompt }] }
-                    ],
-                    generationConfig: {
-                        temperature: 0.6,
-                        maxOutputTokens: 450
+
+            let fsMenuIsOpen = false;
+            gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
+            if (fsMenuItems.length > 0) {
+                gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
+            }
+            if (fsSubMenuItemsContainer) {
+                gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+            }
+
+            const openFullscreenMenu = () => { 
+                if (fsMenuIsOpen) return;
+                fsMenuIsOpen = true;
+                
+                fullscreenMenu.style.display = 'flex';
+                burgerTimeline.play();
+                customMenuToggler.classList.add('open');
+                customMenuToggler.setAttribute('aria-expanded', 'true');
+
+                const tlOpen = gsap.timeline();
+                tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' });
+                
+                if (fsMenuItems.length > 0) {
+                    tlOpen.to(fsMenuItems, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, "-=0.2");
+                }
+                
+                const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) {
+                    if (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto') {
+                        tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), 
+                            { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out' }, "-=0.1");
                     }
-                })
+                }
+            };
+            
+            const closeFullscreenMenu = () => {
+                if (!fsMenuIsOpen) return;
+                fsMenuIsOpen = false;
+
+                burgerTimeline.reverse();
+                customMenuToggler.classList.remove('open');
+                customMenuToggler.setAttribute('aria-expanded', 'false');
+                
+                const tlClose = gsap.timeline({
+                    onComplete: () => {
+                        fullscreenMenu.style.display = 'none';
+                        if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
+                            gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                            gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0});
+                            const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                            if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+                
+                if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
+                    tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), 
+                        { autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in' });
+                }
+                
+                if (fsMenuItems.length > 0) {
+                    tlClose.to(fsMenuItems, 
+                        { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, 
+                        fsSubMenuItemsContainer ? "-=0.1" : 0
+                    );
+                }
+                
+                tlClose.to(fullscreenMenu, { 
+                    autoAlpha: 0, 
+                    duration: 0.25, 
+                    ease: 'power1.in'
+                }, fsMenuItems.length > 0 ? "-=0.1" : 0);
+            };
+
+            customMenuToggler.addEventListener('click', () => { 
+                fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); 
             });
-            if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
-            const data = await response.json();
-            let aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "Не удалось получить комментарий от ИИ.";
-            // Ждём загрузки marked, если нужно
-            function waitForMarked() {
-                return new Promise(resolve => {
-                    if (window.markedReady && window.marked) resolve();
-                    else setTimeout(() => resolve(waitForMarked()), 30);
+            
+            if (closeFullscreenMenuBtn) {
+                closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
+            }
+            
+            document.addEventListener('keydown', (e) => { 
+                if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); 
+            });
+            
+            const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+            
+            if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {
+                gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 });
+                gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                
+                let subMenuFsIsOpen = false;
+                sectionsDropdownCustomFs.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    subMenuFsIsOpen = !subMenuFsIsOpen;
+                    sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
+                    
+                    if (subMenuFsIsOpen) {
+                        gsap.timeline()
+                            .to(fsSubMenuItemsContainer, { 
+                                height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', 
+                                duration: 0.3, ease: 'power1.out' 
+                            })
+                            .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { 
+                                autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out' 
+                            }, "-=0.2");
+                    } else {
+                        gsap.timeline()
+                            .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { 
+                                autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in' 
+                            })
+                            .to(fsSubMenuItemsContainer, { 
+                                height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, 
+                                duration: 0.3, ease: 'power1.in' 
+                            }, "-=0.1");
+                    }
+                });
+                
+                const fsSubMenuLinks = fsSubMenuItemsContainer ? 
+                    gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
+                
+                fsSubMenuLinks.forEach(link => {
+                    link.addEventListener('mouseenter', () => {
+                        gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 });
+                    });
+                    link.addEventListener('mouseleave', () => {
+                        gsap.to(link, { 
+                            color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), 
+                            x: 0, duration: 0.2 
+                        });
+                    });
                 });
             }
-            await waitForMarked();
-            // Преобразуем markdown-ответ в HTML через marked
-            let html = window.marked.parse(aiMessage);
-            // Анимированная печать по символам готового html
-            aiResponse.innerHTML = '';
-            let i = 0;
-            function typeWriter() {
-                if (i < html.length) {
-                    aiResponse.innerHTML = html.slice(0, i + 1);
-                    i++;
-                    setTimeout(typeWriter, 8);
-                } else {
-                    aiResponse.classList.remove('typing');
-                }
+            
+            const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
+            if (activeFsDropdownItem) {
+                activeFsDropdownItem.style.color = '#0d6efd';
+                activeFsDropdownItem.style.fontWeight = '500';
             }
-            typeWriter();
-        } catch (error) {
-            aiResponse.classList.remove('typing');
-            aiResponse.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
         }
-    });
-}
-// --- PDF экспорт раздела 3 ---
-const exportBtn = document.getElementById('exportSectionResultsBtn');
-if (!exportBtn) {
-    // Добавить кнопку в футер, если её нет
-    const footer = document.querySelector('footer .container.text-center .mt-4') || document.querySelector('footer .container.text-center');
-    if (footer) {
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-success';
-        btn.id = 'exportSectionResultsBtn';
-        btn.textContent = 'Выгрузить результаты раздела';
-        footer.appendChild(btn);
-    }
-}
-const exportBtn3 = document.getElementById('exportSectionResultsBtn');
-if (exportBtn3) {
-    exportBtn3.addEventListener('click', function() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({unit: 'pt', format: 'a4'});
-        if (window.QanelasRegularFontData && window.QanelasRegularFontData.base64) {
-            doc.addFileToVFS('Qanelas-Regular.ttf', window.QanelasRegularFontData.base64);
-            doc.addFont('Qanelas-Regular.ttf', 'Qanelas', 'normal');
-        }
-        doc.setFont('Qanelas', 'normal');
-        const pageWidth = doc.internal.pageSize.getWidth();
-        let y = 40;
-        // Заголовок
-        doc.setFontSize(22);
-        doc.setTextColor('#2563eb');
-        doc.text('Раздел 3: Инфраструктура НКО', pageWidth/2, y, {align:'center'});
-        y += 30;
-        doc.setFontSize(14);
-        doc.setTextColor('#333');
-        // Секции
-        document.querySelectorAll('.content-section').forEach(section => {
-            const title = section.querySelector('h3, .section-title')?.innerText || '';
-            if (title) {
-                doc.setFontSize(15);
-                doc.setTextColor('#2563eb');
-                doc.text(title, 40, y);
-                y += 18;
-            }
-            doc.setFontSize(11);
-            doc.setTextColor('#444');
-            section.querySelectorAll('p, ul, ol').forEach(el => {
-                let text = '';
-                if (el.tagName === 'P') text = el.innerText;
-                if (el.tagName === 'UL' || el.tagName === 'OL') {
-                    text = Array.from(el.children).map(li => '- ' + li.innerText).join('\n');
+
+
+        // --- СКРЫТИЕ/ПОКАЗ ПАНЕЛИ НАВИГАЦИИ ПО РАЗДЕЛАМ ПРИ СКРОЛЛЕ ---
+        const sectionNavBar = document.querySelector('.section-nav-bar');
+        if (sectionNavBar) {
+            // ... (код для sectionNavBar без изменений) ...
+            let lastScrollTop = 0;
+            const scrollThreshold = 10; 
+            const mainHeader = document.querySelector('.navbar.fixed-top');
+            let mainHeaderHeight = 70; 
+            
+            const updateHeaderHeight = () => {
+                if (mainHeader && mainHeader.offsetHeight > 0) { 
+                    mainHeaderHeight = mainHeader.offsetHeight;
                 }
-                if (text) {
-                    const split = doc.splitTextToSize(text, pageWidth-80);
-                    doc.text(split, 40, y);
-                    y += split.length * 15 + 5;
+                sectionNavBar.style.top = mainHeaderHeight + 'px';
+            };
+
+            updateHeaderHeight(); 
+            window.addEventListener('resize', updateHeaderHeight);
+
+
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (Math.abs(scrollTop - lastScrollTop) <= scrollThreshold && scrollTop > mainHeaderHeight) {
+                    return; 
+                }
+
+                if (scrollTop > lastScrollTop && scrollTop > mainHeaderHeight + (sectionNavBar.offsetHeight / 2) ) { 
+                    sectionNavBar.classList.add('section-nav-hidden');
+                } else if (scrollTop < lastScrollTop || scrollTop <= mainHeaderHeight) { 
+                    sectionNavBar.classList.remove('section-nav-hidden');
+                }
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            }, false);
+        }
+
+
+        // --- ОБЩИЕ АНИМАЦИИ СТРАНИЦЫ (с использованием CSS переходов) ---
+        gsap.from(".page-header-section h1", {duration: 0.8, y: -50, autoAlpha: 0, ease: "power2.out", delay: 0.2});
+        gsap.from(".page-header-section p.lead", {duration: 0.8, y: -30, autoAlpha: 0, ease: "power2.out", delay: 0.4});
+        gsap.from(".page-header-section .header-icon", {duration: 1, scale: 0.5, autoAlpha: 0, ease: "back.out(1.7)", delay: 0.1});
+
+        const contentSections = gsap.utils.toArray('.content-section');
+        contentSections.forEach((section, sectionIndex) => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top 85%",
+                once: true,
+                onEnter: () => {
+                    section.classList.add('is-visible');
+                    const auditItemsInSection = section.querySelectorAll('.audit-item');
+                    auditItemsInSection.forEach((item, itemIndex) => {
+                        // Рассчитываем задержку для эффекта "лесенки"
+                        item.style.setProperty('--stagger-delay', `${itemIndex * 0.08}s`);
+                        item.classList.add('is-visible');
+                    });
                 }
             });
-            y += 10;
         });
-        // AI feedback по инфраструктуре (если есть)
-        const aiResponse = document.getElementById('aiResponse')?.innerText;
-        if (aiResponse && aiResponse.trim() && aiResponse.trim() !== 'ИИ думает...') {
-            doc.setFontSize(14);
-            doc.setTextColor('#2563eb');
-            doc.text('AI-отзыв по инфраструктуре:', 40, y);
-            y += 18;
-            doc.setFontSize(11);
-            doc.setTextColor('#444');
-            const split = doc.splitTextToSize(aiResponse, pageWidth-80);
-            doc.text(split, 40, y);
-            y += split.length * 15 + 10;
+
+        // --- Интерактив для плиток аудита (оставлен без изменений) ---
+        // ...
+        const auditItems = document.querySelectorAll('.audit-item');
+        auditItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const wasSelected = item.classList.contains('selected');
+                item.classList.toggle('selected');
+                item.setAttribute('aria-pressed', String(!wasSelected));
+
+                // GSAP анимация при клике для тактильности (не для появления)
+                gsap.fromTo(item, 
+                    { scale: wasSelected ? 1 : 0.95 }, 
+                    { scale: wasSelected ? 0.98 : 1, duration: 0.3, ease: 'elastic.out(1, 0.6)' }
+                );
+            });
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    item.click();
+                }
+            });
+        });
+
+        // --- Кнопка аудита и расчет результата (оставлен без изменений) ---
+        // ...
+        const auditBtn = document.getElementById('showAuditResultBtn');
+        const auditResultBlock = document.getElementById('auditResultBlock');
+        const auditResultTextEl = document.getElementById('auditResultText');
+
+        if (auditBtn && auditResultBlock && auditResultTextEl) {
+            gsap.set(auditResultBlock, {autoAlpha:0, y: 20}); 
+
+            auditBtn.addEventListener('click', function() {
+                gsap.timeline()
+                    .to(auditBtn, { scale: 0.95, duration: 0.1, ease: "power1.in" })
+                    .to(auditBtn, { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.5)" });
+
+                const techIds = ['site_sections','site_security','site_ddos','site_mobile','site_accessibility','crm_has','crm_integration','crm_roles','online_platforms','online_recordings','cloud_secure','cloud_access'];
+                const financeIds = ['bank_account','bank_multisig','donation_systems','donation_recurring','finance_transparency','finance_audit'];
+                const cyberIds = ['password_policy','password_rotation','phishing_awareness','phishing_simulation','backup_policy','backup_geo'];
+                
+                const allIds = techIds.concat(financeIds, cyberIds);
+
+                function countSelected(ids) {
+                    return ids.filter(id => {
+                        const el = document.querySelector(`.audit-item[data-audit-id="${id}"]`);
+                        return el && el.classList.contains('selected');
+                    }).length;
+                }
+
+                const percentTech = techIds.length > 0 ? Math.round((countSelected(techIds) / techIds.length) * 100) : 0;
+                const percentFinance = financeIds.length > 0 ? Math.round((countSelected(financeIds) / financeIds.length) * 100) : 0;
+                const percentCyber = cyberIds.length > 0 ? Math.round((countSelected(cyberIds) / cyberIds.length) * 100) : 0;
+                const percentTotal = allIds.length > 0 ? Math.round((countSelected(allIds) / allIds.length) * 100) : 0;
+                
+                let level, comment;
+                if (percentTotal >= 90) {
+                    level = 'Отлично!';
+                    comment = 'Ваша инфраструктура соответствует лучшим практикам. Продолжайте поддерживать высокий уровень!';
+                } else if (percentTotal >= 70) {
+                    level = 'Хорошо';
+                    comment = 'Большинство ключевых элементов реализовано. Рекомендуем обратить внимание на оставшиеся пункты.';
+                } else if (percentTotal >= 40) {
+                    level = 'Средний уровень';
+                    comment = 'Есть важные пробелы. Рекомендуем поэтапно внедрять недостающие элементы.';
+                } else {
+                    level = 'Низкий уровень';
+                    comment = 'Инфраструктура требует серьезного внимания. Начните с базовых пунктов.';
+                }
+
+                function animateBar(barId, percent) {
+                    const el = document.getElementById(barId);
+                    if (!el) return;
+                    gsap.to(el, {
+                        width: percent + '%',
+                        duration: 1.2,
+                        ease: 'power2.out',
+                        onUpdate: function() {
+                            el.textContent = Math.round(this.progress() * percent) + '%';
+                        }
+                    });
+                }
+
+                animateBar('progressTech', percentTech);
+                animateBar('progressFinance', percentFinance);
+                animateBar('progressCyber', percentCyber);
+                animateBar('progressTotal', percentTotal);
+
+                const resultHTML = `<div class='audit-result-title'><strong>Ваш результат: ${percentTotal}% (${level})</strong></div><div class='audit-result-comment'>${comment}</div>`;
+                
+                auditResultBlock.style.display = 'block'; 
+                gsap.to(auditResultBlock, {autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out'});
+                
+                gsap.fromTo(auditResultTextEl, {opacity: 0, y:10}, {opacity:1, y:0, duration:0.4, delay: 0.3, onStart: () => {
+                    auditResultTextEl.innerHTML = resultHTML;
+                }});
+                
+                setTimeout(() => {
+                    auditResultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 400);
+            });
         }
-        doc.save('infrastructure_results.pdf');
+
+        // --- AI-интерактив (мозговой штурм) (оставлен без изменений) ---
+        // ...
+        const aiForm = document.getElementById('aiForm');
+        if (aiForm) {
+            const aiResponseEl = document.getElementById('aiResponse');
+            gsap.set(aiResponseEl, {autoAlpha:0.7, y:5}); 
+
+            aiForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const aspect1 = document.getElementById('aiAspect1').value;
+                const action1 = document.getElementById('aiAction1').value;
+                const aspect2 = document.getElementById('aiAspect2').value;
+                const action2 = document.getElementById('aiAction2').value;
+                const aspect3 = document.getElementById('aiAspect3').value;
+                const action3 = document.getElementById('aiAction3').value;
+
+                if (!aspect1 && !action1 && !aspect2 && !action2 && !aspect3 && !action3) { 
+                    gsap.to(aiResponseEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                        aiResponseEl.innerHTML = '<em>Пожалуйста, опишите хотя бы один аспект и действия для улучшения.</em>';
+                        gsap.to(aiResponseEl, {opacity:1, y:0, duration:0.3});
+                    }});
+                    return;
+                }
+                
+                aiResponseEl.classList.add('typing');
+                gsap.to(aiResponseEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                    aiResponseEl.innerHTML = '<em>🤖 ИИ-помощник обрабатывает ваш запрос...</em>';
+                    gsap.to(aiResponseEl, {opacity:1, y:0, duration:0.3});
+                }});
+
+
+                try {
+                    const systemPrompt = "Ты — ИИ-консультант по развитию НКО, специализирующийся на цифровой инфраструктуре. Твоя задача — дать конструктивный и краткий фидбэк на предложения пользователя по улучшению инфраструктуры. Будь краток и по существу (не более 2-3 абзацев). Ответ на русском. Используй Markdown для форматирования (заголовки ##, списки -, жирный текст **).";
+                    const userPrompt = `Пользователь НКО провел мозговой штурм по улучшению инфраструктуры. Вот его идеи:
+Аспект 1: ${aspect1 || "Не указан"}
+Действия 1: ${action1 || "Не указаны"}
+
+Аспект 2: ${aspect2 || "Не указан"}
+Действия 2: ${action2 || "Не указаны"}
+
+Аспект 3: ${aspect3 || "Не указан"}
+Действия 3: ${action3 || "Не указаны"}
+
+Прокомментируй эти предложения. Дай краткий и конструктивный фидбэк. Можешь предложить дополнительные мысли или альтернативы, если это уместно. Ответ на русском. Кратко.`;
+                    
+                    const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
+
+                    const response = await fetch(GOOGLE_AI_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+                            generationConfig: {
+                                temperature: 0.6,
+                                maxOutputTokens: 500 
+                            }
+                        })
+                    });
+
+                    if (!response.ok) throw new Error(`Ошибка сети: ${response.status} ${await response.text()}`);
+                    const data = await response.json();
+                    
+                    let aiMessage = "Не удалось получить комментарий от ИИ.";
+                    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+                        aiMessage = data.candidates[0].content.parts[0].text.trim();
+                    }
+
+                    aiResponseEl.classList.remove('typing');
+                    
+                    const htmlResponse = typeof marked !== 'undefined' ? marked.parse(aiMessage) : aiMessage.replace(/\n/g, '<br>');
+
+                    gsap.to(aiResponseEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                        aiResponseEl.innerHTML = htmlResponse;
+                        gsap.to(aiResponseEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
+                    }});
+
+                } catch (error) {
+                    console.error('AI Advice Error:', error);
+                    aiResponseEl.classList.remove('typing');
+                    gsap.to(aiResponseEl, {opacity:0, y:-5, duration:0.2, onComplete: () => {
+                        aiResponseEl.innerHTML = `😥 Ошибка получения совета от ИИ. <small>${error.message}</small>`;
+                        gsap.to(aiResponseEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
+                    }});
+                }
+            });
+        }
+        
+        ScrollTrigger.refresh(); 
     });
-}
     </script>
 </body>
 </html>
