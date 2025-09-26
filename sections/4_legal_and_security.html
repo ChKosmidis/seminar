@@ -166,7 +166,7 @@
             top: 0;
             z-index: 1000;
             background: rgba(255,255,255,0.97);
-            box-shadow: 0 2px 8px rgba(6, 22, 13, 0.1); /* зеленый акцент */
+            box-shadow: 0 2px 8px rgba(179, 0, 0, 0.1); /* Reddish accent for section 4 */
             padding: 0.5rem 0;
             display: flex;
             gap: 0.5rem;
@@ -175,7 +175,7 @@
             transition: top 0.35s cubic-bezier(.4,1.6,.4,1), box-shadow 0.25s;
         }
         .section-nav-bar.section-nav-hidden {
-            top: -70px;
+            top: -70px; /* Height of the navbar */
             box-shadow: none;
         }
         .section-nav-btn {
@@ -188,16 +188,16 @@
         .section-nav-btn:hover {
             transform: translateY(-2px);
         }
-        .section-nav-btn.btn-success {
-            background-color: #b30000;
+        .section-nav-btn.btn-success { /* Active button for section 4 (red theme) */
+            background-color: #b30000; 
             color: white;
-            border-color: #b30000
+            border-color: #b30000;
         }
         .section-nav-btn.btn-success:hover {
-            background-color: #b30000;
-            border-color: #b30000
+            background-color: #930000; /* Darker red for hover */
+            border-color: #930000;
         }
-        .section-nav-btn.btn-outline-success {
+        .section-nav-btn.btn-outline-success { /* Inactive buttons (red theme) */
             color: #b30000;
             border-color: #b30000;
         }
@@ -256,7 +256,7 @@
     </div>
 
     <!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
-    <nav class="section-nav-bar" style="position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 8px rgba(32,201,151,0.07);padding:0.5rem 0 0.5rem 0;display:flex;gap:0.5rem;justify-content:center;align-items:center;">
+    <nav class="section-nav-bar">
       <a href="0_introduction.html" class="btn btn-outline-success section-nav-btn">Введение</a>
       <a href="1_community_building.html" class="btn btn-outline-success section-nav-btn">1. Сообщество</a>
       <a href="2_internal_communications.html" class="btn btn-outline-success section-nav-btn">2. Коммуникации</a>
@@ -431,7 +431,7 @@
              <small>Материалы семинара Школы прав человека им. Елены Боннэр © 2025</small> <br>
              <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
              <div class="mt-4">
-                 <button class="btn btn-success" id="exportSectionResultsBtn">Выгрузить результаты раздела</button>
+                 <button class="btn btn-danger" id="exportSectionResultsBtn" style="background-color: #b30000; border-color: #b30000;">Выгрузить результаты раздела</button>
              </div>
          </div>
     </footer>
@@ -457,46 +457,177 @@
         const customMenuToggler = document.getElementById('customMenuToggler');
         const fullscreenMenu = document.getElementById('fullscreenMenu');
         const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
-        if (customMenuToggler && fullscreenMenu) { 
+        
+        if (customMenuToggler && fullscreenMenu) {
             const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
             const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
             const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
+
             const actualBurgerIcon = customMenuToggler.querySelector('svg');
             const burgerLine1 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line1') : null;
             const burgerLine2 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line2') : null;
             const burgerLine3 = actualBurgerIcon ? actualBurgerIcon.querySelector('.line3') : null;
+            
             let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
+
             if (burgerLine1 && burgerLine2 && burgerLine3) {
                 const line1YInitial = parseFloat(burgerLine1.getAttribute('y'));
                 const line2YInitial = parseFloat(burgerLine2.getAttribute('y'));
                 const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
+                
                 if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) {
-                    burgerTimeline.to(burgerLine1,{duration:0.25,attr:{y:line2YInitial},ease:"power2.inOut"},"cross").to(burgerLine3,{duration:0.25,attr:{y:line2YInitial},ease:"power2.inOut"},"cross").to(burgerLine2,{duration:0.2,scaleX:0,transformOrigin:"50% 50%",ease:"power2.in"},"cross").to(burgerLine1,{duration:0.25,rotation:45,transformOrigin:"50% 50%",ease:"power2.out"},"crossEnd").to(burgerLine3,{duration:0.25,rotation:-45,transformOrigin:"50% 50%",ease:"power2.out"},"crossEnd");
-                } else { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
-            } else if (actualBurgerIcon) { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
+                    burgerTimeline
+                        .to(burgerLine1, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
+                        .to(burgerLine3, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross")
+                        .to(burgerLine2, { duration: 0.2, scaleX: 0, transformOrigin: "50% 50%", ease: "power2.in" }, "cross") 
+                        .to(burgerLine1, { duration: 0.25, rotation: 45,  transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd")
+                        .to(burgerLine3, { duration: 0.25, rotation: -45, transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd");
+                } else {
+                     burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
+                }
+            } else if (actualBurgerIcon) {
+                burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});
+            }
+
             let fsMenuIsOpen = false;
             gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
-            if (fsMenuItems.length > 0) gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
-            if (fsSubMenuItemsContainer) gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
-            const openFullscreenMenu = () => { if (fsMenuIsOpen) return; fsMenuIsOpen = true; fullscreenMenu.style.display = 'flex'; burgerTimeline.play(); customMenuToggler.classList.add('open'); customMenuToggler.setAttribute('aria-expanded', 'true'); const tlOpen = gsap.timeline(); tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' }); if (fsMenuItems.length > 0) tlOpen.to(fsMenuItems, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, "-=0.2"); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) { if (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto') { tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out' }, "-=0.1"); }}};
-            const closeFullscreenMenu = () => { if (!fsMenuIsOpen) return; fsMenuIsOpen = false; burgerTimeline.reverse(); customMenuToggler.classList.remove('open'); customMenuToggler.setAttribute('aria-expanded', 'false'); const tlClose = gsap.timeline({onComplete: () => { fullscreenMenu.style.display = 'none'; if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0}); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');}}}); if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in' });} if (fsMenuItems.length > 0) tlClose.to(fsMenuItems, { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, fsSubMenuItemsContainer ? "-=0.1" : 0); tlClose.to(fullscreenMenu, { autoAlpha: 0, duration: 0.25, ease: 'power1.in' }, fsMenuItems.length > 0 ? "-=0.1" : 0); };
-            customMenuToggler.addEventListener('click', () => { fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); });
-            if (closeFullscreenMenuBtn) closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); });
+            if (fsMenuItems.length > 0) {
+                gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
+            }
+            if (fsSubMenuItemsContainer) {
+                gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+            }
+
+            const openFullscreenMenu = () => { 
+                if (fsMenuIsOpen) return;
+                fsMenuIsOpen = true;
+                
+                fullscreenMenu.style.display = 'flex';
+                burgerTimeline.play();
+                customMenuToggler.classList.add('open');
+                customMenuToggler.setAttribute('aria-expanded', 'true');
+
+                const tlOpen = gsap.timeline();
+                tlOpen.to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' });
+                
+                if (fsMenuItems.length > 0) {
+                    tlOpen.to(fsMenuItems, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, "-=0.2");
+                }
+                
+                const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                if (sectionsDropdownCustomFs && sectionsDropdownCustomFs.classList.contains('active') && fsSubMenuItemsContainer) {
+                    if (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto') {
+                        tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), 
+                            { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out' }, "-=0.1");
+                    }
+                }
+            };
+            
+            const closeFullscreenMenu = () => {
+                if (!fsMenuIsOpen) return;
+                fsMenuIsOpen = false;
+
+                burgerTimeline.reverse();
+                customMenuToggler.classList.remove('open');
+                customMenuToggler.setAttribute('aria-expanded', 'false');
+                
+                const tlClose = gsap.timeline({
+                    onComplete: () => {
+                        fullscreenMenu.style.display = 'none';
+                        if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
+                            gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                            gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0});
+                            const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+                            if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+                
+                if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {
+                    tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), 
+                        { autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in' });
+                }
+                
+                if (fsMenuItems.length > 0) {
+                    tlClose.to(fsMenuItems, 
+                        { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, 
+                        fsSubMenuItemsContainer ? "-=0.1" : 0
+                    );
+                }
+                
+                tlClose.to(fullscreenMenu, { 
+                    autoAlpha: 0, 
+                    duration: 0.25, 
+                    ease: 'power1.in'
+                }, fsMenuItems.length > 0 ? "-=0.1" : 0);
+            };
+
+            customMenuToggler.addEventListener('click', () => { 
+                fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); 
+            });
+            
+            if (closeFullscreenMenuBtn) {
+                closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
+            }
+            
+            document.addEventListener('keydown', (e) => { 
+                if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); 
+            });
+            
             const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
+            
             if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {
-                gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 }); gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 });
+                gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
+                
                 let subMenuFsIsOpen = false;
                 sectionsDropdownCustomFs.addEventListener('click', (e) => {
-                    e.preventDefault(); subMenuFsIsOpen = !subMenuFsIsOpen; sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
-                    if (subMenuFsIsOpen) { gsap.timeline().to(fsSubMenuItemsContainer, { height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', duration: 0.3, ease: 'power1.out' }).to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out' }, "-=0.2");
-                    } else { gsap.timeline().to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in' }).to(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, duration: 0.3, ease: 'power1.in' }, "-=0.1");}
+                    e.preventDefault();
+                    subMenuFsIsOpen = !subMenuFsIsOpen;
+                    sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString());
+                    
+                    if (subMenuFsIsOpen) {
+                        gsap.timeline()
+                            .to(fsSubMenuItemsContainer, { 
+                                height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', 
+                                duration: 0.3, ease: 'power1.out' 
+                            })
+                            .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { 
+                                autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out' 
+                            }, "-=0.2");
+                    } else {
+                        gsap.timeline()
+                            .to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { 
+                                autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in' 
+                            })
+                            .to(fsSubMenuItemsContainer, { 
+                                height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, 
+                                duration: 0.3, ease: 'power1.in' 
+                            }, "-=0.1");
+                    }
                 });
-                const fsSubMenuLinks = fsSubMenuItemsContainer ? gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
-                fsSubMenuLinks.forEach(link => { link.addEventListener('mouseenter', () => gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 })); link.addEventListener('mouseleave', () => gsap.to(link, { color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), x: 0, duration: 0.2 }));});
+                
+                const fsSubMenuLinks = fsSubMenuItemsContainer ? 
+                    gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : [];
+                
+                fsSubMenuLinks.forEach(link => {
+                    link.addEventListener('mouseenter', () => {
+                        gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 });
+                    });
+                    link.addEventListener('mouseleave', () => {
+                        gsap.to(link, { 
+                            color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), 
+                            x: 0, duration: 0.2 
+                        });
+                    });
+                });
             }
+            
             const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
-            if (activeFsDropdownItem) { activeFsDropdownItem.style.color = '#0d6efd'; activeFsDropdownItem.style.fontWeight = '500';}
+            if (activeFsDropdownItem) {
+                activeFsDropdownItem.style.color = '#0d6efd';
+                activeFsDropdownItem.style.fontWeight = '500';
+            }
         }
 
         // --- ОБЩИЕ АНИМАЦИИ СТРАНИЦЫ ---
@@ -652,7 +783,6 @@
                 aiThreatResponseFeedbackResultEl.innerHTML = '<em>🛡️ ИИ оценивает ваш план реагирования...</em>';
                 gsap.fromTo(aiThreatResponseFeedbackResultEl, {opacity:0.5, y:5}, {opacity:1, y:0, duration:0.3});
                 try {
-                    // Объединяем system prompt и user prompt
                     const systemPrompt = "Ты — ИИ-эксперт по безопасности НКО и кризисному управлению. Твоя задача — дать краткий конструктивный фидбэк на план реагирования пользователя. Кратко. Ответ на русском.";
                     const userPrompt = `${systemPrompt}\n\nПользователь НКО разрабатывает план реагирования на угрозу: "${threatText}".\nПредложенный план:\n- Главный ответственный (роль): ${responsible || "Не указано"}\n- Первые 3-5 немедленных действий: ${actions}\n- Оповещение внутри команды: ${internal || "Не указано"}\n- Оповещение извне: ${external || "Не указано"}\n\nДай краткий и конструктивный фидбэк по этому плану. Укажи сильные стороны и что можно улучшить/добавить. Ответ на русском. Кратко.`;
                     const requestPayload = {
@@ -710,15 +840,15 @@
                 let y = 40;
                 doc.setFontSize(22); doc.setTextColor('#dc3545'); doc.text('Раздел 4: Правовые основы и безопасность', pageWidth/2, y, {align:'center'}); y += 30;
                 document.querySelectorAll('.content-section').forEach(section => {
-                    const titleEl = section.querySelector('h3, h4'); // More specific selection
+                    const titleEl = section.querySelector('h3, h4');
                     if(titleEl) {
-                       const title = titleEl.innerText.replace(/\s*<small.*<\/small>/i, '').trim(); // Remove small tag content
+                       const title = titleEl.innerText.replace(/\s*<small.*<\/small>/i, '').trim(); 
                        if (title) {
                            doc.setFontSize(15); doc.setTextColor('#dc3545'); doc.text(title, 40, y); y += 20;
                        }
                     }
                     doc.setFontSize(11); doc.setTextColor('#444');
-                    section.querySelectorAll('p, ul:not(.checklist-security) li, .alert ul li, .example-story p, .risk-card-body p').forEach(el => { // Added more selectors
+                    section.querySelectorAll('p, ul:not(.checklist-security) li, .alert ul li, .example-story p, .risk-card-body p').forEach(el => { 
                         let text = el.innerText.trim();
                         if (el.tagName === 'LI' && !el.closest('.checklist-security')) text = '• ' + text;
                         if (text) {
@@ -784,6 +914,22 @@
                 doc.save('legal_and_security_results.pdf');
             });
         }
+
+        // --- СКРЫТИЕ/ПОКАЗ НАВИГАЦИИ ПО РАЗДЕЛАМ ПРИ СКРОЛЛЕ ---
+        const sectionNavBar = document.querySelector('.section-nav-bar');
+        if (sectionNavBar) {
+            let lastScrollTop = 0;
+            window.addEventListener("scroll", function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop && scrollTop > 150) { // Scroll Down and past 150px
+                    sectionNavBar.classList.add('section-nav-hidden');
+                } else { // Scroll Up or at top
+                    sectionNavBar.classList.remove('section-nav-hidden');
+                }
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+            }, false);
+        }
+        
         ScrollTrigger.refresh();
     });
     </script>

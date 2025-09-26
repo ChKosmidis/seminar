@@ -1,243 +1,428 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Менеджмент НКО: Семинар</title>
-
-    <!-- Bootstrap CSS (CDN) -->
+    <meta name="color-scheme" content="light dark">
+    <title>Семинар НКО — современный курс управления</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-
-    <!-- Ваши кастомные стили -->
     <link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="css/home.css">
 </head>
-
-<body>
-
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
-            <div class="container">
-                <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
-                    <img src="assets/images/logo.svg" alt="Лого НКО"> 
-                    Семинар НКО
-                </a>
-                
-                <!-- Кастомный бургер-кнопка для всех разрешений -->
-                <button class="navbar-custom-toggler ms-auto" aria-label="Открыть меню" id="customMenuToggler" aria-expanded="false">
-                    <!-- 
-                        ВАЖНО: Замените этот SVG на ваш актуальный SVG из assets/icons/menu.svg (или assets/images/menu.svg).
-                        Убедитесь, что линии внутри имеют классы "line line1", "line line2", "line line3"
-                        и атрибуты y для корректной анимации в JS.
-                    -->
-                    <svg viewBox="0 0 100 80" width="30" height="30" id="actualBurgerIcon" fill="currentColor">
-                        <rect class="line line1" x="0" y="10" width="100" height="10" rx="5"></rect>
-                        <rect class="line line2" x="0" y="35" width="100" height="10" rx="5"></rect>
-                        <rect class="line line3" x="0" y="60" width="100" height="10" rx="5"></rect>
+<body class="home-page" data-theme="light" data-language="ru">
+    <header class="site-header" data-component="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html" data-i18n-attrs="aria-label:nav.brand">
+                <img src="assets/images/logo.svg" width="54" height="54" alt="Семинар НКО" data-i18n-attrs="alt:nav.brandAlt">
+                <span class="brand-name" data-i18n="nav.brand">Семинар НКО</span>
+            </a>
+            <nav class="primary-nav" data-nav>
+                <ul>
+                    <li><a href="#hero" data-i18n="nav.home">Главная</a></li>
+                    <li><a href="#program" data-i18n="nav.program">Программа</a></li>
+                    <li><a href="#sections-map" data-i18n="nav.sections">Разделы</a></li>
+                    <li><a href="#ai-feedback" data-i18n="nav.format">Особенности</a></li>
+                    <li><a href="#resources" data-i18n="nav.resources">Материалы</a></li>
+                </ul>
+            </nav>
+            <div class="header-utilities">
+                <div class="language-switch" role="group" data-i18n-attrs="aria-label:controls.language">
+                    <button type="button" class="lang-option is-active" data-lang-option="ru">RU</button>
+                    <button type="button" class="lang-option" data-lang-option="en">EN</button>
+                </div>
+                <button class="theme-toggle" type="button" data-toggle-theme data-i18n-attrs="aria-label:controls.themeToDark">
+                    <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 0 1 11.21 3 6.5 6.5 0 1 0 21 12.79z"></path>
                     </svg>
                 </button>
+                <a class="nav-cta" href="#cta" data-i18n="nav.cta">Связаться</a>
+                <button class="menu-toggle" type="button" data-toggle-nav aria-expanded="false" data-i18n-attrs="aria-label:controls.menuOpen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
-        </nav>
-    </header>
-
-    <!-- Полноэкранное меню (управляется JS) -->
-    <div class="fullscreen-menu" id="fullscreenMenu">
-        <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
-        <ul class="navbar-nav-fullscreen">
-            <li class="nav-item fs-menu-item">
-                <a class="nav-link" aria-current="page" href="index.html">Главная</a>
-            </li>
-            <li class="nav-item fs-menu-item custom-dropdown">
-                <a class="nav-link dropdown-toggle-custom" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">
-                    Разделы
-                </a>
-                <ul class="dropdown-menu-custom">
-                    <li><a class="dropdown-item" href="sections/0_introduction.html">0. Введение</a></li>
-                    <li><a class="dropdown-item" href="sections/1_community_building.html">1. Сообщество</a></li>
-                    <li><a class="dropdown-item" href="sections/2_internal_communications.html">2. Коммуникации</a></li>
-                    <li><a class="dropdown-item" href="sections/3_infrastructure.html">3. Инфраструктура</a></li>
-                    <li><a class="dropdown-item" href="sections/4_legal_and_security.html">4. Безопасность</a></li>
-                    <li><a class="dropdown-item" href="sections/5_effectiveness_and_development.html">5. Эффективность</a></li>
-                    <li><a class="dropdown-item" href="sections/6_crisis_management.html">6. Антикризис</a></li>
-                    <li><a class="dropdown-item" href="sections/7_fundraising.html">7. Фандрайзинг</a></li>
-                    <li><a class="dropdown-item" href="sections/8_cases_and_practice.html">8. Практика и кейсы</a></li>
+        </div>
+        <div class="mobile-nav" data-mobile-nav>
+            <nav>
+                <ul>
+                    <li><a href="#hero" data-i18n="nav.home">Главная</a></li>
+                    <li><a href="#program" data-i18n="nav.program">Программа</a></li>
+                    <li><a href="#sections-map" data-i18n="nav.sections">Разделы</a></li>
+                    <li><a href="#ai-feedback" data-i18n="nav.format">Особенности</a></li>
+                    <li><a href="#resources" data-i18n="nav.resources">Материалы</a></li>
                 </ul>
-            </li>
-            <li class="nav-item fs-menu-item">
-                <a class="nav-link" href="sections/useful_resources.html">Полезные ресурсы</a>
-            </li>
-        </ul>
-    </div>
-
-
+                <a class="nav-cta" href="#cta" data-i18n="nav.cta">Связаться</a>
+            </nav>
+        </div>
+    </header>
     <main>
-        <section class="hero-section">
-            <div class="container">
-                <h1 class="display-3 fw-bold hero-title">Менеджмент НКО: community building, внутренние коммуникации и инфраструктура</h1>
-                <p class="lead my-4 hero-subtitle">Все материалы семинара для эффективной работы вашей организации и сообщества.</p>
-                <a href="sections/0_introduction.html" class="btn btn-primary btn-lg hero-button" id="startLearningBtn">Начать изучение</a>
-            </div>
-        </section>
-
-        <section id="about-seminar" class="py-5">
-            <div class="container">
-                <h2 class="text-center mb-5 section-title">О семинаре</h2>
-                <div class="row text-center">
-                    <div class="col-md-6 col-lg-3 mb-4 principle-card">
-                       <img src="assets/icons/interactivity.svg" alt="Интерактивность" class="principle-icon mb-3" width="48" height="48">
-                       <h4 class="principle-title fw-semibold">Интерактивность</h4>
-                       <p class="principle-text text-muted">Воркшопы, практические задания после каждого подраздела, обсуждения.</p>
+        <section id="hero" class="hero-section section-padded">
+            <div class="container hero-grid">
+                <div class="hero-content" data-animate>
+                    <span class="eyebrow" data-i18n="hero.badge">Живой семинар</span>
+                    <h1 data-i18n="hero.title">Трёхчасовой практикум по управлению НКО</h1>
+                    <p class="lead" data-i18n="hero.subtitle">Два ведущих помогают командам НКО за 3 часа отработать ключевые управленческие задачи. Короткая теория, погружение в кейсы и коллективная рефлексия.</p>
+                    <div class="cta-group">
+                        <a class="btn btn-primary btn-lg" href="sections/0_introduction.html" data-i18n="hero.primary">Начать обучение</a>
+                        <a class="btn btn-outline-secondary btn-lg" href="#program" data-i18n="hero.secondary">Посмотреть программу</a>
                     </div>
-                    <div class="col-md-6 col-lg-3 mb-4 principle-card">
-                        <img src="assets/icons/low_budget.svg" alt="Малобюджетные решения" class="principle-icon mb-3" width="48" height="48">
-                        <h4 class="principle-title fw-semibold">Малобюджетные решения</h4>
-                        <p class="principle-text text-muted">Акцент на бесплатных или недорогих инструментах и подходах.</p>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-4 principle-card">
-                        <img src="assets/icons/practical.svg" alt="Практичность" class="principle-icon mb-3" width="48" height="48">
-                        <h4 class="principle-title fw-semibold">Практичность</h4>
-                        <p class="principle-text text-muted">Готовые шаблоны, чек-листы, алгоритмы для вашей работы.</p>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-4 principle-card">
-                        <img src="assets/icons/safety.svg" alt="Безопасность" class="principle-icon mb-3" width="48" height="48">
-                        <h4 class="principle-title fw-semibold">Фокус на безопасность</h4>
-                        <p class="principle-text text-muted">Юридическая, цифровая, физическая и финансовая безопасность НКО.</p>
-                    </div>
+                    <p class="hero-note" data-i18n="hero.note">2 ведущих · 3 часа живой работы · AI-фидбэк по каждому блоку</p>
                 </div>
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-lg-8 text-center target-audience">
-                        <h4 class="target-audience-title fw-semibold">Целевая аудитория</h4>
-                        <p class="target-audience-text text-muted">Представители действующих НКО, инициативных групп, активисты, планирующие создать НКО, особенно в правозащитной сфере</p>
+                <div class="hero-visual" data-animate>
+                    <div class="hero-card">
+                        <h3 data-i18n="hero.widget.title">Структура встречи</h3>
+                        <ul>
+                            <li data-i18n="hero.widget.item1">30 минут — общий контекст и ожидания</li>
+                            <li data-i18n="hero.widget.item2">90 минут — практика на кейсах участников</li>
+                            <li data-i18n="hero.widget.item3">30 минут — план внедрения и ресурсы</li>
+                        </ul>
+                    </div>
+                    <div class="floating-badge" data-animate>
+                        <span data-i18n="stats.stat3.value">AI-партнёр</span>
+                        <small data-i18n="stats.stat3.label">моментальная обратная связь</small>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section id="sections-overview" class="py-5 bg-light">
+        <section class="stats-section section-padded">
             <div class="container">
-                <h2 class="text-center mb-5 section-title">Обзор разделов семинара</h2>
-                <div class="row">
-                    <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="introduction">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/introngo.svg" alt="Введение" class="overview-icon mb-3" width="48" height="48">
-                                <h5 class="card-title overview-card-title fw-semibold">Введение в мир НКО</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Ландшафт НКО, специфика правозащиты, нетворкинг и выбор направления.</p>
-                                <a href="sections/0_introduction.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="community">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/community.svg" alt="Сообщество" class="overview-icon mb-3" width="48" height="48">
-                                <h5 class="card-title overview-card-title fw-semibold">Построение Сообщества</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Зачем НКО сообщество, как вовлекать людей, инструменты и кейсы.</p>
-                                <a href="sections/1_community_building.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="communications">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/communication.svg" alt="Коммуникации" class="overview-icon mb-3" width="48" height="48">
-                                <h5 class="card-title overview-card-title fw-semibold">Внутренние Коммуникации</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Основа эффективности, модели и каналы, инструменты и решения проблем.</p>
-                                <a href="sections/2_internal_communications.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="infrastructure">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/Infrastructure.svg" alt="Инфраструктура" class="overview-icon mb-3" width="48" height="48">
-                                <h5 class="card-title overview-card-title fw-semibold">Инфраструктура НКО</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Техническая база, финансово-юридическая инфраструктура, безопасность данных.</p>
-                                <a href="sections/3_infrastructure.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="legal">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/rights.svg" alt="Правовые" class="overview-icon mb-3" width="48" height="48">
-                                <h5 class="card-title overview-card-title fw-semibold">Правовые основы и Безопасность</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Регистрация, риски, цифровая, физическая и финансовая безопасность, взаимодействие.</p>
-                                <a href="sections/4_legal_and_security.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="effectiveness">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/efficiency.svg" alt="Эффективность" class="overview-icon mb-3" width="48" height="48">
-                                <h5 class="card-title overview-card-title fw-semibold">Измерение Эффективности</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Мониторинг и оценка, ключевые метрики (KPI), циклы PDCA для улучшений.</p>
-                                <a href="sections/5_effectiveness_and_development.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="crisis">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/crisis.svg" alt="Антикризис" class="overview-icon mb-3" width="48" height="48">
-                                <h5 class="card-title overview-card-title fw-semibold">Антикризисное Управление</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Работа в неопределенности, "тревожный чемоданчик", планы реагирования.</p>
-                                <a href="sections/6_crisis_management.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="fundraising">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/fundraising.svg" alt="Фандрайзинг" class="overview-icon mb-3" width="48" height="48"> <!-- Убедитесь, что иконка fundraising.svg существует -->
-                                <h5 class="card-title overview-card-title fw-semibold">Фандрайзинг для НКО</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Источники финансирования, гранты, краудфандинг и работа с донорами.</p>
-                                <a href="sections/7_fundraising.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="col-md-6 col-lg-4 mb-4 overview-card">
-                        <div class="card h-100 shadow-sm" data-section-id="practice">
-                            <div class="card-body d-flex flex-column text-center">
-                                <img src="assets/icons/cases.svg" alt="Кейсы" class="overview-icon mb-3" width="48" height="48">
-                                <h5 class="card-title overview-card-title fw-semibold">Кейсы и Практика</h5>
-                                <p class="card-text overview-card-text flex-grow-1 text-muted">Воркшопы, аудит состояния, дорожные карты, гостевые спикеры.</p>
-                                <a href="sections/8_cases_and_practice.html" class="btn btn-outline-primary mt-auto section-link-btn">Перейти к разделу</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="section-header" data-animate>
+                    <span class="eyebrow" data-i18n="stats.eyebrow">Что важно знать</span>
+                    <h2 data-i18n="stats.title">Семинар, который укладывается в 3 часа и экономит время команды</h2>
                 </div>
+                <div class="stats-grid">
+                    <article class="stat-card" data-animate>
+                        <strong data-i18n="stats.stat1.value">3 часа</strong>
+                        <span data-i18n="stats.stat1.label">живого взаимодействия</span>
+                    </article>
+                    <article class="stat-card" data-animate>
+                        <strong data-i18n="stats.stat2.value">2 ведущих</strong>
+                        <span data-i18n="stats.stat2.label">с опытом управления НКО</span>
+                    </article>
+                    <article class="stat-card" data-animate>
+                        <strong data-i18n="stats.stat4.value">4 блока</strong>
+                        <span data-i18n="stats.stat4.label">с AI-фидбэком и планом действий</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section id="overview" class="overview-section section-padded">
+            <div class="container overview-grid">
+                <div class="overview-copy" data-animate>
+                    <span class="eyebrow" data-i18n="about.eyebrow">О чём поговорим</span>
+                    <h2 data-i18n="about.title">Фокусируемся на реальных задачах команды</h2>
+                    <p data-i18n="about.text">Участни_цы приносят свои кейсы: расширение команды, выстраивание коммуникаций, устойчивость и безопасность. Мы разбираем их шаг за шагом и фиксируем решение вместе с AI-помощником.</p>
+                    <ul class="checklist">
+                        <li data-i18n="about.point1">Диагностика текущей ситуации и ожиданий команды.</li>
+                        <li data-i18n="about.point2">Интерактивные упражнения и сбор маршрутов внедрения.</li>
+                        <li data-i18n="about.point3">Итоговый план, который можно делегировать команде.</li>
+                    </ul>
+                </div>
+                <div class="overview-features">
+                    <article class="feature-card" data-animate>
+                        <h3 data-i18n="features.card1.title">Командная диагностика</h3>
+                        <p data-i18n="features.card1.text">Определяем точки роста и риски в команде НКО, учитывая роли, мотивацию и выгорание.</p>
+                    </article>
+                    <article class="feature-card" data-animate>
+                        <h3 data-i18n="features.card2.title">Работа с коммуникациями</h3>
+                        <p data-i18n="features.card2.text">Проверяем каналы взаимодействия, сценарии созвонов и договорённости внутри команды.</p>
+                    </article>
+                    <article class="feature-card" data-animate>
+                        <h3 data-i18n="features.card3.title">План устойчивости</h3>
+                        <p data-i18n="features.card3.text">Собираем чек-лист по безопасности, инфраструктуре и ресурсам на ближайшие 90 дней.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section id="program" class="program-section section-padded">
+            <div class="container">
+                <div class="section-header" data-animate>
+                    <span class="eyebrow" data-i18n="program.eyebrow">Программа встречи</span>
+                    <h2 data-i18n="program.title">Три блока и финальная рефлексия</h2>
+                    <p data-i18n="program.text">Каждый блок завершается совместным выводом и AI-резюме, которое сохраняется для команды.</p>
+                </div>
+                <div class="program-grid">
+                    <article class="program-card" data-animate>
+                        <h3 data-i18n="program.block1.title">Блок 1 · Стартовые ориентиры</h3>
+                        <ul>
+                            <li><a href="sections/0_introduction.html" data-i18n="program.block1.item1">Ожидания и фокус команды</a></li>
+                            <li><a href="sections/1_community_building.html" data-i18n="program.block1.item2">Быстрая диагностика процессов</a></li>
+                            <li><a href="sections/2_internal_communications.html" data-i18n="program.block1.item3">AI-сводка рисков</a></li>
+                        </ul>
+                    </article>
+                    <article class="program-card" data-animate>
+                        <h3 data-i18n="program.block2.title">Блок 2 · Практика на кейсах</h3>
+                        <ul>
+                            <li><a href="sections/3_infrastructure.html" data-i18n="program.block2.item1">Разбор ситуаций участни_ц</a></li>
+                            <li><a href="sections/4_legal_and_security.html" data-i18n="program.block2.item2">Работа в группах и обмен инструментами</a></li>
+                            <li><a href="sections/5_effectiveness_and_development.html" data-i18n="program.block2.item3">AI-комментарии по действиям</a></li>
+                        </ul>
+                    </article>
+                    <article class="program-card" data-animate>
+                        <h3 data-i18n="program.block3.title">Блок 3 · План внедрения</h3>
+                        <ul>
+                            <li><a href="sections/6_crisis_management.html" data-i18n="program.block3.item1">Коллективная рефлексия</a></li>
+                            <li><a href="sections/7_fundraising.html" data-i18n="program.block3.item2">Формирование планов на 30/60/90 дней</a></li>
+                            <li><a href="sections/8_cases_and_practice.html" data-i18n="program.block3.item3">AI-чек-лист действий</a></li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+                <section id="sections-map" class="sections-map section-padded">
+            <div class="container">
+                <div class="section-header" data-animate>
+                    <span class="eyebrow" data-i18n="sectionsNav.eyebrow">Онлайн-материалы</span>
+                    <h2 data-i18n="sectionsNav.title">Все разделы семинара в одном месте</h2>
+                    <p data-i18n="sectionsNav.text">Сохраните ссылки или делитесь ими с командой — материалы открываются после семинара для самостоятельной работы и повторения.</p>
+                </div>
+                <div class="sections-grid">
+                    <a class="section-card" href="sections/0_introduction.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">0</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/record_voice_over.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module0.iconAlt" alt="Введение" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module0.title">Введение и цели</h3>
+                            <p data-i18n="sectionsNav.module0.desc">Настраиваемся на семинар, уточняем ожидания и собираем фокусочные вопросы.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                    <a class="section-card" href="sections/1_community_building.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">1</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/community.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module1.iconAlt" alt="Community" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module1.title">Community building</h3>
+                            <p data-i18n="sectionsNav.module1.desc">Инструменты для развития сообщества, мотивации волонтёров и лидерских практик.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                    <a class="section-card" href="sections/2_internal_communications.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">2</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/communication.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module2.iconAlt" alt="Коммуникации" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module2.title">Внутренние коммуникации</h3>
+                            <p data-i18n="sectionsNav.module2.desc">Настраиваем каналы связи, синхронизацию команд и опорные договорённости.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                    <a class="section-card" href="sections/3_infrastructure.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">3</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/Infrastructure.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module3.iconAlt" alt="Инфраструктура" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module3.title">Инфраструктура НКО</h3>
+                            <p data-i18n="sectionsNav.module3.desc">Выбираем цифровые инструменты, распределяем ответственность и поддерживаем рутину.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                    <a class="section-card" href="sections/4_legal_and_security.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">4</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/safety.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module4.iconAlt" alt="Безопасность" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module4.title">Право и безопасность</h3>
+                            <p data-i18n="sectionsNav.module4.desc">Проходим по юридическим требованиям и правилам цифровой безопасности.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                    <a class="section-card" href="sections/5_effectiveness_and_development.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">5</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/efficiency.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module5.iconAlt" alt="Эффективность" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module5.title">Эффективность и развитие</h3>
+                            <p data-i18n="sectionsNav.module5.desc">Оцениваем процессы, строим индивидуальные планы роста и поддерживаем команду.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                    <a class="section-card" href="sections/6_crisis_management.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">6</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/crisis.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module6.iconAlt" alt="Кризис" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module6.title">Антикризисное управление</h3>
+                            <p data-i18n="sectionsNav.module6.desc">Готовимся к нестабильности, выстраиваем сценарии и распределяем роли.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                    <a class="section-card" href="sections/7_fundraising.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">7</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/fundraising.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module7.iconAlt" alt="Фандрайзинг" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module7.title">Фандрайзинг и партнёрства</h3>
+                            <p data-i18n="sectionsNav.module7.desc">Ищем устойчивые источники финансирования и развиваем партнёрские связи.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                    <a class="section-card" href="sections/8_cases_and_practice.html" data-animate>
+                        <div class="section-card-header">
+                            <span class="section-index">8</span>
+                            <span class="section-icon-wrapper">
+                                <img src="assets/icons/cases.svg" class="section-icon" data-i18n-attrs="alt:sectionsNav.module8.iconAlt" alt="Кейсы" />
+                            </span>
+                        </div>
+                        <div class="section-card-body">
+                            <h3 data-i18n="sectionsNav.module8.title">Кейсы и практика</h3>
+                            <p data-i18n="sectionsNav.module8.desc">Подборка разборов, шаблонов и упражнений для самостоятельной работы.</p>
+                        </div>
+                        <div class="section-card-actions">
+                            <span class="section-card-cta" data-i18n="sectionsNav.open">Перейти к разделу</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section id="ai-feedback" class="feedback-section section-padded">
+            <div class="container feedback-grid">
+                <div class="feedback-copy" data-animate>
+                    <span class="eyebrow" data-i18n="feedback.eyebrow">AI-навигация</span>
+                    <h2 data-i18n="feedback.title">Обратная связь AI в каждом блоке</h2>
+                    <p data-i18n="feedback.text">AI-партнёр фиксирует ключевые цитаты, задаёт уточняющие вопросы и предлагает шаблоны действий. У участни_ц остаются готовые материалы после каждой части семинара.</p>
+                </div>
+                <div class="feedback-items">
+                    <article class="feedback-card" data-animate>
+                        <h3 data-i18n="feedback.item1.title">Моментальная выжимка</h3>
+                        <p data-i18n="feedback.item1.text">AI собирает инсайты и риски из обсуждения, чтобы команда не теряла важные детали.</p>
+                    </article>
+                    <article class="feedback-card" data-animate>
+                        <h3 data-i18n="feedback.item2.title">Уточняющие вопросы</h3>
+                        <p data-i18n="feedback.item2.text">Каждый блок завершается промптами для рефлексии и дополнительной подготовки.</p>
+                    </article>
+                    <article class="feedback-card" data-animate>
+                        <h3 data-i18n="feedback.item3.title">План действий</h3>
+                        <p data-i18n="feedback.item3.text">Итоговый чек-лист автоматически распределяет задачи по ролям и срокам.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section id="format" class="format-section section-padded">
+            <div class="container">
+                <div class="section-header" data-animate>
+                    <span class="eyebrow" data-i18n="format.eyebrow">Как проходит семинар</span>
+                    <h2 data-i18n="format.title">Упор на совместную работу и практику</h2>
+                    <p data-i18n="format.text">Встреча делится на короткие интеракции: мини-лекции, групповые задания и быстрые AI-рефлексии.</p>
+                </div>
+                <div class="format-grid">
+                    <article class="format-card" data-animate>
+                        <h3 data-i18n="format.block1.title">Живое обсуждение</h3>
+                        <p data-i18n="format.block1.text">Ведущие помогают собрать контекст и договориться о темпах работы.</p>
+                    </article>
+                    <article class="format-card" data-animate>
+                        <h3 data-i18n="format.block2.title">Совместная практика</h3>
+                        <p data-i18n="format.block2.text">Группы работают с реальными кейсами и фиксируют решения в общих шаблонах.</p>
+                    </article>
+                    <article class="format-card" data-animate>
+                        <h3 data-i18n="format.block3.title">Поддержка после</h3>
+                        <p data-i18n="format.block3.text">AI-помощник и ведущие остаются на связи, чтобы сопровождать внедрение.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section id="resources" class="resources-section section-padded">
+            <div class="container resources-grid">
+                <div class="resources-copy" data-animate>
+                    <span class="eyebrow" data-i18n="resources.eyebrow">Материалы после встречи</span>
+                    <h2 data-i18n="resources.title">Доступ к базе инструментов и запись обсуждения</h2>
+                    <p data-i18n="resources.text">Участни_цы получают 90 дней доступа к записям, шаблонам документов и AI-резюме по каждому блоку.</p>
+                </div>
+                <div class="resources-list">
+                    <article class="resource-card" data-animate>
+                        <p data-i18n="resources.item1">Готовые шаблоны для диагностики команды и коммуникаций.</p>
+                    </article>
+                    <article class="resource-card" data-animate>
+                        <p data-i18n="resources.item2">Чек-листы по безопасности, инфраструктуре и фандрайзингу.</p>
+                    </article>
+                    <article class="resource-card" data-animate>
+                        <p data-i18n="resources.item3">AI-конспекты обсуждений и набор промптов для последующей работы.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section id="cta" class="cta-section section-padded">
+            <div class="container cta-card" data-animate>
+                <h2 data-i18n="cta.title">Хотите провести семинар для своей команды?</h2>
+                <p data-i18n="cta.text">Напишите организаторам, чтобы согласовать дату, фокус встречи и запросы по материалам.</p>
+                <a class="btn btn-primary btn-lg" href="mailto:hello@example.com" data-i18n="cta.button">Запросить участие</a>
             </div>
         </section>
     </main>
-    
-    <div class="page-overlay" id="pageOverlay"></div>
-    <!-- card-transition-wrapper удален, так как для нового перехода он не нужен в такой форме -->
-
-    <footer class="py-4 bg-dark text-white-50">
-        <div class="container text-center">
-            <small>Материалы семинара Школы прав человека им. Елены Боннэр © 2025</small>
-            <br>
-            <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
+    <footer class="site-footer">
+        <div class="container">
+            <p data-i18n="footer.text">Семинар Школы прав человека им. Елены Боннэр. Все права защищены.</p>
+            <small data-i18n="footer.note">Материалы доступны участникам семинара.</small>
         </div>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-    
+    <div class="nav-overlay" data-nav-overlay></div>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/EasePack.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="js/main.js"></script>
-
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
