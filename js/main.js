@@ -127,7 +127,85 @@
             'cta.text': 'Напишите организаторам, чтобы согласовать дату, фокус встречи и запросы по материалам.',
             'cta.button': 'Запросить участие',
             'footer.text': 'Семинар Школы прав человека им. Елены Боннэр. Все права защищены.',
-            'footer.note': 'Материалы доступны участникам семинара.'
+            'footer.note': 'Материалы доступны участникам семинара.',
+            'intro.hero.badge': 'Модуль 0',
+            'intro.hero.title': 'Введение в мир НКО',
+            'intro.hero.subtitle': 'Фокус на правозащитную деятельность: ландшафт, специфика, нетворкинг и первые шаги.',
+            'intro.hero.primary': 'Перейти к программе модуля',
+            'intro.hero.secondary': 'Попробовать интерактив',
+            'intro.hero.point1.title': 'Ключевые фокусы',
+            'intro.hero.point1.text': 'Ландшафт сектора, правозащитная специфика и форматы взаимодействия.',
+            'intro.hero.point2.title': 'Советы ассистента',
+            'intro.hero.point2.text': 'Индивидуальная концепция НКО и рекомендации по развитию.',
+            'intro.hero.card.badge': 'Что внутри',
+            'intro.hero.card.title': 'Как использовать модуль',
+            'intro.hero.card.text': 'Пройдите обзор, ответьте на вопросы интерактива и получите тест, который поможет закрепить базу перед следующими встречами.',
+            'intro.hero.card.item1': 'Готовая шпаргалка по типам НКО.',
+            'intro.hero.card.item2': 'AI-концепция вашей будущей организации.',
+            'intro.hero.card.item3': 'Квиз по основам с визуальным отчётом.',
+            'intro.inPageNav.label': 'Быстрая навигация по модулю',
+            'intro.quick.overview': 'Обзор сектора',
+            'intro.quick.rights': 'Правозащита',
+            'intro.quick.networking': 'Нетворкинг',
+            'intro.quick.planning': 'Планирование',
+            'intro.quick.interactive': 'Интерактив',
+            'intro.quick.quiz': 'Самопроверка',
+            'intro.sectionsStrip.label': 'Навигация по разделам семинара',
+            'intro.sectionsStrip.prev': 'Прокрутить назад',
+            'intro.sectionsStrip.next': 'Прокрутить вперёд',
+            'intro.overview.badge': 'Картина сектора',
+            'intro.overview.title': 'Ландшафт НКО: краткий обзор',
+            'intro.overview.paragraph1': 'Некоммерческие организации играют ключевую роль в развитии гражданского общества. Они охватывают множество форм и направлений деятельности: от благотворительности и социальной поддержки до экологии, культуры и защиты прав человека.',
+            'intro.overview.list': '<ul>\n<li><strong>Многообразие форм:</strong> общественные организации, фонды, автономные НКО, ассоциации и союзы.</li>\n<li><strong>Направления деятельности:</strong> социальное обслуживание, поддержка уязвимых групп, образование, здравоохранение, экология, культура, защита прав и свобод.</li>\n</ul>',
+            'intro.overview.paragraph2': 'Общая миссия некоммерческого сектора — решение общественно значимых проблем и удовлетворение нематериальных потребностей граждан, действуя не ради прибыли, а во имя общественных благ.',
+            'intro.overview.iconAlt': 'Ландшафт НКО',
+            'intro.rights.badge': 'Правозащита',
+            'intro.rights.title': 'Правозащитные НКО: миссия и специфика',
+            'intro.rights.paragraph1': 'Правозащитная деятельность направлена на утверждение и защиту прав и свобод человека, гарантированных международными нормами и национальным законодательством. Ключевые направления работы включают:',
+            'intro.rights.list': '<ul>\n<li><strong>Мониторинг и документирование:</strong> сбор и анализ информации о нарушениях прав человека.</li>\n<li><strong>Просвещение:</strong> повышение правовой грамотности населения и информирование о способах защиты.</li>\n<li><strong>Адвокация:</strong> представление интересов людей и продвижение законодательных изменений.</li>\n<li><strong>Юридическая помощь:</strong> бесплатные консультации и сопровождение в судах.</li>\n<li><strong>Поддержка жертв:</strong> психологическая, социальная и иная помощь пострадавшим.</li>\n</ul>',
+            'intro.rights.paragraph2': 'Правозащитные НКО сталкиваются с особыми вызовами, рисками и этическими дилеммами, требующими компетентности, осторожности и приверженности принципам.',
+            'intro.rights.iconAlt': 'Правозащитные НКО',
+            'intro.networking.badge': 'Сотрудничество',
+            'intro.networking.title': 'Нетворкинг-НКО: ресурсные центры и коалиции',
+            'intro.networking.paragraph1': 'Сетевое взаимодействие критически важно для эффективности правозащитной деятельности. Такие организации помогают:',
+            'intro.networking.list': '<ul>\n<li>Обмениваться информацией, опытом и лучшими практиками.</li>\n<li>Координировать совместные кампании и акции.</li>\n<li>Продвигать изменения на системном уровне через адвокацию.</li>\n<li>Делить ресурсы, экспертизу и обучение с другими НКО и активистами.</li>\n<li>Укреплять устойчивость и безопасность правозащитного сообщества.</li>\n</ul>',
+            'intro.networking.paragraph2': 'Примеры успешных коалиций показывают, как солидарность и сотрудничество помогают достигать результатов даже в сложных условиях.',
+            'intro.networking.iconAlt': 'Нетворкинг НКО',
+            'intro.planning.badge': 'Первые шаги',
+            'intro.planning.title': 'Выбор направления и формы будущей НКО',
+            'intro.planning.paragraph1': 'Перед запуском организации важно осмыслить проблемное поле и определить нишу:',
+            'intro.planning.list': '<ul>\n<li><strong>Анализ контекста:</strong> какая проблема наиболее актуальна и кем уже закрывается?</li>\n<li><strong>Целевая аудитория:</strong> кому вы помогаете и в чём именно заключаются их потребности?</li>\n<li><strong>Миссия и видение:</strong> долгосрочная цель и способ её достижения.</li>\n</ul>',
+            'intro.planning.paragraph2': 'Ответы помогут осознанно выбрать форму НКО, определить необходимые ресурсы и построить стратегию.',
+            'intro.planning.iconAlt': 'Выбор направления',
+            'intro.interactive.badge': 'Интерактив',
+            'intro.interactive.title': 'Сформируйте концепцию своей НКО',
+            'intro.interactive.lead': 'Ответьте на три вопроса, чтобы получить базовый описательный профиль организации и рекомендации от ассистента.',
+            'intro.interactive.problem.label': 'Какую проблему в области прав человека вы хотели бы решать?',
+            'intro.interactive.problem.placeholder': 'Опишите проблему или кейс, с которым вы работаете.',
+            'intro.interactive.type.label': 'Какой формат работы кажется вам подходящим?',
+            'intro.interactive.type.placeholder': 'Выберите тип...',
+            'intro.interactive.type.direct': 'Прямое действие (помощь, мониторинг)',
+            'intro.interactive.type.networking': 'Нетворкинг/ресурсный центр',
+            'intro.interactive.type.hybrid': 'Гибридный формат',
+            'intro.interactive.justification.label': 'Почему именно этот формат?',
+            'intro.interactive.justification.placeholder': 'Добавьте аргументы, почему выбранный формат подходит.',
+            'intro.interactive.generate': 'Получить концепцию и совет',
+            'intro.interactive.reset': 'Сбросить ответы',
+            'intro.interactive.copy': 'Скопировать концепцию',
+            'intro.interactive.feedback.title': 'Комментарий от ассистента',
+            'intro.interactive.feedback.placeholder': 'Нажмите «Получить концепцию», чтобы увидеть рекомендации.',
+            'intro.interactive.result.title': 'Ваша предварительная концепция',
+            'intro.interactive.result.problem': 'Проблема:',
+            'intro.interactive.result.type': 'Тип НКО:',
+            'intro.interactive.result.justification': 'Обоснование:',
+            'intro.modules.badge': 'Следующие шаги',
+            'intro.modules.title': 'Перейдите к другим разделам программы',
+            'intro.modules.open': 'К разделу',
+            'intro.quiz.badge': 'Самопроверка',
+            'intro.quiz.title': 'Проверьте себя по основам НКО',
+            'intro.quiz.lead': 'Ответьте на пять вопросов и получите визуальный отчёт: его удобно сохранить в PDF или приложить к заметкам модуля.',
+            'intro.quiz.submit': 'Показать результат',
+            'intro.quiz.reset': 'Очистить ответы',
         },
         en: {
             'meta.title': 'NGO Seminar — Modern Management Intensive',
@@ -195,6 +273,9 @@
             'sectionsNav.title': 'All seminar sections in one place',
             'sectionsNav.text': 'Save the links or share them with your team — every module opens after the seminar for self-paced follow-up.',
             'sectionsNav.open': 'Go to section',
+            'intro.sectionsStrip.label': 'Module navigation',
+            'intro.sectionsStrip.prev': 'Scroll back',
+            'intro.sectionsStrip.next': 'Scroll forward',
             'sectionsNav.module0.title': 'Introduction & goals',
             'sectionsNav.module0.desc': 'Align expectations and collect focus questions for the session.',
             'sectionsNav.module0.iconAlt': 'Icon for introduction module',
@@ -250,7 +331,86 @@
             'cta.text': 'Message the organisers to agree on timing, focus and material needs.',
             'cta.button': 'Request a session',
             'footer.text': 'Program crafted by Elena Bonner School of Human Rights. All rights reserved.',
-            'footer.note': 'Resources are available to participants.'
+            'footer.note': 'Resources are available to participants.',
+            'intro.hero.badge': 'Module 0',
+            'intro.hero.title': 'Introduction to the NGO world',
+            'intro.hero.subtitle': 'Focus on human rights work: landscape, specifics, networking and first steps.',
+            'intro.hero.primary': 'Open module outline',
+            'intro.hero.secondary': 'Try the interactive',
+            'intro.hero.point1.title': 'Key focus areas',
+            'intro.hero.point1.text': 'Sector landscape, human rights specifics and collaboration formats.',
+            'intro.hero.point2.title': 'Assistant insights',
+            'intro.hero.point2.text': 'Personalised NGO concept and development tips.',
+            'intro.hero.card.badge': 'What\'s inside',
+            'intro.hero.card.title': 'How to use this module',
+            'intro.hero.card.text': 'Walk through the overview, answer the interactive prompts and take the quiz to lock in the basics before future sessions.',
+            'intro.hero.card.item1': 'Ready cheat sheet on NGO types.',
+            'intro.hero.card.item2': 'AI-generated concept for your future organisation.',
+            'intro.hero.card.item3': 'Foundations quiz with a visual report.',
+            'intro.inPageNav.label': 'Quick navigation inside this module',
+            'intro.quick.overview': 'Sector overview',
+            'intro.quick.rights': 'Human rights',
+            'intro.quick.networking': 'Networking',
+            'intro.quick.planning': 'Planning',
+            'intro.quick.interactive': 'Interactive',
+            'intro.quick.quiz': 'Self-check',
+            'intro.sectionsStrip.label': 'Navigation across seminar sections',
+            'intro.sectionsStrip.prev': 'Scroll backward',
+            'intro.sectionsStrip.next': 'Scroll forward',
+            'intro.overview.badge': 'Sector snapshot',
+            'intro.overview.title': 'NGO landscape: quick overview',
+            'intro.overview.paragraph1': 'Nonprofits play a key role in growing civil society. They span many forms and missions—from charity and social support to ecology, culture and human rights.',
+            'intro.overview.list': '<ul>\n<li><strong>Diverse forms:</strong> public organisations, foundations, autonomous NGOs, associations and alliances.</li>\n<li><strong>Areas of work:</strong> social support, care for vulnerable groups, education, healthcare, ecology, culture, protection of rights and freedoms.</li>\n</ul>',
+            'intro.overview.paragraph2': 'The shared mission of the NGO sector is to solve socially significant challenges and meet non-material public needs, acting for the common good rather than profit.',
+            'intro.overview.iconAlt': 'NGO landscape icon',
+            'intro.rights.badge': 'Human rights',
+            'intro.rights.title': 'Human rights NGOs: mission and specifics',
+            'intro.rights.paragraph1': 'Human rights work upholds and protects freedoms guaranteed by international standards and national law. Core areas include:',
+            'intro.rights.list': '<ul>\n<li><strong>Monitoring and documentation:</strong> collecting and analysing information on human rights violations.</li>\n<li><strong>Education:</strong> improving legal literacy and informing people about protection tools.</li>\n<li><strong>Advocacy:</strong> representing communities and promoting legislative change.</li>\n<li><strong>Legal aid:</strong> free consultations and courtroom support.</li>\n<li><strong>Support for survivors:</strong> psychological, social and other assistance for affected people.</li>\n</ul>',
+            'intro.rights.paragraph2': 'Human rights NGOs face unique challenges, risks and ethical dilemmas that demand expertise, care and strong values.',
+            'intro.rights.iconAlt': 'Human rights NGO icon',
+            'intro.networking.badge': 'Collaboration',
+            'intro.networking.title': 'Networking NGOs: resource centres and coalitions',
+            'intro.networking.paragraph1': 'Network cooperation is critical for effective human rights action. These organisations help teams:',
+            'intro.networking.list': '<ul>\n<li>Share information, experience and best practices.</li>\n<li>Coordinate joint campaigns and advocacy actions.</li>\n<li>Advance systemic change through advocacy.</li>\n<li>Pool resources, expertise and training with other NGOs and activists.</li>\n<li>Strengthen resilience and safety across the human rights community.</li>\n</ul>',
+            'intro.networking.paragraph2': 'Success stories show how solidarity and cooperation deliver results even in difficult contexts.',
+            'intro.networking.iconAlt': 'Networking NGO icon',
+            'intro.planning.badge': 'First steps',
+            'intro.planning.title': 'Choosing the direction and legal form of your NGO',
+            'intro.planning.paragraph1': 'Before launching, analyse the problem space and define your niche:',
+            'intro.planning.list': '<ul>\n<li><strong>Context analysis:</strong> which problem is the most urgent and who already addresses it?</li>\n<li><strong>Target audience:</strong> who you support and what exactly they need.</li>\n<li><strong>Mission and vision:</strong> the long-term goal and the way to reach it.</li>\n</ul>',
+            'intro.planning.paragraph2': 'The answers help you choose the right form, plan resources and shape your strategy.',
+            'intro.planning.iconAlt': 'Planning icon',
+            'intro.interactive.badge': 'Interactive',
+            'intro.interactive.title': 'Shape your NGO concept',
+            'intro.interactive.lead': 'Answer three prompts to build a baseline profile and receive assistant recommendations.',
+            'intro.interactive.problem.label': 'Which human rights challenge would you like to address?',
+            'intro.interactive.problem.placeholder': 'Describe the problem or case you want to work with.',
+            'intro.interactive.type.label': 'Which working format seems right to you?',
+            'intro.interactive.type.placeholder': 'Select a type...',
+            'intro.interactive.type.direct': 'Direct action (aid, monitoring)',
+            'intro.interactive.type.networking': 'Networking/resource centre',
+            'intro.interactive.type.hybrid': 'Hybrid format',
+            'intro.interactive.justification.label': 'Why does this format make sense?',
+            'intro.interactive.justification.placeholder': 'Add reasons why this choice suits your organisation.',
+            'intro.interactive.generate': 'Get concept and advice',
+            'intro.interactive.reset': 'Clear answers',
+            'intro.interactive.copy': 'Copy concept',
+            'intro.interactive.feedback.title': 'Assistant comment',
+            'intro.interactive.feedback.placeholder': 'Press “Get concept” to see recommendations.',
+            'intro.interactive.result.title': 'Your draft concept',
+            'intro.interactive.result.problem': 'Problem:',
+            'intro.interactive.result.type': 'NGO type:',
+            'intro.interactive.result.justification': 'Justification:',
+            'intro.modules.badge': 'Next steps',
+            'intro.modules.title': 'Move on to the other programme modules',
+            'intro.modules.open': 'Open section',
+            'intro.quiz.badge': 'Self-check',
+            'intro.quiz.title': 'Check your NGO essentials knowledge',
+            'intro.quiz.lead': 'Answer five questions and get a visual report—you can save it as PDF or add it to your notes.',
+            'intro.quiz.submit': 'Show result',
+            'intro.quiz.reset': 'Clear answers',
+
         }
     };
 
@@ -263,12 +423,24 @@
         }
 
         const isHomePage = body.classList.contains('home-page');
+        const isSectionPage = body.classList.contains('section-page');
         const languageFromMarkup = body.dataset.language || 'ru';
-        const storedLanguage = localStorage.getItem(STORAGE_KEYS.language);
-        let currentLanguage = translations[storedLanguage] ? storedLanguage : languageFromMarkup;
+        let storedLanguage = null;
+        try {
+            storedLanguage = localStorage.getItem(STORAGE_KEYS.language);
+        } catch (error) {
+            storedLanguage = null;
+        }
+        const initialLanguage = translations[storedLanguage] ? storedLanguage : (translations[languageFromMarkup] ? languageFromMarkup : 'ru');
+        let currentLanguage = initialLanguage;
 
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const storedTheme = localStorage.getItem(STORAGE_KEYS.theme);
+        let storedTheme = null;
+        try {
+            storedTheme = localStorage.getItem(STORAGE_KEYS.theme);
+        } catch (error) {
+            storedTheme = null;
+        }
         let currentTheme = storedTheme === 'dark' || storedTheme === 'light' ? storedTheme : (prefersDark ? 'dark' : (body.dataset.theme || 'light'));
 
         const languageButtons = document.querySelectorAll('[data-lang-option]');
@@ -283,13 +455,10 @@
             if (!translations[lang]) {
                 return;
             }
+            const previousLanguage = currentLanguage;
             currentLanguage = lang;
             body.dataset.language = lang;
             document.documentElement.lang = lang;
-            if (persist) {
-                localStorage.setItem(STORAGE_KEYS.language, lang);
-            }
-
             const dictionary = translations[lang];
             if (dictionary['meta.title']) {
                 document.title = dictionary['meta.title'];
@@ -318,6 +487,14 @@
                 });
             });
 
+            if (persist) {
+                try {
+                    localStorage.setItem(STORAGE_KEYS.language, lang);
+                } catch (error) {
+                    /* noop */
+                }
+            }
+
             languageButtons.forEach((btn) => {
                 const isActive = btn.dataset.langOption === lang;
                 btn.classList.toggle('is-active', isActive);
@@ -326,6 +503,10 @@
 
             updateThemeToggle(currentTheme);
             updateMenuToggle(isNavOpen);
+
+            if (previousLanguage !== lang) {
+                document.dispatchEvent(new CustomEvent('languagechange', { detail: { language: lang } }));
+            }
         };
 
         const applyTheme = (theme, persist = true) => {
@@ -335,9 +516,14 @@
             currentTheme = theme;
             body.dataset.theme = theme;
             if (persist) {
-                localStorage.setItem(STORAGE_KEYS.theme, theme);
+                try {
+                    localStorage.setItem(STORAGE_KEYS.theme, theme);
+                } catch (error) {
+                    /* noop */
+                }
             }
             updateThemeToggle(theme);
+            document.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
         };
 
         const updateThemeToggle = (theme) => {
@@ -423,14 +609,59 @@
             });
         }
 
-        if (isHomePage) {
+        if (isSectionPage) {
+            const sectionsStrip = document.querySelector('[data-sections-strip]');
+            const stripPrev = document.querySelector('[data-strip-control="prev"]');
+            const stripNext = document.querySelector('[data-strip-control="next"]');
+
+            if (sectionsStrip) {
+                const controls = [stripPrev, stripNext].filter(Boolean);
+                const scrollStep = () => sectionsStrip.clientWidth * 0.8 || 260;
+                const tolerance = 4;
+
+                const updateStripControls = () => {
+                    const maxScroll = Math.max(0, sectionsStrip.scrollWidth - sectionsStrip.clientWidth);
+                    const atStart = sectionsStrip.scrollLeft <= tolerance;
+                    const atEnd = sectionsStrip.scrollLeft >= maxScroll - tolerance;
+                    const noOverflow = maxScroll <= tolerance;
+                    if (stripPrev) {
+                        stripPrev.disabled = noOverflow || atStart;
+                    }
+                    if (stripNext) {
+                        stripNext.disabled = noOverflow || atEnd;
+                    }
+                };
+
+                controls.forEach((button) => {
+                    button.addEventListener('click', () => {
+                        const direction = button === stripNext ? 1 : -1;
+                        sectionsStrip.scrollBy({
+                            left: scrollStep() * direction,
+                            behavior: 'smooth'
+                        });
+                    });
+                });
+
+                sectionsStrip.addEventListener('scroll', () => {
+                    requestAnimationFrame(updateStripControls);
+                });
+                window.addEventListener('resize', updateStripControls);
+                updateStripControls();
+            }
+            initAnimatedEntries();
+        }
+
+        function initAnimatedEntries() {
             const animatedItems = document.querySelectorAll('[data-animate]');
+            if (!animatedItems.length) {
+                return;
+            }
+
             const hasGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
 
             if (hasGsap) {
                 const { gsap } = window;
                 gsap.registerPlugin(window.ScrollTrigger);
-
                 gsap.set(animatedItems, { autoAlpha: 0, y: 32 });
 
                 const heroItems = document.querySelectorAll('#hero [data-animate]');
@@ -495,7 +726,9 @@
                 animatedItems.forEach((item) => item.classList.add('is-visible'));
             }
         }
+
+        if (isHomePage) {
+            initAnimatedEntries();
+        }
     });
 })();
-
-

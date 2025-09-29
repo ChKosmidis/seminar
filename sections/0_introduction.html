@@ -1,790 +1,373 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>0. Введение в мир НКО - Семинар НКО</title>
-
+    <meta name="color-scheme" content="light dark">
+    <title>0. Введение - Семинар НКО</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
-    
-    <style>
-        body { 
-            padding-top: 70px; overflow-x: hidden;
-            background-color: #f4f7f6; /* Light overall background */
-            overflow-x: hidden; /* Prevent horizontal scrollbars from animations */
-        }
-
-        /* --- Page Header Section (как в 2_internal_communications, но с зелёным градиентом и на всю ширину) --- */
-        .page-header-section {
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            background: linear-gradient(135deg, #32ac4e 0%, #1e7e34 100%);
-            color: white;
-            padding: 4rem 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: .3rem;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.10);
-            overflow: hidden;
-        }
-        .page-header-section img.header-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18));
-            will-change: transform;
-        }
-        .page-header-section h1 {
-            font-size: 2.7rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 1rem;
-        }
-        .page-header-section .lead {
-            font-size: 1.18rem;
-            opacity: 0.93;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        @media (max-width: 600px) {
-            .page-header-section { padding: 2.2rem 0.7rem 1.5rem 0.7rem; }
-            .page-header-section img.header-icon { width: 60px; height: 60px; }
-            .page-header-section h1 { font-size: 1.5rem; }
-        }
-
-        /* --- Page Header Redesign --- */
-        .page-hero-section {
-            background: linear-gradient(135deg, #28a745, #1e7e34); /* Shades of green */
-            color: #fff;
-            padding: 4rem 1.5rem;
-            margin-bottom: 3rem;
-            text-align: center;
-            border-radius: 0 0 25px 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        .page-hero-section img.hero-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-        }
-        .page-hero-section h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-        }
-        .page-hero-section .lead {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* --- Content Section Redesign (0.1 - 0.4) --- */
-        .info-section {
-            padding: 3rem 1.5rem;
-            margin-bottom: 2.5rem;
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
-            opacity: 0; /* Initial state for GSAP */
-            transform: translateY(30px); /* Initial state for GSAP */
-        }
-        .info-section .section-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid; /* Color set by specific section style */
-        }
-        .info-section .section-icon-new {
-            width: 48px;
-            height: 48px;
-            margin-right: 1rem;
-            padding: 8px;
-            border-radius: 50%;
-            background-color: var(--section-icon-bg, #e9ecef);
-            color: var(--section-icon-color, #495057); /* For SVG fill if needed */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .info-section .section-icon-new img {
-            width: 28px; height: 28px; opacity:0.8;
-        }
-
-        .info-section h2 {
-            font-size: 1.9rem;
-            font-weight: 600;
-            margin-bottom: 0;
-            color: #343a40;
-        }
-        .info-section p, .info-section ul {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: #555;
-        }
-        .info-section ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        .info-section ul li {
-            padding-left: 1.8em;
-            position: relative;
-            margin-bottom: 0.75rem;
-        }
-        .info-section ul li::before {
-            content: '✓'; /* Checkmark or other icon */
-            position: absolute;
-            left: 0;
-            color: var(--section-accent-color, #198754); /* Color set by specific section style */
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-        
-        /* Specific section styling */
-        #s0-1-new { border-left: 7px solid #198754; --section-accent-color: #198754; --section-icon-bg: #e3fcec; }
-        #s0-1-new .section-header { border-bottom-color: #198754; }
-        #s0-1-new .section-icon-new { background-color: #19875430; }
-
-
-        #s0-2-new { border-left: 7px solid #0d6efd; --section-accent-color: #0d6efd; --section-icon-bg: #e7eafe; }
-        #s0-2-new .section-header { border-bottom-color: #0d6efd; }
-        #s0-2-new .section-icon-new { background-color: #0d6efd30; }
-
-        #s0-3-new { border-left: 7px solid #ffc107; --section-accent-color: #ffc107; --section-icon-bg: #fff3cd; }
-        #s0-3-new .section-header { border-bottom-color: #ffc107; }
-        #s0-3-new .section-icon-new { background-color: #ffc10730; }
-
-
-        #s0-4-new { border-left: 7px solid #dc3545; --section-accent-color: #dc3545; --section-icon-bg: #fde2e2; }
-        #s0-4-new .section-header { border-bottom-color: #dc3545; }
-        #s0-4-new .section-icon-new { background-color: #dc354530; }
-
-
-        /* AI Interactive Block & Quiz (retained, minor style tweaks for consistency) */
-        #nkoChoiceInteractive, #nkoQuizSection {
-            opacity: 0; /* For GSAP */
-            transform: translateY(30px); /* For GSAP */
-            padding: 2.5rem; 
-            background-color: #ffffff; 
-            border-radius: 12px; 
-            margin-top: 2.5rem;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
-        }
-        #nkoChoiceInteractive h4, #nkoQuizSection h4 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: #343a40;
-            margin-bottom: 2rem !important;
-        }
-        #nkoConceptResult, #aiFeedbackContainer {
-            opacity: 0; 
-            transform: translateY(15px);
-        }
-        #aiFeedbackResult { 
-            white-space: pre-wrap; 
-            background-color: #f8f9fa; 
-            border: 1px solid #e9ecef; 
-            padding: 1rem; 
-            border-radius: 8px;
-        }
-        .quiz-question { 
-            opacity:0; 
-            transform: translateX(-20px); 
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
-        }
-        #quizResultChartContainer { max-width: 400px; margin: 2rem auto 0; }
-        #quizScore { font-size: 1.2rem; font-weight: bold; }
-
-        /* Ensure header is above everything */
-        header { z-index: 1050; }
-
-        /* --- Navigation Bar for Sections --- */
-        /* НАВИГАЦИЯ ПО РАЗДЕЛАМ (как в 2_internal_communications) */
-        .section-nav-bar {
-            position: sticky;
-            top: 0; /* This will stick below the 70px fixed header due to body padding-top */
-            z-index: 1000;
-            background: rgba(255,255,255,0.97);
-            box-shadow: 0 2px 8px rgba(32,201,151,0.07);
-            padding: 0.5rem 0;
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            align-items: center;
-        }
-        .section-nav-btn {
-            padding: 0.4rem 1rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border-radius: 0.5rem;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .section-nav-btn:hover {
-            transform: translateY(-2px);
-        }
-        .section-nav-btn.btn-success {
-            background-color: #198754;
-            color: white;
-        }
-        .section-nav-btn.btn-success:hover {
-            background-color: #157347;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/section.css">
 </head>
-
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
-            <div class="container">
-                <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.html">
-                    <img src="../assets/images/logo.svg" alt="Лого НКО"> 
-                    Менеджмент НКО: community building, внутренние коммуникации и инфраструктура
-                </a>
-                <button class="navbar-custom-toggler ms-auto" aria-label="Открыть меню" id="customMenuToggler" aria-expanded="false">
-                    <svg viewBox="0 0 100 80" width="30" height="30" id="actualBurgerIcon" fill="currentColor">
-                        <rect class="line line1" x="0" y="10" width="100" height="10" rx="5"></rect>
-                        <rect class="line line2" x="0" y="35" width="100" height="10" rx="5"></rect>
-                        <rect class="line line3" x="0" y="60" width="100" height="10" rx="5"></rect>
+<body class="section-page" data-theme="light" data-language="ru">
+    <header class="site-header" data-component="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html" data-i18n-attrs="aria-label:nav.brand">
+                <img src="../assets/images/logo.svg" width="54" height="54" alt="Семинар НКО" data-i18n-attrs="alt:nav.brandAlt">
+                <span class="brand-name" data-i18n="nav.brand">Семинар НКО</span>
+            </a>
+            <nav class="primary-nav" data-nav>
+                <ul>
+                    <li><a href="../index.html#hero" data-i18n="nav.home">Главная</a></li>
+                    <li><a href="../index.html#program" data-i18n="nav.program">Программа</a></li>
+                    <li><a href="../index.html#sections-map" data-i18n="nav.sections">Разделы</a></li>
+                    <li><a href="../index.html#ai-feedback" data-i18n="nav.format">Особенности</a></li>
+                    <li><a href="../index.html#resources" data-i18n="nav.resources">Материалы</a></li>
+                </ul>
+            </nav>
+            <div class="header-utilities">
+                <div class="language-switch" role="group" data-i18n-attrs="aria-label:controls.language">
+                    <button type="button" class="lang-option is-active" data-lang-option="ru">RU</button>
+                    <button type="button" class="lang-option" data-lang-option="en">EN</button>
+                </div>
+                <button class="theme-toggle" type="button" data-toggle-theme data-i18n-attrs="aria-label:controls.themeToDark">
+                    <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 0 1 11.21 3 6.5 6.5 0 1 0 21 12.79z"></path>
                     </svg>
                 </button>
+                <a class="nav-cta" href="../index.html#cta" data-i18n="nav.cta">Связаться</a>
+                <button class="menu-toggle" type="button" data-toggle-nav aria-expanded="false" data-i18n-attrs="aria-label:controls.menuOpen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
-        </nav>
+        </div>
+        <div class="mobile-nav" data-mobile-nav>
+            <nav>
+                <ul>
+                    <li><a href="../index.html#hero" data-i18n="nav.home">Главная</a></li>
+                    <li><a href="../index.html#program" data-i18n="nav.program">Программа</a></li>
+                    <li><a href="../index.html#sections-map" data-i18n="nav.sections">Разделы</a></li>
+                    <li><a href="../index.html#ai-feedback" data-i18n="nav.format">Особенности</a></li>
+                    <li><a href="../index.html#resources" data-i18n="nav.resources">Материалы</a></li>
+                </ul>
+                <a class="nav-cta" href="../index.html#cta" data-i18n="nav.cta">Связаться</a>
+            </nav>
+        </div>
     </header>
 
-    <div class="fullscreen-menu" id="fullscreenMenu">
-        <button class="close-menu-btn" id="closeFullscreenMenu" aria-label="Закрыть меню">×</button>
-        <ul class="navbar-nav-fullscreen">
-            <li class="nav-item fs-menu-item">
-                <a class="nav-link" href="../index.html">Главная</a>
-            </li>
-            <li class="nav-item fs-menu-item custom-dropdown">
-                <a class="nav-link dropdown-toggle-custom active" aria-current="page" href="#" id="sectionsDropdownCustomFs" role="button" aria-expanded="false">
-                    Разделы
+    <main>
+        <section id="hero" class="hero-section section-shell">
+            <div class="container hero-grid">
+                <div class="hero-content" data-animate>
+                    <span class="eyebrow" data-i18n="intro.hero.badge">Модуль 0</span>
+                    <h1 data-i18n="intro.hero.title">Введение в мир НКО</h1>
+                    <p data-i18n="intro.hero.subtitle">Фокус на правозащитную деятельность: ландшафт, специфика, нетворкинг и первые шаги.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#overview" data-i18n="intro.hero.primary">Перейти к программе модуля</a>
+                        <a class="btn btn-outline" href="#interactive" data-i18n="intro.hero.secondary">Попробовать интерактив</a>
+                    </div>
+                    <nav class="in-page-nav" data-i18n-attrs="aria-label:intro.inPageNav.label">
+                        <a href="#overview" data-i18n="intro.quick.overview">Обзор сектора</a>
+                        <a href="#rights" data-i18n="intro.quick.rights">Правозащита</a>
+                        <a href="#networking" data-i18n="intro.quick.networking">Нетворкинг</a>
+                        <a href="#planning" data-i18n="intro.quick.planning">Планирование</a>
+                        <a href="#interactive" data-i18n="intro.quick.interactive">Интерактив</a>
+                        <a href="#quiz" data-i18n="intro.quick.quiz">Самопроверка</a>
+                    </nav>
+                    <div class="hero-bullet" data-animate>
+                        <span>3</span>
+                        <div>
+                            <strong data-i18n="intro.hero.point1.title">Ключевые фокусы</strong>
+                            <p class="mb-0" data-i18n="intro.hero.point1.text">Ландшафт сектора, правозащитная специфика и форматы взаимодействия.</p>
+                        </div>
+                    </div>
+                    <div class="hero-bullet" data-animate>
+                        <span>AI</span>
+                        <div>
+                            <strong data-i18n="intro.hero.point2.title">Советы ассистента</strong>
+                            <p class="mb-0" data-i18n="intro.hero.point2.text">Индивидуальная концепция НКО и рекомендации по развитию.</p>
+                        </div>
+                    </div>
+                </div>
+                <aside class="hero-card" data-animate>
+                    <span class="pill" data-i18n="intro.hero.card.badge">Что внутри</span>
+                    <h2 data-i18n="intro.hero.card.title">Как использовать модуль</h2>
+                    <p data-i18n="intro.hero.card.text">Пройдите обзор, ответьте на вопросы интерактива и получите тест, который поможет закрепить базу перед следующими встречами.</p>
+                    <ul class="mb-0">
+                        <li data-i18n="intro.hero.card.item1">Готовая шпаргалка по типам НКО.</li>
+                        <li data-i18n="intro.hero.card.item2">AI-концепция вашей будущей организации.</li>
+                        <li data-i18n="intro.hero.card.item3">Квиз по основам с визуальным отчётом.</li>
+                    </ul>
+                </aside>
+            </div>
+        </section>
+
+        <div class="sections-strip-shell container" data-animate data-i18n-attrs="aria-label:intro.sectionsStrip.label">
+            <button type="button" class="sections-strip-arrow is-prev" data-strip-control="prev" aria-label="" data-i18n-attrs="aria-label:intro.sectionsStrip.prev">
+                <span aria-hidden="true" class="sections-strip-arrow-icon">‹</span>
+            </button>
+            <nav class="sections-strip" data-sections-strip>
+                <a class="sections-strip-link is-active" href="0_introduction.html" aria-current="page">
+                    <span class="strip-index">0</span>
+                    <span data-i18n="sectionsNav.module0.title">Введение и цели</span>
                 </a>
-                <ul class="dropdown-menu-custom">
-                    <li><a class="dropdown-item active" href="0_introduction.html">0. Введение</a></li>
-                    <li><a class="dropdown-item" href="1_community_building.html">1. Сообщество</a></li>
-                    <li><a class="dropdown-item" href="2_internal_communications.html">2. Коммуникации</a></li>
-                    <li><a class="dropdown-item" href="3_infrastructure.html">3. Инфраструктура</a></li>
-                    <li><a class="dropdown-item" href="4_legal_and_security.html">4. Безопасность</a></li>
-                    <li><a class="dropdown-item" href="5_effectiveness_and_development.html">5. Эффективность</a></li>
-                    <li><a class="dropdown-item" href="6_crisis_management.html">6. Антикризис</a></li>
-                    <li><a class="dropdown-item" href="7_fundraising.html">7. Фандрайзинг</a></li>
-                    <li><a class="dropdown-item" href="8_cases_and_practice.html">8. Практика и кейсы</a></li>
-                </ul>
-            </li>
-            <li class="nav-item fs-menu-item">
-                <a class="nav-link" href="useful_resources.html">Полезные ресурсы</a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
-    <nav class="section-nav-bar"> <!-- Removed inline styles, relying on CSS block above -->
-      <a href="0_introduction.html" class="btn btn-success section-nav-btn">Введение</a>
-      <a href="1_community_building.html" class="btn btn-outline-success section-nav-btn">1. Сообщество</a>
-      <a href="2_internal_communications.html" class="btn btn-outline-success section-nav-btn">2. Коммуникации</a>
-      <a href="3_infrastructure.html" class="btn btn-outline-success section-nav-btn">3. Инфраструктура</a>
-      <a href="4_legal_and_security.html" class="btn btn-outline-success section-nav-btn">4. Право и безопасность</a>
-      <a href="5_effectiveness_and_development.html" class="btn btn-outline-success section-nav-btn">5. Эффективность</a>
-      <a href="6_crisis_management.html" class="btn btn-outline-success section-nav-btn">6. Кризисы</a>
-      <a href="7_fundraising.html" class="btn btn-outline-success section-nav-btn">7. Фандрайзинг</a>
-      <a href="8_cases_and_practice.html" class="btn btn-outline-success section-nav-btn">8. Кейсы</a>
-      <a href="useful_resources.html" class="btn btn-outline-secondary section-nav-btn">Ресурсы</a>
-    </nav>
-    <!-- /НАВИГАЦИЯ ПО РАЗДЕЛАМ -->
-
-    <!-- Intentionally removed the duplicate fullscreen-menu div that was here -->
-
-    <main> <!-- Removed class="container py-4" from main -->
-        <!-- Блок заголовка раздела (как в 2_internal_communications) -->
-        <div class="page-header-section">
-            <img src="../assets/icons/introngo.svg" alt="Введение Иконка" class="header-icon" id="introHeaderIcon">
-            <h1 class="display-5 fw-bold">Введение в мир НКО</h1>
-            <p class="lead">Фокус на правозащитную деятельность: ландшафт, специфика, нетворкинг и первые шаги.</p>
+                <a class="sections-strip-link" href="1_community_building.html">
+                    <span class="strip-index">1</span>
+                    <span data-i18n="sectionsNav.module1.title">Community building</span>
+                </a>
+                <a class="sections-strip-link" href="2_internal_communications.html">
+                    <span class="strip-index">2</span>
+                    <span data-i18n="sectionsNav.module2.title">Internal communications</span>
+                </a>
+                <a class="sections-strip-link" href="3_infrastructure.html">
+                    <span class="strip-index">3</span>
+                    <span data-i18n="sectionsNav.module3.title">Infrastructure</span>
+                </a>
+                <a class="sections-strip-link" href="4_legal_and_security.html">
+                    <span class="strip-index">4</span>
+                    <span data-i18n="sectionsNav.module4.title">Legal & security</span>
+                </a>
+                <a class="sections-strip-link" href="5_effectiveness_and_development.html">
+                    <span class="strip-index">5</span>
+                    <span data-i18n="sectionsNav.module5.title">Effectiveness & development</span>
+                </a>
+                <a class="sections-strip-link" href="6_crisis_management.html">
+                    <span class="strip-index">6</span>
+                    <span data-i18n="sectionsNav.module6.title">Crisis management</span>
+                </a>
+                <a class="sections-strip-link" href="7_fundraising.html">
+                    <span class="strip-index">7</span>
+                    <span data-i18n="sectionsNav.module7.title">Fundraising & partnerships</span>
+                </a>
+                <a class="sections-strip-link" href="8_cases_and_practice.html">
+                    <span class="strip-index">8</span>
+                    <span data-i18n="sectionsNav.module8.title">Cases & practice</span>
+                </a>
+                <a class="sections-strip-link" href="useful_resources.html">
+                    <span class="strip-index">R</span>
+                    <span data-i18n="nav.resources">Материалы</span>
+                </a>
+            </nav>
+            <button type="button" class="sections-strip-arrow is-next" data-strip-control="next" aria-label="" data-i18n-attrs="aria-label:intro.sectionsStrip.next">
+                <span aria-hidden="true" class="sections-strip-arrow-icon">›</span>
+            </button>
         </div>
 
-        <div class="container py-4"> <!-- Added container with padding for the content sections -->
-            <section class="info-section" id="s0-1-new">
-                <div class="section-header">
-                    <div class="section-icon-new">
-                        <img src="../assets/icons/community.svg" alt="Ландшафт НКО">
+        <div class="container">
+            <section id="overview" class="module-section">
+                <article class="module-card" data-animate>
+                    <div class="section-icon-wrap">
+                        <img src="../assets/icons/community.svg" class="section-icon" alt="Ландшафт НКО" data-i18n-attrs="alt:intro.overview.iconAlt">
                     </div>
-                    <h2>Ландшафт НКО: Краткий обзор</h2>
-                </div>
-                <p>Некоммерческие организации (НКО) играют ключевую роль в развитии гражданского общества. Они охватывают множество форм и направлений деятельности: от благотворительности и социальной поддержки до экологии, культуры и защиты прав человека.</p>
-                <ul>
-                    <li><strong>Многообразие форм:</strong> Общественные организации, фонды, автономные некоммерческие организации, ассоциации (союзы) и др.</li>
-                    <li><strong>Направления деятельности:</strong> Социальное обслуживание, поддержка уязвимых групп, образование и просвещение, здравоохранение, охрана окружающей среды, развитие культуры и искусства, защита прав и свобод человека и гражданина.</li>
-                </ul>
-                <p>Общая миссия некоммерческого сектора — решение общественно значимых проблем и удовлетворение нематериальных потребностей граждан, действуя не ради извлечения прибыли, а во имя общественных благ.</p>
+                    <span class="pill" data-i18n="intro.overview.badge">Картина сектора</span>
+                    <h2 data-i18n="intro.overview.title">Ландшафт НКО: краткий обзор</h2>
+                    <p data-i18n="intro.overview.paragraph1">Некоммерческие организации играют ключевую роль в развитии гражданского общества. Они охватывают множество форм и направлений деятельности: от благотворительности и социальной поддержки до экологии, культуры и защиты прав человека.</p>
+                    <div data-i18n="intro.overview.list" data-i18n-type="html">
+                        <ul>
+                            <li><strong>Многообразие форм:</strong> общественные организации, фонды, автономные НКО, ассоциации и союзы.</li>
+                            <li><strong>Направления деятельности:</strong> социальное обслуживание, поддержка уязвимых групп, образование, здравоохранение, экология, культура, защита прав и свобод.</li>
+                        </ul>
+                    </div>
+                    <p data-i18n="intro.overview.paragraph2">Общая миссия некоммерческого сектора — решение общественно значимых проблем и удовлетворение нематериальных потребностей граждан, действуя не ради прибыли, а во имя общественных благ.</p>
+                </article>
             </section>
 
-            <section class="info-section" id="s0-2-new">
-                <div class="section-header">
-                    <div class="section-icon-new">
-                         <img src="../assets/icons/rights.svg" alt="Правозащитные НКО">
+            <section id="rights" class="module-section">
+                <article class="module-card" data-animate>
+                    <div class="section-icon-wrap">
+                        <img src="../assets/icons/rights.svg" class="section-icon" alt="Правозащитные НКО" data-i18n-attrs="alt:intro.rights.iconAlt">
                     </div>
-                    <h2>Правозащитные НКО: Миссия и специфика</h2>
-                </div>
-                <p>Правозащитная деятельность направлена на утверждение и защиту прав и свобод человека, гарантированных международными нормами и национальным законодательством. Ключевые направления работы правозащитных НКО включают:</p>
-                <ul>
-                    <li><strong>Мониторинг и документирование:</strong> Сбор и анализ информации о нарушениях прав человека.</li>
-                    <li><strong>Просвещение:</strong> Повышение правовой грамотности населения, информирование о правах и способах их защиты.</li>
-                    <li><strong>Адвокация:</strong> Представление интересов отдельных лиц или групп, продвижение законодательных изменений.</li>
-                    <li><strong>Юридическая помощь:</strong> Бесплатные консультации и представительство в суде.</li>
-                    <li><strong>Поддержка жертв нарушений:</strong> Психологическая, социальная и иная помощь пострадавшим.</li>
-                </ul>
-                <p>Правозащитные НКО часто сталкиваются с особыми вызовами, рисками и этическими дилеммами, требующими высокой компетентности, осторожности и приверженности принципам.</p>
+                    <span class="pill" data-i18n="intro.rights.badge">Правозащита</span>
+                    <h2 data-i18n="intro.rights.title">Правозащитные НКО: миссия и специфика</h2>
+                    <p data-i18n="intro.rights.paragraph1">Правозащитная деятельность направлена на утверждение и защиту прав и свобод человека, гарантированных международными нормами и национальным законодательством. Ключевые направления работы включают:</p>
+                    <div data-i18n="intro.rights.list" data-i18n-type="html">
+                        <ul>
+                            <li><strong>Мониторинг и документирование:</strong> сбор и анализ информации о нарушениях прав человека.</li>
+                            <li><strong>Просвещение:</strong> повышение правовой грамотности населения и информирование о способах защиты.</li>
+                            <li><strong>Адвокация:</strong> представление интересов людей и продвижение законодательных изменений.</li>
+                            <li><strong>Юридическая помощь:</strong> бесплатные консультации и сопровождение в судах.</li>
+                            <li><strong>Поддержка жертв:</strong> психологическая, социальная и иная помощь пострадавшим.</li>
+                        </ul>
+                    </div>
+                    <p data-i18n="intro.rights.paragraph2">Правозащитные НКО сталкиваются с особыми вызовами, рисками и этическими дилеммами, требующими компетентности, осторожности и приверженности принципам.</p>
+                </article>
             </section>
 
-            <section class="info-section" id="s0-3-new">
-                <div class="section-header">
-                    <div class="section-icon-new">
-                        <img src="../assets/icons/communication.svg" alt="Нетворкинг НКО">
+            <section id="networking" class="module-section">
+                <article class="module-card" data-animate>
+                    <div class="section-icon-wrap">
+                        <img src="../assets/icons/communication.svg" class="section-icon" alt="Нетворкинг НКО" data-i18n-attrs="alt:intro.networking.iconAlt">
                     </div>
-                    <h2>Нетворкинг-НКО (Ресурсные центры, коалиции)</h2>
-                </div>
-                <p>Сетевое взаимодействие и объединение усилий критически важны для эффективности правозащитной деятельности. Нетворкинг-НКО, такие как ресурсные центры и коалиции, выполняют следующие задачи:</p>
-                <ul>
-                    <li>Обмен информацией, опытом и лучшими практиками.</li>
-                    <li>Координация совместных кампаний и акций.</li>
-                    <li>Адвокация на системном уровне по общим проблемам.</li>
-                    <li>Предоставление ресурсов, экспертизы и обучения для других НКО и активистов.</li>
-                    <li>Повышение устойчивости и безопасности всего правозащитного сообщества.</li>
-                </ul>
-                <p>Примеры успешных нетворкинг-инициатив показывают, как солидарность и сотрудничество помогают достигать значимых результатов даже в сложных условиях.</p>
-            </section>
-            
-            <section class="info-section" id="s0-4-new">
-                <div class="section-header">
-                    <div class="section-icon-new">
-                        <img src="../assets/icons/practical.svg" alt="Выбор направления НКО">
+                    <span class="pill" data-i18n="intro.networking.badge">Сотрудничество</span>
+                    <h2 data-i18n="intro.networking.title">Нетворкинг-НКО: ресурсные центры и коалиции</h2>
+                    <p data-i18n="intro.networking.paragraph1">Сетевое взаимодействие критически важно для эффективности правозащитной деятельности. Такие организации помогают:</p>
+                    <div data-i18n="intro.networking.list" data-i18n-type="html">
+                        <ul>
+                            <li>Обмениваться информацией, опытом и лучшими практиками.</li>
+                            <li>Координировать совместные кампании и акции.</li>
+                            <li>Продвигать изменения на системном уровне через адвокацию.</li>
+                            <li>Делить ресурсы, экспертизу и обучение с другими НКО и активистами.</li>
+                            <li>Укреплять устойчивость и безопасность правозащитного сообщества.</li>
+                        </ul>
                     </div>
-                    <h2>Выбор направления и формы для вашей будущей НКО</h2>
-                </div>
-                <p>Прежде чем создавать НКО, важно тщательно проанализировать проблемное поле и определить свою нишу:</p>
-                <ul>
-                    <li><strong>Анализ проблемного поля:</strong> Какая проблема наиболее актуальна? Кто уже работает над ней? Какие аспекты не охвачены?</li>
-                    <li><strong>Определение целевой аудитории:</strong> Кому конкретно вы хотите помогать? Каковы их потребности?</li>
-                    <li><strong>Формулирование миссии и видения:</strong> Какова долгосрочная цель вашей организации (видение)? Каким образом вы планируете ее достигать (миссия)?</li>
-                </ul>
-                <p>Ответив на эти вопросы, вы сможете более осознанно подойти к выбору организационно-правовой формы и разработке стратегии вашей будущей НКО.</p>
-            </section>
-            
-            <!-- Интерактив: Выбор проблемы и типа НКО (сохранена логика) -->
-            <section class="content-section" id="nkoChoiceInteractive">
-                <h4 class="text-center mb-4">Интерактив: Ваша будущая НКО</h4>
-                <p class="text-center text-muted mb-4">Подумайте и ответьте на вопросы ниже. Это поможет вам сформулировать первоначальную концепцию и получить совет от ИИ.</p>
-                <div class="mb-3">
-                    <label for="humanRightsProblem" class="form-label">Какую проблему в области прав человека вы хотели бы решать?</label>
-                    <textarea class="form-control" id="humanRightsProblem" rows="3" placeholder="Например: Защита прав заключенных, борьба с дискриминацией по признаку X, помощь беженцам..."></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="nkoTypeChoice" class="form-label">Какой тип НКО (прямого действия или нетворкинг/ресурсный центр) кажется вам наиболее подходящим для этого?</label>
-                    <select class="form-select" id="nkoTypeChoice">
-                        <option selected disabled value="">Выберите тип...</option>
-                        <option value="direct_action">Прямого действия (непосредственная помощь, мониторинг)</option>
-                        <option value="networking">Нетворкинг/Ресурсный центр (объединение, поддержка других НКО)</option>
-                        <option value="hybrid">Гибридный (сочетание элементов)</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="nkoJustification" class="form-label">Обоснуйте свой выбор типа НКО:</label>
-                    <textarea class="form-control" id="nkoJustification" rows="4" placeholder="Почему вы считаете, что именно этот тип НКО будет эффективен для решения выбранной проблемы? Какие у вас есть для этого ресурсы или идеи?"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="button" class="btn btn-success btn-lg" id="showNkoConceptBtn">Получить концепцию и совет ИИ</button>
-                </div>
-                <div id="nkoConceptResult" class="mt-4 p-3 border rounded bg-white">
-                    <h5>Ваша предварительная концепция:</h5>
-                    <p><strong>Проблема:</strong> <span id="resultProblem"></span></p>
-                    <p><strong>Тип НКО:</strong> <span id="resultNkoType"></span></p>
-                    <p><strong>Обоснование:</strong> <span id="resultJustification"></span></p>
-                    <button class="btn btn-sm btn-outline-secondary mt-2" id="copyConceptBtn">Копировать концепцию</button>
-                </div>
-                <div id="aiFeedbackContainer" class="mt-4">
-                    <h5 class="text-primary">Комментарий от ИИ-помощника:</h5>
-                    <div id="aiFeedbackResult" class="p-3 border rounded text-muted">
-                        <em>Нажмите кнопку выше, чтобы получить совет...</em>
-                    </div>
-                </div>
+                    <p data-i18n="intro.networking.paragraph2">Примеры успешных коалиций показывают, как солидарность и сотрудничество помогают достигать результатов даже в сложных условиях.</p>
+                </article>
             </section>
 
-            <!-- Квиз по основам НКО (сохранена логика) -->
-            <section class="content-section" id="nkoQuizSection">
-                <h4 class="text-center mb-4">Проверьте себя: Основы НКО</h4>
-                <div id="quizContainer">
-                    <!-- Вопросы будут добавлены через JS -->
-                </div>
-                <div class="text-center mt-4">
-                    <button type="button" class="btn btn-primary btn-lg" id="submitQuizBtn" style="display: none;">Показать результат</button>
-                </div>
-                <div id="quizResultText" class="mt-3 text-center" style="display:none;">
-                    <p id="quizScore"></p>
-                </div>
-                <div id="quizResultChartContainer" style="display:none;">
-                    <canvas id="quizResultChart"></canvas>
-                </div>
+            <section id="planning" class="module-section">
+                <article class="module-card" data-animate>
+                    <div class="section-icon-wrap">
+                        <img src="../assets/icons/practical.svg" class="section-icon" alt="Выбор направления" data-i18n-attrs="alt:intro.planning.iconAlt">
+                    </div>
+                    <span class="pill" data-i18n="intro.planning.badge">Первые шаги</span>
+                    <h2 data-i18n="intro.planning.title">Выбор направления и формы будущей НКО</h2>
+                    <p data-i18n="intro.planning.paragraph1">Перед запуском организации важно осмыслить проблемное поле и определить нишу:</p>
+                    <div data-i18n="intro.planning.list" data-i18n-type="html">
+                        <ul>
+                            <li><strong>Анализ контекста:</strong> какая проблема наиболее актуальна и кем уже закрывается?</li>
+                            <li><strong>Целевая аудитория:</strong> кому вы помогаете и в чём именно заключаются их потребности?</li>
+                            <li><strong>Миссия и видение:</strong> долгосрочная цель и способ её достижения.</li>
+                        </ul>
+                    </div>
+                    <p data-i18n="intro.planning.paragraph2">Ответы помогут осознанно выбрать форму НКО, определить необходимые ресурсы и построить стратегию.</p>
+                </article>
             </section>
-        </div> <!-- Closing the new .container.py-4 div -->
+
+            <section id="interactive" class="module-section">
+                <article class="interactive-card" data-animate>
+                    <span class="pill" data-i18n="intro.interactive.badge">Интерактив</span>
+                    <h2 data-i18n="intro.interactive.title">Сформируйте концепцию своей НКО</h2>
+                    <p data-i18n="intro.interactive.lead">Ответьте на три вопроса, чтобы получить базовый описательный профиль организации и рекомендации от ассистента.</p>
+                    <div class="interactive-body">
+                        <div>
+                            <label for="humanRightsProblem" class="form-label" data-i18n="intro.interactive.problem.label">Какую проблему в области прав человека вы хотели бы решать?</label>
+                            <textarea class="form-control" id="humanRightsProblem" rows="3" data-i18n-attrs="placeholder:intro.interactive.problem.placeholder"></textarea>
+                        </div>
+                        <div>
+                            <label for="nkoTypeChoice" class="form-label" data-i18n="intro.interactive.type.label">Какой формат работы кажется вам подходящим?</label>
+                            <select class="form-select" id="nkoTypeChoice">
+                                <option value="" selected disabled data-i18n="intro.interactive.type.placeholder">Выберите тип...</option>
+                                <option value="direct_action" data-i18n="intro.interactive.type.direct">Прямое действие (помощь, мониторинг)</option>
+                                <option value="networking" data-i18n="intro.interactive.type.networking">Нетворкинг/ресурсный центр</option>
+                                <option value="hybrid" data-i18n="intro.interactive.type.hybrid">Гибридный формат</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="nkoJustification" class="form-label" data-i18n="intro.interactive.justification.label">Почему именно этот формат?</label>
+                            <textarea class="form-control" id="nkoJustification" rows="4" data-i18n-attrs="placeholder:intro.interactive.justification.placeholder"></textarea>
+                        </div>
+                        <div class="d-flex flex-wrap gap-3">
+                            <button type="button" class="btn btn-primary" id="showNkoConceptBtn" data-i18n="intro.interactive.generate">Получить концепцию и совет</button>
+                            <button type="button" class="btn btn-outline" id="resetConceptBtn" data-i18n="intro.interactive.reset">Сбросить ответы</button>
+                        </div>
+                        <div id="nkoConceptResult" class="module-card" hidden>
+                            <h3 data-i18n="intro.interactive.result.title">Ваша предварительная концепция</h3>
+                            <dl>
+                                <div class="mb-2">
+                                    <dt data-i18n="intro.interactive.result.problem">Проблема:</dt>
+                                    <dd id="resultProblem"></dd>
+                                </div>
+                                <div class="mb-2">
+                                    <dt data-i18n="intro.interactive.result.type">Тип НКО:</dt>
+                                    <dd id="resultNkoType"></dd>
+                                </div>
+                                <div class="mb-3">
+                                    <dt data-i18n="intro.interactive.result.justification">Обоснование:</dt>
+                                    <dd id="resultJustification"></dd>
+                                </div>
+                            </dl>
+                            <button type="button" class="btn btn-outline btn-sm" id="copyConceptBtn" data-i18n="intro.interactive.copy">Скопировать концепцию</button>
+                        </div>
+                        <div id="aiFeedbackContainer" class="module-card" hidden>
+                            <h3 data-i18n="intro.interactive.feedback.title">Комментарий от ассистента</h3>
+                            <div id="aiFeedbackResult" class="text-muted" data-i18n="intro.interactive.feedback.placeholder">Нажмите «Получить концепцию», чтобы увидеть рекомендации.</div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section id="quiz" class="module-section">
+                <article class="module-card" data-animate>
+                    <span class="pill" data-i18n="intro.quiz.badge">Самопроверка</span>
+                    <h2 data-i18n="intro.quiz.title">Проверьте себя по основам НКО</h2>
+                    <p data-i18n="intro.quiz.lead">Ответьте на пять вопросов и получите визуальный отчёт: его удобно сохранить в PDF или приложить к заметкам модуля.</p>
+                    <div id="quizContainer"></div>
+                    <div class="d-flex flex-wrap gap-3 mt-4">
+                        <button type="button" class="btn btn-primary" id="submitQuizBtn" data-i18n="intro.quiz.submit">Показать результат</button>
+                        <button type="button" class="btn btn-outline" id="resetQuizBtn" data-i18n="intro.quiz.reset">Очистить ответы</button>
+                    </div>
+                    <div id="quizResult" class="mt-4" hidden>
+                        <p id="quizScore" class="fw-semibold"></p>
+                        <div id="quizResultChartContainer">
+                            <canvas id="quizResultChart"></canvas>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section id="modules" class="module-section">
+                <article class="module-card" data-animate>
+                    <span class="pill" data-i18n="intro.modules.badge">Следующие шаги</span>
+                    <h2 data-i18n="intro.modules.title">Перейдите к другим разделам программы</h2>
+                    <div class="grid-three mt-4">
+                        <a class="module-link-card" href="1_community_building.html">
+                            <div class="section-icon-wrap">
+                                <img src="../assets/icons/community.svg" class="section-icon" alt="Community building" data-i18n-attrs="alt:sectionsNav.module1.iconAlt">
+                            </div>
+                            <h3 data-i18n="sectionsNav.module1.title">Community building</h3>
+                            <p data-i18n="sectionsNav.module1.desc">Узнайте, как привлекать, сопровождать и мотивировать сообщество и волонтёров.</p>
+                            <span class="module-link-footer" data-i18n="intro.modules.open">К разделу</span>
+                        </a>
+                        <a class="module-link-card" href="2_internal_communications.html">
+                            <div class="section-icon-wrap">
+                                <img src="../assets/icons/communication.svg" class="section-icon" alt="Внутренние коммуникации" data-i18n-attrs="alt:sectionsNav.module2.iconAlt">
+                            </div>
+                            <h3 data-i18n="sectionsNav.module2.title">Внутренние коммуникации</h3>
+                            <p data-i18n="sectionsNav.module2.desc">Стройте прозрачные процессы, встречи и правила взаимодействия в команде.</p>
+                            <span class="module-link-footer" data-i18n="intro.modules.open">К разделу</span>
+                        </a>
+                        <a class="module-link-card" href="3_infrastructure.html">
+                            <div class="section-icon-wrap">
+                                <img src="../assets/icons/Infrastructure.svg" class="section-icon" alt="Инфраструктура" data-i18n-attrs="alt:sectionsNav.module3.iconAlt">
+                            </div>
+                            <h3 data-i18n="sectionsNav.module3.title">Инфраструктура</h3>
+                            <p data-i18n="sectionsNav.module3.desc">Соберите цифровой стек, распределите роли и укрепите устойчивость.</p>
+                            <span class="module-link-footer" data-i18n="intro.modules.open">К разделу</span>
+                        </a>
+                    </div>
+                </article>
+            </section>
+        </div>
     </main>
-
-    <footer class="py-4 bg-dark text-white-50 mt-5">
-        <div class="container text-center">
-            <small>Материалы семинара Школы прав человека им. Елены Боннэр © 2025</small>
-            <br>
-            <small><em>Информация на сайте носит ознакомительный характер и была создана для интерактивного семинара.</em></small>
+    <footer class="site-footer">
+        <div class="container">
+            <p data-i18n="footer.text">Программа разработана командой Сабантуй. Все права защищены.</p>
+            <small data-i18n="footer.note">Материалы доступны участникам семинара 2025 года.</small>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <div class="nav-overlay" data-nav-overlay></div>
+
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    
-    <script>
-const GOOGLE_AI_API_KEY = "AIzaSyDl6bLHj4tFonVVBnKDhgIpdrTQuZXmhqo";
-// ЗАМЕНИТЕ ЭТОТ URL НА АКТУАЛЬНЫЙ ДЛЯ GEMMA, ЕСЛИ ОН ДРУГОЙ!
-const GOOGLE_AI_API_URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
-const GOOGLE_AI_MODEL = "gemma-3n-e4b-it"; // Ваша модель
-const GOOGLE_AI_API_URL = `${GOOGLE_AI_API_URL_BASE}${GOOGLE_AI_MODEL}:generateContent?key=${GOOGLE_AI_API_KEY}`;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            gsap.registerPlugin(ScrollTrigger);
-
-            // --- Скрытие/появление навигационной панели при прокрутке (как в 2_internal_communications) ---
-            let lastScrollTop = window.scrollY;
-            const navBar = document.querySelector('.section-nav-bar');
-            const mainFixedNavbar = document.querySelector('header > .navbar.fixed-top');
-            let mainNavbarHeight = 70; // default height
-            if (mainFixedNavbar) {
-                mainNavbarHeight = mainFixedNavbar.offsetHeight;
-            }
-             // Correct sticky top position for section-nav-bar
-            if (navBar) {
-                // navBar.style.top = mainNavbarHeight + 'px'; // This would make it stick *below* the fixed header.
-                                                            // However, the body padding-top already pushes content down.
-                                                            // So top: 0 for the sticky bar (relative to the padded body) is correct.
-            }
-
-            let ticking = false;
-            window.addEventListener('scroll', function() {
-                if (!navBar) return;
-                if (!ticking) {
-                    window.requestAnimationFrame(function() {
-                        const st = window.scrollY;
-                        // The threshold for hiding could be based on the top of the page-header-section
-                        // For now, using a fixed value like 80 (or mainNavbarHeight + some_offset)
-                        const hideThreshold = mainNavbarHeight > 0 ? mainNavbarHeight + 10 : 80; 
-                        if (st > lastScrollTop + 10 && st > hideThreshold) { 
-                            navBar.classList.add('section-nav-hidden');
-                        } else if (st < lastScrollTop - 10 || st <= 0) {
-                            navBar.classList.remove('section-nav-hidden');
-                        }
-                        lastScrollTop = st <= 0 ? 0 : st;
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            });
-            // Style for section-nav-hidden if not present in style.css
-            if (!document.querySelector('style#sectionNavHiddenStyle')) {
-                const style = document.createElement('style');
-                style.id = 'sectionNavHiddenStyle';
-                style.innerHTML = `.section-nav-hidden { transform: translateY(-100%); opacity: 0.7; pointer-events: none; }`;
-                document.head.appendChild(style);
-                // Also ensure .section-nav-bar has transition for transform and opacity
-                if(navBar) {
-                    navBar.style.transition = navBar.style.transition ? navBar.style.transition + ', transform 0.3s ease, opacity 0.3s ease' : 'transform 0.3s ease, opacity 0.3s ease';
-                }
-            }
-
-
-            // --- Меню (как в 2_internal_communications) ---
-            const customMenuToggler = document.getElementById('customMenuToggler');
-            const fullscreenMenu = document.getElementById('fullscreenMenu');
-            const closeFullscreenMenuBtn = document.getElementById('closeFullscreenMenu');
-            if (customMenuToggler && fullscreenMenu) {
-                const fsNav = fullscreenMenu.querySelector('.navbar-nav-fullscreen');
-                const fsMenuItems = fsNav ? gsap.utils.toArray(fsNav.querySelectorAll('.fs-menu-item > a, .fs-menu-item > .dropdown-toggle-custom')) : [];
-                const fsSubMenuItemsContainer = fsNav ? fsNav.querySelector('.fs-menu-item.custom-dropdown .dropdown-menu-custom') : null;
-                const actualBurgerIcon = customMenuToggler.querySelector('svg');
-                const burgerLine1 = actualBurgerIcon?.querySelector('.line1');
-                const burgerLine2 = actualBurgerIcon?.querySelector('.line2');
-                const burgerLine3 = actualBurgerIcon?.querySelector('.line3');
-                let burgerTimeline = gsap.timeline({ paused: true, reversed: true });
-                if (burgerLine1 && burgerLine2 && burgerLine3) {
-                    const line1YInitial = parseFloat(burgerLine1.getAttribute('y'));
-                    const line2YInitial = parseFloat(burgerLine2.getAttribute('y'));
-                    const line3YInitial = parseFloat(burgerLine3.getAttribute('y'));
-                    if (!isNaN(line1YInitial) && !isNaN(line2YInitial) && !isNaN(line3YInitial)) {
-                        burgerTimeline.to(burgerLine1, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross").to(burgerLine3, { duration: 0.25, attr:{y: line2YInitial}, ease: "power2.inOut" }, "cross").to(burgerLine2, { duration: 0.2, scaleX: 0, transformOrigin: "50% 50%", ease: "power2.in" }, "cross") .to(burgerLine1, { duration: 0.25, rotation: 45,  transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd").to(burgerLine3, { duration: 0.25, rotation: -45, transformOrigin: "50% 50%", ease: "power2.out" }, "crossEnd");
-                    } else { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"}); }
-                } else if (actualBurgerIcon) { burgerTimeline.to(actualBurgerIcon, {rotation: 180, duration: 0.3, ease:"power2.inOut"});}
-                let fsMenuIsOpen = false;
-                gsap.set(fullscreenMenu, { display: 'none', autoAlpha: 0 }); 
-                if (fsMenuItems.length > 0) gsap.set(fsMenuItems, { autoAlpha: 0, y: 20 });
-                if (fsSubMenuItemsContainer) gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10});
-                const openFullscreenMenu = () => { if (fsMenuIsOpen) return; fsMenuIsOpen = true; fullscreenMenu.style.display = 'flex'; burgerTimeline.play(); customMenuToggler.classList.add('open'); customMenuToggler.setAttribute('aria-expanded', 'true'); const tlOpen = gsap.timeline().to(fullscreenMenu, { autoAlpha: 1, duration: 0.35, ease: 'power1.out' }); if (fsMenuItems.length > 0) tlOpen.to(fsMenuItems, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power1.out' }, "-=0.2"); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if (sectionsDropdownCustomFs?.classList.contains('active') && fsSubMenuItemsContainer && (sectionsDropdownCustomFs.getAttribute('aria-expanded') === 'true' || fsSubMenuItemsContainer.style.height === 'auto')) { tlOpen.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration: 0.2, stagger: 0.04, ease: 'power1.out'}, "-=0.1");}};
-                const closeFullscreenMenu = () => {if (!fsMenuIsOpen) return; fsMenuIsOpen = false; burgerTimeline.reverse(); customMenuToggler.classList.remove('open'); customMenuToggler.setAttribute('aria-expanded', 'false'); const tlClose = gsap.timeline({onComplete: () => {fullscreenMenu.style.display = 'none'; if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) {gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0}); const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs'); if(sectionsDropdownCustomFs) sectionsDropdownCustomFs.setAttribute('aria-expanded', 'false');}}}); if (fsSubMenuItemsContainer && (fsSubMenuItemsContainer.style.height !== '0px' && fsSubMenuItemsContainer.style.height !== '' && fsSubMenuItemsContainer.style.height !== null)) { tlClose.to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10, duration:0.15, stagger: {each:0.03, from:"end"}, ease:'power1.in'});} if (fsMenuItems.length > 0) tlClose.to(fsMenuItems, { autoAlpha: 0, y: 15, duration: 0.2, stagger: { each: 0.04, from: "end" }, ease: 'power1.in' }, fsSubMenuItemsContainer ? "-=0.1" : 0); tlClose.to(fullscreenMenu, { autoAlpha: 0, duration: 0.25, ease: 'power1.in'}, fsMenuItems.length > 0 ? "-=0.1" : 0); };
-                customMenuToggler.addEventListener('click', () => { fsMenuIsOpen ? closeFullscreenMenu() : openFullscreenMenu(); });
-                if (closeFullscreenMenuBtn) closeFullscreenMenuBtn.addEventListener('click', closeFullscreenMenu);
-                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fsMenuIsOpen) closeFullscreenMenu(); });
-                const sectionsDropdownCustomFs = document.getElementById('sectionsDropdownCustomFs');
-                if (sectionsDropdownCustomFs && fsSubMenuItemsContainer) {gsap.set(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop:0, marginBottom:0 }); gsap.set(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), {autoAlpha:0, y:10}); let subMenuFsIsOpen = false; sectionsDropdownCustomFs.addEventListener('click', (e) => {e.preventDefault(); subMenuFsIsOpen = !subMenuFsIsOpen; sectionsDropdownCustomFs.setAttribute('aria-expanded', subMenuFsIsOpen.toString()); if (subMenuFsIsOpen) {gsap.timeline().to(fsSubMenuItemsContainer, { height: 'auto', autoAlpha: 1, marginTop: '0.5rem', marginBottom: '0.5rem', duration: 0.3, ease: 'power1.out' }).to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:1, y:0, duration:0.25, stagger:0.05, ease:'power1.out'}, "-=0.2");} else {gsap.timeline().to(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item'), { autoAlpha:0, y:10, duration:0.2, stagger:{each:0.04, from:"end"}, ease:'power1.in'}).to(fsSubMenuItemsContainer, { height: 0, autoAlpha: 0, marginTop: 0, marginBottom: 0, duration: 0.3, ease: 'power1.in' }, "-=0.1");}}); const fsSubMenuLinks = fsSubMenuItemsContainer ? gsap.utils.toArray(fsSubMenuItemsContainer.querySelectorAll('a.dropdown-item')) : []; fsSubMenuLinks.forEach(link => {link.addEventListener('mouseenter', () => gsap.to(link, { color: '#0d6efd', x: 3, duration: 0.2 })); link.addEventListener('mouseleave', () => gsap.to(link, { color: (link.classList.contains('active') ? '#0d6efd' : '#495057'), x: 0, duration: 0.2 }));});}
-                const activeFsDropdownItem = fullscreenMenu.querySelector('.dropdown-menu-custom a.dropdown-item.active');
-                if (activeFsDropdownItem) { activeFsDropdownItem.style.color = '#0d6efd'; activeFsDropdownItem.style.fontWeight = '500';}
-            }
-
-            // --- Анимации для нового дизайна ---
-            // Анимация заголовка страницы (page-header-section, не page-hero-section)
-            gsap.from(".page-header-section", { // Changed from page-hero-section
-                duration: 1, 
-                opacity: 0, 
-                y: -50, 
-                ease: "power3.out",
-                delay: 0.2
-            });
-            gsap.from(".page-header-section .header-icon", { // Changed from page-hero-section .hero-icon
-                duration: 0.8,
-                scale: 0.5,
-                opacity: 0,
-                delay: 0.5,
-                ease: "back.out(1.7)"
-            });
-            gsap.from(".page-header-section h1", {
-                duration: 0.8,
-                y: 30,
-                opacity: 0,
-                delay: 0.7,
-                ease: "power3.out"
-            });
-            gsap.from(".page-header-section .lead", {
-                duration: 0.8,
-                y: 20,
-                opacity: 0,
-                delay: 0.9,
-                ease: "power3.out"
-            });
-
-            // --- Анимация заголовка раздела (SVG) --- // This might be redundant now due to above block
-            // gsap.from(".page-header-section h1", {duration: 0.8, y: -50, opacity: 0, ease: "power2.out", delay: 0.2});
-            // gsap.from(".page-header-section p.lead", {duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4});
-            // gsap.from("#introHeaderIcon", {duration: 1, scale: 0.5, opacity: 0, rotate: 30, ease: "back.out(1.7)", delay: 0.1});
-
-            // Анимация информационных секций (0.1 - 0.4)
-            const infoSections = gsap.utils.toArray('.info-section');
-            infoSections.forEach((section, index) => {
-                gsap.to(section, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 85%", 
-                        once: true,
-                    }
-                });
-            });
-            
-            // Анимация для блоков "Интерактив с ИИ" и "Квиз" (бывшие content-section, now also check current class)
-             const interactiveBlocks = gsap.utils.toArray('#nkoChoiceInteractive, #nkoQuizSection'); // These are .content-section in HTML but have specific IDs
-             interactiveBlocks.forEach((block, index) => {
-                gsap.to(block, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: block,
-                        start: "top 85%",
-                        once: true,
-                    }
-                });
-            });
-
-
-            // --- Логика Интерактива с ИИ (обновлено для Gemini/Gemma) ---
-            const showNkoConceptBtn = document.getElementById('showNkoConceptBtn');
-            const nkoConceptResultDiv = document.getElementById('nkoConceptResult');
-            const copyConceptBtn = document.getElementById('copyConceptBtn');
-            const aiFeedbackContainer = document.getElementById('aiFeedbackContainer');
-            const aiFeedbackResultEl = document.getElementById('aiFeedbackResult');
-
-            if (nkoConceptResultDiv && aiFeedbackContainer) {
-                 gsap.set([nkoConceptResultDiv, aiFeedbackContainer], {autoAlpha: 0, display: 'none'}); 
-            }
-
-            if (showNkoConceptBtn) {
-                showNkoConceptBtn.addEventListener('click', async () => {
-                    const problemInput = document.getElementById('humanRightsProblem');
-                    const nkoTypeSelect = document.getElementById('nkoTypeChoice');
-                    const justificationInput = document.getElementById('nkoJustification');
-                    if (!problemInput || !nkoTypeSelect || !justificationInput) return;
-
-                    const problem = problemInput.value;
-                    const nkoType = nkoTypeSelect.options[nkoTypeSelect.selectedIndex].text;
-                    const nkoTypeValue = nkoTypeSelect.value;
-                    const justification = justificationInput.value;
-
-                    document.getElementById('resultProblem').textContent = problem || 'Не указана';
-                    document.getElementById('resultNkoType').textContent = nkoTypeValue === '' ? 'Не выбран' : nkoType;
-                    document.getElementById('resultJustification').textContent = justification || 'Не указано';
-                    
-                    if (nkoConceptResultDiv && aiFeedbackContainer) {
-                        gsap.timeline()
-                            .set(nkoConceptResultDiv, {display: 'block'}) 
-                            .to(nkoConceptResultDiv, {autoAlpha:1, y:0, duration:0.5, ease: 'power2.out'})
-                            .set(aiFeedbackContainer, {display: 'block'}) 
-                            .to(aiFeedbackContainer, {autoAlpha:1, y:0, duration:0.4, ease: 'power2.out'}, "-=0.2");
-                    }
-                    if (aiFeedbackResultEl) {
-                        aiFeedbackResultEl.innerHTML = '<em>🧠 Думаю над вашим проектом... Пожалуйста, подождите...</em>';
-                        gsap.fromTo(aiFeedbackResultEl, {opacity:0.5, y:5}, {opacity:1, y:0, duration:0.3});
-                    } else { return; }
-
-                    try {
-                        const userPromptContent = `Ты — дружелюбный ИИ-помощник для начинающих НКО. Твоя задача — дать содержательный и краткий комментарий на предложенную концепцию НКО. Подчеркни сильные стороны. Ответ должен быть на русском языке.\n\nПроблема: ${problem || "не указана"}\nТип НКО: ${nkoTypeValue === '' ? "не выбран" : nkoType}\nОбоснование: ${justification || "не указано"}\n\nТвои мысли:`;
-                        const response = await fetch(GOOGLE_AI_API_URL, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                contents: [
-                                    { role: "user", parts: [{ text: userPromptContent }] }
-                                ],
-                                generationConfig: {
-                                    temperature: 0.7,
-                                    maxOutputTokens: 800
-                                }
-                            })
-                        });
-                        if (!response.ok) { const errorText = await response.text(); throw new Error(`Ошибка сети: ${response.status} ${response.statusText}. ${errorText}`);}
-                        const data = await response.json();
-                        let aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "Не удалось получить ответ.";
-                        let htmlMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/^\s*\*\s+(.*)/gm, '<li>$1</li>');
-                        if (htmlMessage.includes('<li>')) { htmlMessage = htmlMessage.replace(/(<li>.*?<\/li>\s*)+/g, (match) => `<ul>${match}</ul>`).replace(/<\/ul>\s*<ul>/g, '');}
-                        htmlMessage = htmlMessage.replace(/\n/g, '<br>');
-                        gsap.to(aiFeedbackResultEl, {opacity:0, y:-5, duration: 0.2, onComplete: () => {
-                            aiFeedbackResultEl.innerHTML = htmlMessage; 
-                            gsap.to(aiFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
-                        }});
-                    } catch (error) {
-                        gsap.to(aiFeedbackResultEl, {opacity:0, y:-5, duration: 0.2, onComplete: () => {
-                            aiFeedbackResultEl.innerHTML = `😥 Ошибка: ${error.message}`;
-                            gsap.to(aiFeedbackResultEl, {opacity:1, y:0, duration:0.4, ease: 'power2.out'});
-                        }});
-                    }
-                });
-            }
-            if(copyConceptBtn) {
-                copyConceptBtn.addEventListener('click', () => { 
-                    const conceptText = `Проблема: ${document.getElementById('resultProblem').textContent}\nТип НКО: ${document.getElementById('resultNkoType').textContent}\nОбоснование: ${document.getElementById('resultJustification').textContent}`;
-                    navigator.clipboard.writeText(conceptText).then(() => {
-                        gsap.to(copyConceptBtn, {scale: 1.1, duration: 0.1, yoyo: true, repeat: 1, onComplete: () => {
-                            copyConceptBtn.textContent = 'Скопировано!';
-                            gsap.delayedCall(2, () => { copyConceptBtn.textContent = 'Копировать концепцию'; });
-                        }});
-                    }).catch(err => { alert('Не удалось скопировать.'); });
-                });
-            }
-
-            // --- Логика Квиза (без изменений, кроме анимации вопросов) ---
-            const quizContainer = document.getElementById('quizContainer');
-            const submitQuizBtn = document.getElementById('submitQuizBtn');
-            const quizResultTextDiv = document.getElementById('quizResultText');
-            const quizScoreEl = document.getElementById('quizScore');
-            const quizResultChartContainer = document.getElementById('quizResultChartContainer');
-            let quizResultChartInstance = null;
-            const quizQuestions = [
-                { question: "Какова основная цель деятельности НКО?", options: ["Извлечение прибыли", "Решение общественно значимых проблем", "Политическая борьба", "Обслуживание интересов учредителей"], correctAnswer: "Решение общественно значимых проблем" },
-                { question: "Какая из перечисленных форм НЕ является типичной для НКО в России?", options: ["Общественная организация", "Фонд", "Акционерное общество", "Автономная некоммерческая организация"], correctAnswer: "Акционерное общество" },
-                { question: "Что из перечисленного является ключевым направлением работы правозащитных НКО?", options: ["Организация коммерческих выставок", "Мониторинг и документирование нарушений прав", "Создание спортивных клубов", "Разработка компьютерных игр"], correctAnswer: "Мониторинг и документирование нарушений прав" },
-                { question: "Сетевое взаимодействие (нетворкинг) для НКО способствует:", options: ["Увеличению конкуренции между организациями", "Обмену опытом и координации усилий", "Изоляции от внешнего мира", "Обязательному слиянию организаций"], correctAnswer: "Обмену опытом и координации усилий" }
-            ];
-            
-            function displayQuiz() { 
-                if (!quizContainer) return; 
-                let output = []; 
-                quizQuestions.forEach((currentQuestion, questionNumber) => { 
-                    let answers = []; 
-                    currentQuestion.options.forEach(option => { 
-                        answers.push( `<div class="form-check"><input class="form-check-input" type="radio" name="question${questionNumber}" id="q${questionNumber}option${option.replace(/\s+/g, '')}" value="${option}"><label class="form-check-label" for="q${questionNumber}option${option.replace(/\s+/g, '')}">${option}</label></div>` ); 
-                    }); 
-                    output.push( `<div class="quiz-question mb-4"><p class="fw-semibold">${questionNumber + 1}. ${currentQuestion.question}</p>${answers.join('')}</div>` );
-                }); 
-                quizContainer.innerHTML = output.join(''); 
-                if(submitQuizBtn) submitQuizBtn.style.display = 'block';
-
-                const quizQuestionElements = gsap.utils.toArray('.quiz-question');
-                quizQuestionElements.forEach((q_el, index) => {
-                    gsap.to(q_el, {
-                        opacity: 1, x: 0, duration: 0.6, delay: index * 0.2, 
-                        ease: "power2.out",
-                        scrollTrigger: { 
-                            trigger: quizContainer,
-                            start: "top 80%", 
-                            once: true 
-                        }
-                    });
-                });
-            }
-
-            if (submitQuizBtn) { submitQuizBtn.addEventListener('click', showResults); }
-            
-            function showResults() { 
-                let score = 0; 
-                quizQuestions.forEach((currentQuestion, questionNumber) => { 
-                    const selector = `input[name="question${questionNumber}"]:checked`; 
-                    const userAnswer = (quizContainer.querySelector(selector) || {}).value; 
-                    if (userAnswer === currentQuestion.correctAnswer) score++; 
-                }); 
-                const percentage = Math.round((score / quizQuestions.length) * 100); 
-                if(quizScoreEl) quizScoreEl.textContent = `Ваш результат: ${score} из ${quizQuestions.length} (${percentage}%)`; 
-                
-                gsap.set([quizResultTextDiv, quizResultChartContainer], {display: 'block'}); 
-                gsap.fromTo([quizResultTextDiv, quizResultChartContainer], 
-                    {opacity:0, y:20, scale:0.95}, 
-                    {opacity:1, y:0, scale:1, duration:0.6, ease: 'back.out(1.4)', stagger:0.2} 
-                ); 
-                const ctx = document.getElementById('quizResultChart').getContext('2d'); 
-                if (quizResultChartInstance) quizResultChartInstance.destroy(); 
-                quizResultChartInstance = new Chart(ctx, { 
-                    type: 'doughnut', 
-                    data: { 
-                        labels: ['Правильные ответы', 'Неправильные ответы'], 
-                        datasets: [{ 
-                            label: 'Результат квиза', data: [score, quizQuestions.length - score], 
-                            backgroundColor: ['rgba(25, 135, 84, 0.8)', 'rgba(220, 53, 69, 0.8)'], 
-                            borderColor: ['rgba(25, 135, 84, 1)','rgba(220, 53, 69, 1)'], 
-                            borderWidth: 1, hoverOffset: 8 
-                        }] 
-                    }, 
-                    options: { 
-                         responsive: true, maintainAspectRatio: true, animation: { animateScale: true, animateRotate: true },
-                         plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(context) { let label = context.label || ''; if (label) { label += ': '; } if (context.parsed !== null) { label += context.parsed; } return label; }}}} 
-                    } 
-                }); 
-                if(submitQuizBtn) gsap.to(submitQuizBtn, {opacity:0, duration:0.3, onComplete: () => submitQuizBtn.style.display = 'none'}); 
-            }
-            if (quizContainer) displayQuiz();
-        });
-    </script>
+    <script src="../js/main.js"></script>
+    <script src="../js/intro.js"></script>
 </body>
 </html>
