@@ -1,0 +1,66 @@
+*** Begin Patch
+*** Update File: css/section.css
+@@
+-body.section-page .sections-strip-shell {
+-    display: flex;
+-    align-items: center;
+-    gap: 0.75rem;
+-}
+-
+-body.section-page .sections-strip {
+-    flex: 1 1 auto;
+-}
++body.section-page .sections-strip-shell {
++    position: sticky;
++    top: calc(72px + 0.75rem);
++    z-index: 1050;
++    display: flex;
++    align-items: center;
++    flex-wrap: nowrap;
++    gap: 0.75rem;
++    padding: 0.35rem 0;
++    margin-bottom: clamp(1.75rem, 5vw, 3rem);
++    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 60%, rgba(255, 255, 255, 0));
++}
++
++body.section-page[data-theme='dark'] .sections-strip-shell {
++    background: linear-gradient(180deg, rgba(15, 23, 42, 0.94) 60%, rgba(15, 23, 42, 0));
++}
++
++body.section-page .sections-strip {
++    flex: 1 1 auto;
++}
+@@
+-body.section-page .sections-strip {
+-    position: sticky;
+-    top: 74px;
+-    z-index: 1100;
+-    display: flex;
+-    flex-wrap: nowrap;
+-    gap: 0.4rem;
+-    overflow-x: auto;
+-    padding: 0.55rem 0.85rem;
+-    margin-bottom: clamp(2rem, 6vw, 3rem);
+-    background: var(--section-color-surface);
+-    border: 1px солид вар(--section-color-border);
+-    border-radius: var(--section-radius-sm);
+-    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+-    scroll-snap-type: x proximity;
+-    -ms-overflow-style: none;
+-    scrollbar-width: none;
+-}
++body.section-page .sections-strip {
++    display: flex;
++    flex-wrap: nowrap;
++    gap: 0.4rem;
++    overflow-x: auto;
++    padding: 0.55rem 0.85rem;
++    background: var(--section-color-surface);
++    border: 1px solid var(--section-color-border);
++    border-radius: var(--section-radius-sm);
++    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
++    scroll-snap-type: x proximity;
++    -ms-overflow-style: none;
++    scrollbar-width: none;
++}
+*** End Patch

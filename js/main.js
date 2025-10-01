@@ -699,6 +699,18 @@
                     });
                 });
 
+                const standaloneItems = Array.from(animatedItems).filter((item) => !item.closest('section'));
+                if (standaloneItems.length) {
+                    gsap.to(standaloneItems, {
+                        autoAlpha: 1,
+                        y: 0,
+                        duration: 0.6,
+                        stagger: 0.1,
+                        delay: 0.2,
+                        ease: 'power2.out'
+                    });
+                }
+
                 const floatingBadge = document.querySelector('.floating-badge');
                 if (floatingBadge) {
                     gsap.fromTo(floatingBadge, { y: -6 }, {
