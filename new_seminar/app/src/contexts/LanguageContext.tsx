@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
-type Language = 'ru' | 'en';
+export type Language = 'ru' | 'en';
 interface LanguageContextValue {
   language: Language;
   setLanguage: (lang: Language) => void;

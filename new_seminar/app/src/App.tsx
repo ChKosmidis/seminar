@@ -1,16 +1,29 @@
-import Layout from './components/layout/Layout';
+import { Navigate, Route, Routes } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import HomePage from "./pages/Home";
+import IntroPage from "./pages/Intro";
 
 const App = () => {
   return (
-    <Layout>
-      <section style={{ padding: '2rem 0', display: 'grid', gap: '1.5rem' }}>
-        <h1>TypeScript Refactor Placeholder</h1>
-        <p>
-          Этап 1 завершает настройку оболочки приложения. Здесь появятся страницы
-          семинара, собранные из компонентов и данных.
-        </p>
-      </section>
-    </Layout>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Layout>
+            <HomePage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/modules/0-introduction"
+        element={
+          <Layout withSectionsStrip>
+            <IntroPage />
+          </Layout>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 };
 

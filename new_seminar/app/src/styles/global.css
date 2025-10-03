@@ -31,3 +31,23 @@ img {
 button {
     font-family: inherit;
 }
+
+.intro-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.intro-html ul {
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+@media (max-width: 768px) {
+  .intro-container {
+    padding: 1.5rem 1rem 3rem;
+  }
+}

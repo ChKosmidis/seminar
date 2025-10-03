@@ -1,0 +1,40 @@
+.card {
+  background: var(--color-surface-light);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--radius-lg);
+  padding: clamp(2rem, 3vw, 2.6rem);
+  box-shadow: var(--shadow-soft-light);
+  display: grid;
+  gap: 1.2rem;
+}
+
+:global(body[data-theme='dark']) .card {
+  background: var(--color-surface-dark);
+  border-color: rgba(96, 165, 250, 0.28);
+  box-shadow: var(--shadow-soft-dark);
+}
+
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(37, 99, 235, 0.04));
+}
+
+.icon {
+  font-size: 1.4rem;
+}
+
+.badge {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-text-secondary-light);
+}
+
+:global(body[data-theme='dark']) .badge {
+  color: var(--color-text-secondary-dark);
+}
